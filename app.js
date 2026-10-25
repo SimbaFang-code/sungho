@@ -2,18 +2,20 @@ let currentChat = null;
 let igUser = null;
 let enteredPin = "";
 
-// 图标的高清图片链接（模拟iOS质感）
-const ICON_URLS = {
-  kakao: "https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg",
-  instagram: "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg",
-  photos: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/8e1f2b743368e1cb05765b62a2b3b9c5.png",
-  calendar: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/5cc3c9c84e4e22c1282e6e97a1a8c6c0.png",
-  memo: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/e1c3e8c14c8a30f81b581f351b717f7d.png",
-  map: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/4d188f386c10c22cc12963806a36e2f8.png",
-  clock: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/5baf6089c71b23f04f7a2f7e7e9b49be.png",
-  weather: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/8e1f2b743368e1cb05765b62a2b3b9c5.png", // 暂用
-  settings: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/b3c7780ed4edfbd0cb2a3555d50d09c7.png",
-  phone: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/7cfe74b2eb8e5153d59a4d3b271bb2f2.png"
+// 纯CSS绘制的精美图标，不再使用网络图片，保证绝不出现白块
+const ICON_STYLES = {
+  kakao: { bg: "linear-gradient(135deg, #ffeb3b, #fbc02d)", content: "💬" },
+  instagram: { bg: "linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)", content: "📷" },
+  photos: { bg: "linear-gradient(135deg, #ff9a9e, #fecfef)", content: "🌸" },
+  calendar: { bg: "linear-gradient(135deg, #ffffff, #f0f0f0)", content: "<div style='color:#ff3b30;font-size:14px;font-weight:bold;text-align:center;line-height:1.2;'><span style='color:#1c1c1e'>10</span><br>26</div>" },
+  memo: { bg: "linear-gradient(135deg, #fffde7, #fff9c4)", content: "📝" },
+  map: { bg: "linear-gradient(135deg, #a1c4fd, #c2e9fb)", content: "🗺️" },
+  clock: { bg: "linear-gradient(135deg, #2c2c2e, #000000)", content: "🕐" },
+  weather: { bg: "linear-gradient(135deg, #89f7fe, #66a6ff)", content: "☀️" },
+  x: { bg: "#000", content: "✕" },
+  community: { bg: "linear-gradient(135deg, #b224ef, #7579ff)", content: "🏫" },
+  phone: { bg: "linear-gradient(135deg, #43e97b, #38f9d7)", content: "📞" },
+  settings: { bg: "linear-gradient(135deg, #e0e0e0, #9e9e9e)", content: "⚙️" }
 };
 
 function updateClock() {
@@ -59,30 +61,22 @@ function unlockPhone() {
   document.getElementById("main-ui").classList.remove("hidden");
 }
 
-// 渲染桌面（加入小组件、网格和Dock）
 function renderApps() {
   const grid = document.getElementById("app-grid");
   grid.innerHTML = "";
   
-  // 页面上的应用（排除Dock里的）
   const dockApps = ["phone", "map", "kakao", "instagram"];
   const mainApps = APPS.filter(app => !dockApps.includes(app.id));
   
   mainApps.forEach(app => {
     const el = document.createElement("div");
     el.className = "app-icon";
-    // 如果有网络图就用网络图，没有就用纯色块+文字
-    const glyphStyle = ICON_URLS[app.id] 
-      ? `background-image:url('${ICON_URLS[app.id]}'); background-color: #fff; color: transparent;`
-      : `background:${app.color}; color:${app.text};`;
-    const glyphContent = ICON_URLS[app.id] ? '' : app.glyph;
-    
-    el.innerHTML = `<div class="glyph" style="${glyphStyle}">${glyphContent}</div><div class="label">${app.name}</div>`;
+    const style = ICON_STYLES[app.id] || { bg: "#ccc", content: "❓" };
+    el.innerHTML = `<div class="glyph" style="background:${style.bg}; font-size:24px;">${style.content}</div><div class="label">${app.name}</div>`;
     el.onclick = () => openApp(app.id, app.name);
     grid.appendChild(el);
   });
 
-  // 渲染底部 Dock
   const dock = document.getElementById("dock");
   dock.innerHTML = "";
   dockApps.forEach(id => {
@@ -90,12 +84,8 @@ function renderApps() {
     if (!app) return;
     const el = document.createElement("div");
     el.className = "app-icon";
-    const glyphStyle = ICON_URLS[app.id] 
-      ? `background-image:url('${ICON_URLS[app.id]}'); background-color: #fff; color: transparent;`
-      : `background:${app.color}; color:${app.text};`;
-    const glyphContent = ICON_URLS[app.id] ? '' : app.glyph;
-    
-    el.innerHTML = `<div class="glyph" style="${glyphStyle}">${glyphContent}</div>`;
+    const style = ICON_STYLES[app.id] || { bg: "#ccc", content: "❓" };
+    el.innerHTML = `<div class="glyph" style="background:${style.bg}; font-size:24px;">${style.content}</div>`;
     el.onclick = () => openApp(app.id, app.name);
     dock.appendChild(el);
   });
@@ -134,7 +124,6 @@ function renderAppContent(id) {
   else renderPlaceholder(c, id);
 }
 
-// 以下应用内部逻辑保持不变...
 function renderKakao(c) {
   if (currentChat) {
     const chat = CHATS[currentChat];

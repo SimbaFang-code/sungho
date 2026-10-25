@@ -6,10 +6,12 @@ html, body {
   background: #000;
 }
 
-/* 使用类似图1的波点壁纸背景 */
+/* 浅粉色波点壁纸 */
 #phone {
   position: relative; width: 100%; height: 100%;
-  background: url('https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=1000&auto=format&fit=crop') center/cover;
+  background-color: #fdf2f5;
+  background-image: radial-gradient(#f7cbd6 2px, transparent 2px);
+  background-size: 25px 25px;
   display: flex; flex-direction: column; overflow: hidden;
 }
 
@@ -25,30 +27,33 @@ html, body {
 #lock-screen {
   position: absolute; inset: 0; z-index: 100;
   display: flex; flex-direction: column; align-items: center;
-  color: #fff; transition: transform .4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity .4s;
+  color: #333; transition: transform .4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity .4s;
   padding-top: 100px;
+  background-color: #fdf2f5;
+  background-image: radial-gradient(#f7cbd6 2px, transparent 2px);
+  background-size: 25px 25px;
 }
 #lock-screen.hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
-.lock-time { font-size: 80px; font-weight: 300; letter-spacing: -2px; text-shadow: 0 2px 10px rgba(0,0,0,.3); }
-.lock-date { font-size: 20px; font-weight: 500; margin-top: 5px; text-shadow: 0 2px 10px rgba(0,0,0,.3); }
+.lock-time { font-size: 80px; font-weight: 300; letter-spacing: -2px; color: #1c1c1e; }
+.lock-date { font-size: 20px; font-weight: 500; margin-top: 5px; color: #1c1c1e; }
 
-.lock-bottom { position: absolute; bottom: 40px; width: 100%; display: flex; flex-direction: column; align-items: center; }
-#lock-prompt { font-size: 15px; font-weight: 500; animation: pulse 1.5s infinite; cursor: pointer; padding: 20px; }
+.lock-bottom { position: absolute; bottom: 50px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+#lock-prompt { font-size: 15px; font-weight: 600; animation: pulse 1.5s infinite; cursor: pointer; padding: 20px; color: #1c1c1e; }
 @keyframes pulse { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
 
 /* 密码键盘 */
 #lock-keypad { display: none; flex-direction: column; align-items: center; width: 100%; }
 #lock-keypad.active { display: flex; }
 .dots { display: flex; gap: 20px; margin-bottom: 30px; }
-.dots span { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #fff; }
-.dots span.filled { background: #fff; }
+.dots span { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #333; }
+.dots span.filled { background: #333; }
 .keys { display: grid; grid-template-columns: repeat(3, 75px); gap: 15px; justify-content: center; }
 .keys button {
   width: 75px; height: 75px; border-radius: 50%; border: none;
-  background: rgba(255,255,255,.2); backdrop-filter: blur(10px);
-  color: #fff; font-size: 32px; font-weight: 400; cursor: pointer;
+  background: rgba(255,255,255,.5); backdrop-filter: blur(10px);
+  color: #1c1c1e; font-size: 32px; font-weight: 400; cursor: pointer;
 }
-.keys button:active { background: rgba(255,255,255,.4); }
+.keys button:active { background: rgba(255,255,255,.8); }
 .keys button.empty { background: transparent; pointer-events: none; }
 
 /* 主界面 */
@@ -57,14 +62,13 @@ html, body {
 
 #statusbar {
   height: 48px; padding: 0 24px; display: flex; align-items: center;
-  justify-content: space-between; color: #fff; font-size: 14px; font-weight: 600;
+  justify-content: space-between; color: #1c1c1e; font-size: 14px; font-weight: 600;
   background: transparent; flex-shrink: 0; padding-top: env(safe-area-inset-top); z-index: 50;
 }
 #island { width: 110px; height: 30px; background: #000; border-radius: 20px; position: absolute; left: 50%; transform: translateX(-50%); top: 8px; }
-#status-icons { font-size: 12px; letter-spacing: 1px; }
+#status-icons { font-size: 12px; letter-spacing: 1px; color: #1c1c1e; }
 
-/* 桌面背景半透明 */
-#screen { flex: 1; position: relative; background: rgba(0,0,0,0.1); overflow: hidden; }
+#screen { flex: 1; position: relative; background: transparent; overflow: hidden; }
 .page { position: absolute; inset: 0; overflow-y: auto; display: none; -webkit-overflow-scrolling: touch; }
 .page.active { display: block; }
 
@@ -75,42 +79,42 @@ html, body {
 .widget-row { display: flex; gap: 15px; margin-bottom: 25px; }
 .widget {
   flex: 1; border-radius: 22px; padding: 15px; color: #fff;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15); backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1); backdrop-filter: blur(10px);
   display: flex; flex-direction: column; justify-content: space-between;
 }
-.widget-weather { background: linear-gradient(135deg, #4b79a1, #283e51); }
+.widget-weather { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); color: #1c1c1e;}
 .widget-weather .temp { font-size: 38px; font-weight: 300; }
 .widget-weather .city { font-size: 14px; font-weight: 600; }
 .widget-weather .desc { font-size: 12px; }
-.widget-photo { background: url('https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=400&auto=format&fit=crop') center/cover; position: relative;}
-.widget-photo .date { position: absolute; bottom: 10px; left: 15px; font-size: 14px; font-weight: 600; text-shadow: 0 1px 3px rgba(0,0,0,0.8);}
+.widget-photo { background: url('https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?q=80&w=400&auto=format&fit=crop') center/cover; position: relative;}
+.widget-photo .date { position: absolute; bottom: 10px; left: 15px; font-size: 14px; font-weight: 600; text-shadow: 0 1px 3px rgba(0,0,0,0.8); color: #fff;}
 
 /* 应用网格 */
 .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 12px; }
 .app-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
 .app-icon .glyph {
   width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
-  font-size: 28px; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,.15); transition: transform .1s;
+  font-size: 28px; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,.1); transition: transform .1s;
   background-size: cover; background-position: center;
 }
 .app-icon:active .glyph { transform: scale(.9); opacity: 0.8; }
-.app-icon .label { font-size: 11px; color: #fff; text-align: center; font-weight: 500; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+.app-icon .label { font-size: 11px; color: #1c1c1e; text-align: center; font-weight: 500; }
 
 /* 底部 Dock 栏 */
 .dock {
   position: absolute; bottom: 20px; left: 12px; right: 12px; height: 85px;
-  background: rgba(255,255,255,0.25); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+  background: rgba(255,255,255,0.4); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
   border-radius: 35px; display: flex; justify-content: space-around; align-items: center;
-  padding: 0 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 10;
+  padding: 0 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); z-index: 10;
 }
-.dock .app-icon .label { display: none; } /* Dock栏里的图标不显示文字 */
-.dock .app-icon .glyph { width: 58px; height: 58px; }
+.dock .app-icon .label { display: none; }
+.dock .app-icon .glyph { width: 58px; height: 58px; box-shadow: none; }
 
 /* 搜索框 */
 .search-bar {
-  background: rgba(255,255,255,0.3); backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.6); backdrop-filter: blur(10px);
   border-radius: 20px; padding: 6px 15px; margin: 20px auto 0;
-  color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center;
+  color: #1c1c1e; font-size: 13px; display: flex; align-items: center; justify-content: center;
   width: max-content; font-weight: 500;
 }
 
@@ -153,5 +157,14 @@ html, body {
 .list-item .sub { color: #8e8e93; font-size: 13px; }
 .placeholder { text-align: center; color: #8e8e93; font-size: 15px; padding: 60px 20px; line-height: 1.6; }
 
-#home-indicator { height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding-bottom: env(safe-area-inset-bottom); z-index: 50; background: transparent;}
-#home-indicator::after { content: ""; width: 134px; height: 5px; border-radius: 3px; background: #fff; }
+/* 底部横条永远在最底下 */
+#home-indicator { 
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 34px; display: flex; align-items: center; justify-content: center; 
+  flex-shrink: 0; padding-bottom: env(safe-area-inset-bottom); z-index: 100; 
+  pointer-events: none;
+}
+#home-indicator::after { 
+  content: ""; width: 134px; height: 5px; border-radius: 3px; 
+  background: #1c1c1e; opacity: 0.8;
+}
