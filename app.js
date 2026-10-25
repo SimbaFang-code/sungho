@@ -1,7 +1,6 @@
 let currentChat = null;
 let igUser = null;
 
-// 纯CSS绘制的精美图标，不再使用网络图片，保证绝不出现白块
 const ICON_STYLES = {
   kakao: { bg: "linear-gradient(135deg, #ffeb3b, #fbc02d)", content: "💬" },
   instagram: { bg: "linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)", content: "📷" },
@@ -17,26 +16,15 @@ const ICON_STYLES = {
   settings: { bg: "linear-gradient(135deg, #e0e0e0, #9e9e9e)", content: "⚙️" }
 };
 
-// 时间更新
 function updateClock() {
   const now = new Date();
   const timeStr = now.getHours().toString().padStart(2, "0") + ":" + now.getMinutes().toString().padStart(2, "0");
-  const clockEl = document.getElementById("clock");
-  const lockClockEl = document.getElementById("lock-clock");
-  if(clockEl) clockEl.textContent = timeStr;
-  if(lockClockEl) lockClockEl.textContent = timeStr;
-  
-  const days = ["周日","周一","周二","周三","周四","周五","周六"];
-  const dateStr = (now.getMonth()+1) + "月" + now.getDate() + "日 " + days[now.getDay()];
-  const homeDateEl = document.getElementById("home-date");
-  const lockDateEl = document.getElementById("lock-date");
-  if(homeDateEl) homeDateEl.textContent = dateStr;
-  if(lockDateEl) lockDateEl.textContent = dateStr;
+  if(document.getElementById("clock")) document.getElementById("clock").textContent = timeStr;
+  if(document.getElementById("lock-clock")) document.getElementById("lock-clock").textContent = timeStr;
 }
 setInterval(updateClock, 1000);
 updateClock();
 
-// 解锁逻辑：点击整个锁屏界面的任何地方，直接解锁
 const lockScreen = document.getElementById("lock-screen");
 if (lockScreen) {
   lockScreen.onclick = function() {
@@ -45,11 +33,9 @@ if (lockScreen) {
   };
 }
 
-// 桌面应用渲染
 function renderApps() {
   const grid = document.getElementById("app-grid");
   grid.innerHTML = "";
-  
   const dockApps = ["phone", "map", "kakao", "instagram"];
   const mainApps = APPS.filter(app => !dockApps.includes(app.id));
   
@@ -109,37 +95,128 @@ function renderAppContent(id) {
   else renderPlaceholder(c, id);
 }
 
+// ================= 重写的 KakaoTalk 逻辑 =================
 function renderKakao(c) {
+  // 1. 如果在聊天室里
   if (currentChat) {
     const chat = CHATS[currentChat];
     document.getElementById("app-title").textContent = chat.name;
+    c.style.padding = "0"; // 聊天室去掉边缘内边距
+    c.style.backgroundColor = "#b2c7d9"; // Kakao经典背景色
+
+    const roomWrapper = document.createElement("div");
+    roomWrapper.className = "kakao-room-wrapper";
+    
     const room = document.createElement("div");
     room.className = "chat-room";
-    chat.messages.forEach(m => {
-      const row = document.createElement("div");
-      row.className = "msg-row " + m.from;
-      let html = "";
-      if (m.sender) html += `<div class="msg-sender">${m.sender}</div>`;
-      html += `<div class="bubble">${m.text}</div>`;
-      if (m.sender) { row.innerHTML = `<div>${html}</div>`; row.style.display = "block"; } 
-      else { row.innerHTML = html; }
-      room.appendChild(row);
-    });
-    c.appendChild(room);
-    c.scrollTop = c.scrollHeight;
+    room.id = "chat-room-container";
+    
+    function renderMessages() {
+      room.innerHTML = "";
+      chat.messages.forEach(m => {
+        const row = document.createElement("div");
+        row.className = "msg-row " + m.from;
+        let html = "";
+        if (m.sender) html += `<div class="msg-sender">${m.sender}</div>`;
+        html += `<div class="bubble">${m.text}</div>`;
+        
+        if (m.sender) {
+          // 群聊有发送者名字
+          row.innerHTML = `<div style="display:flex; flex-direction:column; align-items:flex-start;"><div class="msg-sender">${m.sender}</div><div class="bubble">${m.text}</div></div>`;
+          row.className = "msg-row them"; // 统一样式
+        } else {
+          row.innerHTML = `<div class="bubble">${m.text}</div>`;
+        }
+        room.appendChild(row);
+      });
+      c.scrollTop = c.scrollHeight;
+    }
+    renderMessages();
+
+    // 底部输入框区域
+    const inputBar = document.createElement("div");
+    inputBar.className = "kakao-input-bar";
+    const replyText = document.createElement("div");
+    replyText.className = "kakao-fake-input";
+    replyText.textContent = "点击输入框选择固定回复...";
+    const sendBtn = document.createElement("button");
+    sendBtn.className = "kakao-send-btn";
+    sendBtn.textContent = "发送";
+    
+    inputBar.appendChild(replyText);
+    inputBar.appendChild(sendBtn);
+    
+    roomWrapper.appendChild(room);
+    roomWrapper.appendChild(inputBar);
+    c.appendChild(roomWrapper);
+
+    // 点击输入框：弹出所有可用的固定回复
+    replyText.onclick = () => {
+      if (!chat.replies || chat.replies.length === 0) {
+        alert("这里暂时没有新的回复选项啦。");
+        return;
+      }
+      // 拿第一条还没发过的回复
+      const nextReply = chat.replies[0];
+      replyText.textContent = nextReply.text;
+      replyText.classList.add("selected");
+    };
+
+    // 点击发送按钮
+    sendBtn.onclick = () => {
+      const selectedText = replyText.textContent;
+      if (selectedText === "点击输入框选择固定回复..." || selectedText === "") return;
+      
+      // 1. 加入我的发言
+      chat.messages.push({ from: "me", text: selectedText });
+      
+      // 2. 把这个选项消耗掉
+      const usedReply = chat.replies.shift(); 
+      
+      // 3. 重置输入框
+      replyText.textContent = "点击输入框选择固定回复...";
+      replyText.classList.remove("selected");
+      
+      // 刷新界面，滚到底部
+      renderMessages();
+      
+      // 4. 如果这个回复带有后续，延迟显示对方的回应
+      if (usedReply.next) {
+        setTimeout(() => {
+          usedReply.next.forEach(nextMsg => {
+            chat.messages.push(nextMsg);
+          });
+          renderMessages();
+        }, 1200); // 假装对方正在输入
+      }
+    };
+
+    // 预设输入栏样式
+    roomWrapper.style.cssText = "display:flex;flex-direction:column;height:100%;";
+    room.style.cssText = "flex:1;overflow-y:auto;padding:15px;";
+    inputBar.style.cssText = "display:flex;gap:10px;padding:10px;background:#fff;border-top:1px solid #ddd;";
+    replyText.style.cssText = "flex:1;padding:10px 15px;background:#f1f1f1;border-radius:20px;color:#8e8e93;font-size:14px;cursor:pointer;";
+    sendBtn.style.cssText = "padding:0 15px;background:#fee500;color:#3c1e1e;border:none;border-radius:20px;font-weight:bold;cursor:pointer;";
+    
     return;
   }
+
+  // 2. 如果在聊天列表页
+  c.style.padding = "12px 16px"; // 恢复列表页内边距
+  c.style.backgroundColor = "#fff";
   Object.keys(CHATS).forEach(key => {
     const chat = CHATS[key];
     const item = document.createElement("div");
     item.className = "chat-list-item";
     item.innerHTML = `<div class="chat-avatar" style="background:${chat.color}">${chat.avatar}</div><div class="chat-info"><div class="chat-name">${chat.name}</div><div class="chat-preview">${chat.preview}</div></div>`;
-    item.onclick = () => { currentChat = key; renderAppContent("kakao"); document.getElementById("app-content").scrollTop = 0; };
+    item.onclick = () => { currentChat = key; renderAppContent("kakao"); };
     c.appendChild(item);
   });
 }
 
+// ================= 其他应用保持原样 =================
 function renderInstagram(c) {
+  c.style.padding = "12px 16px"; c.style.backgroundColor = "#fff";
   if (igUser) {
     const p = INSTAGRAM[igUser];
     document.getElementById("app-title").textContent = p.name;
@@ -148,7 +225,7 @@ function renderInstagram(c) {
     p.posts.forEach(post => {
       const el = document.createElement("div");
       el.className = "ig-post";
-      el.innerHTML = `<div class="ig-post-img" style="background:${post.img}">📷</div><div class="ig-post-body"><div class="ig-post-cap">${post.caption}</div><div style="font-size:11px;color:#8e8e93;margin-top:6px;">${post.meta}</div></div>`;
+      el.innerHTML = `<div class="ig-post-img" style="background:${post.img}">📷</div><div class="ig-post-body"><div class="ig-post-cap">${post.caption}</div></div>`;
       wrap.appendChild(el);
     });
     c.appendChild(wrap);
@@ -165,6 +242,7 @@ function renderInstagram(c) {
 }
 
 function renderPhotos(c) {
+  c.style.padding = "12px 16px"; c.style.backgroundColor = "#fff";
   const grid = document.createElement("div");
   grid.style.cssText = "display:grid;grid-template-columns:repeat(2,1fr);gap:10px;";
   PHOTOS.forEach(p => {
@@ -177,6 +255,7 @@ function renderPhotos(c) {
 }
 
 function renderCalendar(c) {
+  c.style.padding = "12px 16px"; c.style.backgroundColor = "#fff";
   CALENDAR.forEach(e => {
     const el = document.createElement("div");
     el.className = "list-item";
@@ -186,6 +265,7 @@ function renderCalendar(c) {
 }
 
 function renderMemo(c) {
+  c.style.padding = "12px 16px"; c.style.backgroundColor = "#fff";
   MEMOS.forEach(m => {
     const el = document.createElement("div");
     el.style.cssText = "margin-bottom:16px;";
@@ -195,6 +275,7 @@ function renderMemo(c) {
 }
 
 function renderMap(c) {
+  c.style.padding = "12px 16px"; c.style.backgroundColor = "#fff";
   MAP_PLACES.forEach(p => {
     const el = document.createElement("div");
     el.className = "list-item";
@@ -205,25 +286,28 @@ function renderMap(c) {
 }
 
 function renderClock(c) {
+  c.style.padding = "12px 16px"; c.style.backgroundColor = "#fff";
   const now = new Date();
   const el = document.createElement("div");
   el.style.cssText = "text-align:center;padding:80px 0;";
-  el.innerHTML = `<div style="font-size:64px;font-weight:200;letter-spacing:-2px;">${now.getHours().toString().padStart(2,"0")}:${now.getMinutes().toString().padStart(2,"0")}</div><div style="color:#8e8e93;margin-top:8px;">${now.toLocaleDateString("zh-CN")}</div>`;
+  el.innerHTML = `<div style="font-size:64px;font-weight:200;letter-spacing:-2px;">${now.getHours().toString().padStart(2,"0")}:${now.getMinutes().toString().padStart(2,"0")}</div>`;
   c.appendChild(el);
 }
 
 function renderWeather(c) {
+  c.style.padding = "12px 16px"; c.style.backgroundColor = "#fff";
   const el = document.createElement("div");
   el.style.cssText = "text-align:center;padding:50px 0;color:#1c1c1e;";
-  el.innerHTML = `<div style="font-size:22px;font-weight:600;">${WEATHER.city}</div><div style="font-size:72px;font-weight:200;margin:12px 0;">${WEATHER.temp}</div><div style="font-size:16px;">${WEATHER.desc}</div><div style="color:#8e8e93;margin-top:8px;">最高 ${WEATHER.high} 最低 ${WEATHER.low}</div>`;
+  el.innerHTML = `<div style="font-size:22px;font-weight:600;">${WEATHER.city}</div><div style="font-size:72px;font-weight:200;margin:12px 0;">${WEATHER.temp}</div>`;
   c.appendChild(el);
 }
 
 function renderPlaceholder(c, id) {
+  c.style.padding = "12px 16px"; c.style.backgroundColor = "#fff";
   const app = APPS.find(a => a.id === id);
   const el = document.createElement("div");
   el.className = "placeholder";
-  el.textContent = (app ? app.name : "此应用") + " 正在建设中，后续版本开放。";
+  el.textContent = (app ? app.name : "此应用") + " 正在建设中。";
   c.appendChild(el);
 }
 

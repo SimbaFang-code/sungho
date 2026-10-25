@@ -25,13 +25,14 @@ const CHATS = {
       { from: "them", text: "哈哈没关系，你现在在哪栋楼附近？" },
       { from: "me", text: "好像在一棵很大的银杏树旁边" },
       { from: "them", text: "那我知道了，你往左手边那条路走，看到学生会馆就到了" },
-      { from: "them", text: "迎新地点在学生会馆一楼，别走错啦" },
-      { from: "me", text: "找到了！谢谢你学长" },
-      { from: "them", text: "不客气，我是经营学大三的朴成淏，以后有事可以问我" },
-      { from: "me", text: "好！今天真的谢谢成淏学长" },
-      { from: "them", text: "嗯，先去报到吧。对了，周五晚上我们几个要聚餐，你也来吧？" },
-      { from: "me", text: "我也可以去吗？会不会打扰你们" },
-      { from: "them", text: "不会，宰铉他们都很随和的。到时候我把地址发你。" }
+      { from: "them", text: "迎新地点在学生会馆一楼，别走错啦" }
+    ],
+    // 预设的固定回复选项
+    replies: [
+      { text: "找到了！谢谢你学长", next: [
+        { from: "them", text: "不客气，我是经营学大三的朴成淏，以后有事可以问我" },
+        { from: "them", text: "对了，周五晚上我们几个要聚餐，你也来吧？" }
+      ]}
     ]
   },
   jaehyun: {
@@ -44,7 +45,33 @@ const CHATS = {
       { from: "them", text: "成淏那个闷葫芦居然会主动带学妹，稀奇" },
       { from: "me", text: "宰铉学长好，迎新那天多亏了成淏学长" },
       { from: "them", text: "哈哈他平时就是热心肠。欢迎加入我们的群聊！" }
-    ]
+    ],
+    replies: []
+  },
+  yujin: {
+    name: "崔裕真 (同级)",
+    avatar: "裕",
+    color: "#ff9500",
+    preview: "天呐你认识大三的学长？太厉害了吧",
+    messages: [
+      { from: "them", text: "你报到弄完了吗？" },
+      { from: "them", text: "天呐你认识大三的学长？太厉害了吧" },
+      { from: "me", text: "迎新的时候迷路碰到的，人很好" },
+      { from: "them", text: "呜呜我也想认识学长，下次聚餐带带我！" }
+    ],
+    replies: []
+  },
+  minji: {
+    name: "姜敏智 (同级)",
+    avatar: "智",
+    color: "#af52de",
+    preview: "明天的课在哪个教学楼呀？",
+    messages: [
+      { from: "them", text: "明天的课在哪个教学楼呀？" },
+      { from: "me", text: "我看一下课表，好像在人文楼" },
+      { from: "them", text: "好，那我们明天早上一起去吧！" }
+    ],
+    replies: []
   },
   group: {
     name: "延世街六人组",
@@ -56,61 +83,35 @@ const CHATS = {
       { from: "them", sender: "金云鹤", text: "我要吃炸猪排！！" },
       { from: "them", sender: "李常赫", text: "你上周才吃过" },
       { from: "them", sender: "金云鹤", text: "那不一样，食堂的炸猪排是信仰" },
-      { from: "them", sender: "朴成淏", text: "学妹也一起来吧" },
-      { from: "me", text: "好呀，谢谢学长们带我！" },
-      { from: "them", sender: "韩泰山", text: "人多热闹。正好最近写了首新歌，到时候放给你们听" },
-      { from: "them", sender: "金桐儇", text: "期待泰山的自作曲" }
+      { from: "them", sender: "朴成淏", text: "学妹也一起来吧" }
+    ],
+    replies: [
+      { text: "好呀，谢谢学长们带我！", next: [
+        { from: "them", sender: "韩泰山", text: "人多热闹。正好最近写了首新歌，到时候放给你们听" },
+        { from: "them", sender: "金桐儇", text: "期待泰山的自作曲" }
+      ]}
     ]
+  },
+  class: {
+    name: "大一经营学 01班",
+    avatar: "课",
+    color: "#34c759",
+    preview: "教授说下周有小测验",
+    messages: [
+      { from: "them", sender: "助教", text: "各位同学，下周本课程有一次随堂小测验，请大家做好准备。" },
+      { from: "them", sender: "崔裕真", text: "天呐，刚开学就测验……" }
+    ],
+    replies: []
   }
 };
 
 const INSTAGRAM = {
-  sungho: {
-    name: "朴成淏",
-    handle: "@sungho_",
-    avatar: "成",
-    color: "#ff9f0a",
-    bio: "经营学 3학년\n서린대학교 学生会",
-    posts: [
-      { img: "#ff9f0a", caption: "迎新周终于结束了，大家辛苦了。", meta: "3小时前 · 成淏发布了新动态" },
-      { img: "#ffb340", caption: "学生会馆楼下的冰美式，续命神器。", meta: "昨天 · 成淏发布了新动态" }
-    ]
-  },
-  taesan: {
-    name: "韩泰山",
-    handle: "@taesan_music",
-    avatar: "泰",
-    color: "#5e5ce6",
-    bio: "音乐 · 3학년\n自作曲/编曲",
-    posts: [
-      { img: "#5e5ce6", caption: "《네가 생각난단 말이야》 demo 完成。周五聚餐放给你们听。", meta: "8小时前 · 泰山发布了新动态" }
-    ]
-  }
+  sungho: { name: "朴成淏", handle: "@sungho_", avatar: "成", color: "#ff9f0a", bio: "经营学 3학년\n서린대학교 学生会", posts: [{ img: "#ff9f0a", caption: "迎新周终于结束了，大家辛苦了。", meta: "3小时前" }] },
+  taesan: { name: "韩泰山", handle: "@taesan_music", avatar: "泰", color: "#5e5ce6", bio: "音乐 · 3학년", posts: [{ img: "#5e5ce6", caption: "《네가 생각난단 말이야》 demo 完成。", meta: "8小时前" }] }
 };
 
-const PHOTOS = [
-  { color: "#ff9f0a", label: "迎新周 · 学生会馆" },
-  { color: "#30d158", label: "路上的银杏树" },
-  { color: "#bf5af2", label: "食堂炸猪排" }
-];
-
-const CALENDAR = [
-  { date: "10/26 周一", title: "迎新周 · 校园导览" },
-  { date: "10/28 周三", title: "选课系统开放" },
-  { date: "10/30 周五", title: "六人聚餐 · 老地方" }
-];
-
-const MEMOS = [
-  { title: "新生待办", body: "· 去学生会馆领新生材料\n· 办借书卡\n· 周五聚餐前问成淏学长地址" },
-  { title: "随手记", body: "成淏学长人真好，带我认识了好多朋友。\n宰铉学长好热情，云鹤好可爱。\n泰山的自作曲好像很厉害？" }
-];
-
-const MAP_PLACES = [
-  { name: "学生会馆", desc: "迎新活动、社团招新的主要场所。" },
-  { name: "中央图书馆", desc: "藏书丰富，三楼靠窗光线很好。" },
-  { name: "食堂", desc: "炸猪排是招牌菜。" },
-  { name: "音乐楼", desc: "排练室和琴房，音乐系常驻。" },
-  { name: "咖啡店", desc: "学生会馆楼下。" }
-];
-
+const PHOTOS = [{ color: "#ff9f0a", label: "迎新周" }];
+const CALENDAR = [{ date: "10/26 周一", title: "迎新周" }];
+const MEMOS = [{ title: "新生待办", body: "· 去学生会馆领材料" }];
+const MAP_PLACES = [{ name: "学生会馆", desc: "迎新活动" }];
 const WEATHER = { city: "서린대학교", temp: "18°", desc: "多云转晴", high: "21°", low: "12°" };
