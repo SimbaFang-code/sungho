@@ -1,6 +1,5 @@
 let currentChat = null;
 let igUser = null;
-let enteredPin = "";
 
 // 纯CSS绘制的精美图标，不再使用网络图片，保证绝不出现白块
 const ICON_STYLES = {
@@ -18,49 +17,35 @@ const ICON_STYLES = {
   settings: { bg: "linear-gradient(135deg, #e0e0e0, #9e9e9e)", content: "⚙️" }
 };
 
+// 时间更新
 function updateClock() {
   const now = new Date();
   const timeStr = now.getHours().toString().padStart(2, "0") + ":" + now.getMinutes().toString().padStart(2, "0");
-  document.getElementById("clock").textContent = timeStr;
-  document.getElementById("lock-clock").textContent = timeStr;
+  const clockEl = document.getElementById("clock");
+  const lockClockEl = document.getElementById("lock-clock");
+  if(clockEl) clockEl.textContent = timeStr;
+  if(lockClockEl) lockClockEl.textContent = timeStr;
+  
   const days = ["周日","周一","周二","周三","周四","周五","周六"];
   const dateStr = (now.getMonth()+1) + "月" + now.getDate() + "日 " + days[now.getDay()];
-  document.getElementById("home-date").textContent = dateStr;
-  document.getElementById("lock-date").textContent = dateStr;
+  const homeDateEl = document.getElementById("home-date");
+  const lockDateEl = document.getElementById("lock-date");
+  if(homeDateEl) homeDateEl.textContent = dateStr;
+  if(lockDateEl) lockDateEl.textContent = dateStr;
 }
 setInterval(updateClock, 1000);
 updateClock();
 
-document.getElementById("lock-prompt").onclick = function() {
-  this.style.display = "none";
-  document.getElementById("lock-keypad").classList.add("active");
-};
-
-function enterPin(num) {
-  if (enteredPin.length >= 4) return;
-  enteredPin += num;
-  updateDots();
-  if (enteredPin.length === 4) {
-    setTimeout(() => {
-      if (enteredPin === "1234") { unlockPhone(); } 
-      else { alert("密码错误，提示：1234"); enteredPin = ""; updateDots(); }
-    }, 200);
-  }
+// 解锁逻辑：点击整个锁屏界面的任何地方，直接解锁
+const lockScreen = document.getElementById("lock-screen");
+if (lockScreen) {
+  lockScreen.onclick = function() {
+    this.classList.add("hidden");
+    document.getElementById("main-ui").classList.remove("hidden");
+  };
 }
 
-function updateDots() {
-  const dots = document.querySelectorAll(".dots span");
-  dots.forEach((dot, index) => {
-    if (index < enteredPin.length) dot.classList.add("filled");
-    else dot.classList.remove("filled");
-  });
-}
-
-function unlockPhone() {
-  document.getElementById("lock-screen").classList.add("hidden");
-  document.getElementById("main-ui").classList.remove("hidden");
-}
-
+// 桌面应用渲染
 function renderApps() {
   const grid = document.getElementById("app-grid");
   grid.innerHTML = "";
@@ -73,7 +58,7 @@ function renderApps() {
     el.className = "app-icon";
     const style = ICON_STYLES[app.id] || { bg: "#ccc", content: "❓" };
     el.innerHTML = `<div class="glyph" style="background:${style.bg}; font-size:24px;">${style.content}</div><div class="label">${app.name}</div>`;
-    el.onclick = () => openApp(app.id, app.name);
+    el.onclick = (e) => { e.stopPropagation(); openApp(app.id, app.name); };
     grid.appendChild(el);
   });
 
@@ -86,7 +71,7 @@ function renderApps() {
     el.className = "app-icon";
     const style = ICON_STYLES[app.id] || { bg: "#ccc", content: "❓" };
     el.innerHTML = `<div class="glyph" style="background:${style.bg}; font-size:24px;">${style.content}</div>`;
-    el.onclick = () => openApp(app.id, app.name);
+    el.onclick = (e) => { e.stopPropagation(); openApp(app.id, app.name); };
     dock.appendChild(el);
   });
 }
