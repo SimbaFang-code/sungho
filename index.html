@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>서린대학교</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="phone">
+  <div id="statusbar">
+    <span id="clock">9:41</span>
+    <span id="island"></span>
+    <span id="status-icons">●●● ▮</span>
+  </div>
+
+  <div id="screen">
+    <div id="home" class="page active">
+      <div class="home-header">
+        <div class="home-date" id="home-date">10月25日 周六</div>
+        <div class="home-title">서린대학교</div>
+      </div>
+      <div class="app-grid" id="app-grid"></div>
+    </div>
+
+    <div id="app-view" class="page">
+      <div class="app-topbar">
+        <button id="back-btn">‹ 返回</button>
+        <span id="app-title"></span>
+        <span></span>
+      </div>
+      <div id="app-content"></div>
+    </div>
+  </div>
+
+  <div id="home-indicator"></div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
