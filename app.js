@@ -2,13 +2,25 @@ let currentChat = null;
 let igUser = null;
 let enteredPin = "";
 
-// 时钟更新
+// 图标的高清图片链接（模拟iOS质感）
+const ICON_URLS = {
+  kakao: "https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg",
+  instagram: "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg",
+  photos: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/8e1f2b743368e1cb05765b62a2b3b9c5.png",
+  calendar: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/5cc3c9c84e4e22c1282e6e97a1a8c6c0.png",
+  memo: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/e1c3e8c14c8a30f81b581f351b717f7d.png",
+  map: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/4d188f386c10c22cc12963806a36e2f8.png",
+  clock: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/5baf6089c71b23f04f7a2f7e7e9b49be.png",
+  weather: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/8e1f2b743368e1cb05765b62a2b3b9c5.png", // 暂用
+  settings: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/b3c7780ed4edfbd0cb2a3555d50d09c7.png",
+  phone: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/7cfe74b2eb8e5153d59a4d3b271bb2f2.png"
+};
+
 function updateClock() {
   const now = new Date();
   const timeStr = now.getHours().toString().padStart(2, "0") + ":" + now.getMinutes().toString().padStart(2, "0");
   document.getElementById("clock").textContent = timeStr;
   document.getElementById("lock-clock").textContent = timeStr;
-  
   const days = ["周日","周一","周二","周三","周四","周五","周六"];
   const dateStr = (now.getMonth()+1) + "月" + now.getDate() + "日 " + days[now.getDay()];
   document.getElementById("home-date").textContent = dateStr;
@@ -17,7 +29,6 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// 锁屏逻辑
 document.getElementById("lock-prompt").onclick = function() {
   this.style.display = "none";
   document.getElementById("lock-keypad").classList.add("active");
@@ -27,16 +38,10 @@ function enterPin(num) {
   if (enteredPin.length >= 4) return;
   enteredPin += num;
   updateDots();
-  
   if (enteredPin.length === 4) {
     setTimeout(() => {
-      if (enteredPin === "1234") {
-        unlockPhone();
-      } else {
-        alert("密码错误，提示：1234");
-        enteredPin = "";
-        updateDots();
-      }
+      if (enteredPin === "1234") { unlockPhone(); } 
+      else { alert("密码错误，提示：1234"); enteredPin = ""; updateDots(); }
     }, 200);
   }
 }
@@ -54,16 +59,45 @@ function unlockPhone() {
   document.getElementById("main-ui").classList.remove("hidden");
 }
 
-// 桌面应用渲染
+// 渲染桌面（加入小组件、网格和Dock）
 function renderApps() {
   const grid = document.getElementById("app-grid");
   grid.innerHTML = "";
-  APPS.forEach(app => {
+  
+  // 页面上的应用（排除Dock里的）
+  const dockApps = ["phone", "map", "kakao", "instagram"];
+  const mainApps = APPS.filter(app => !dockApps.includes(app.id));
+  
+  mainApps.forEach(app => {
     const el = document.createElement("div");
     el.className = "app-icon";
-    el.innerHTML = `<div class="glyph" style="background:${app.color};color:${app.text}">${app.glyph}</div><div class="label">${app.name}</div>`;
+    // 如果有网络图就用网络图，没有就用纯色块+文字
+    const glyphStyle = ICON_URLS[app.id] 
+      ? `background-image:url('${ICON_URLS[app.id]}'); background-color: #fff; color: transparent;`
+      : `background:${app.color}; color:${app.text};`;
+    const glyphContent = ICON_URLS[app.id] ? '' : app.glyph;
+    
+    el.innerHTML = `<div class="glyph" style="${glyphStyle}">${glyphContent}</div><div class="label">${app.name}</div>`;
     el.onclick = () => openApp(app.id, app.name);
     grid.appendChild(el);
+  });
+
+  // 渲染底部 Dock
+  const dock = document.getElementById("dock");
+  dock.innerHTML = "";
+  dockApps.forEach(id => {
+    const app = APPS.find(a => a.id === id);
+    if (!app) return;
+    const el = document.createElement("div");
+    el.className = "app-icon";
+    const glyphStyle = ICON_URLS[app.id] 
+      ? `background-image:url('${ICON_URLS[app.id]}'); background-color: #fff; color: transparent;`
+      : `background:${app.color}; color:${app.text};`;
+    const glyphContent = ICON_URLS[app.id] ? '' : app.glyph;
+    
+    el.innerHTML = `<div class="glyph" style="${glyphStyle}">${glyphContent}</div>`;
+    el.onclick = () => openApp(app.id, app.name);
+    dock.appendChild(el);
   });
 }
 
@@ -86,7 +120,6 @@ document.getElementById("back-btn").onclick = () => {
   else { goHome(); }
 };
 
-// 应用内容渲染
 function renderAppContent(id) {
   const c = document.getElementById("app-content");
   c.innerHTML = "";
@@ -101,6 +134,7 @@ function renderAppContent(id) {
   else renderPlaceholder(c, id);
 }
 
+// 以下应用内部逻辑保持不变...
 function renderKakao(c) {
   if (currentChat) {
     const chat = CHATS[currentChat];

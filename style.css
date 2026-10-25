@@ -6,9 +6,10 @@ html, body {
   background: #000;
 }
 
+/* 使用类似图1的波点壁纸背景 */
 #phone {
   position: relative; width: 100%; height: 100%;
-  background: url('https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?q=80&w=1000&auto=format&fit=crop') center/cover;
+  background: url('https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=1000&auto=format&fit=crop') center/cover;
   display: flex; flex-direction: column; overflow: hidden;
 }
 
@@ -62,30 +63,63 @@ html, body {
 #island { width: 110px; height: 30px; background: #000; border-radius: 20px; position: absolute; left: 50%; transform: translateX(-50%); top: 8px; }
 #status-icons { font-size: 12px; letter-spacing: 1px; }
 
-#screen { flex: 1; position: relative; background: rgba(0,0,0,0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); overflow: hidden; border-radius: 40px 40px 0 0; margin-top: -10px;}
+/* 桌面背景半透明 */
+#screen { flex: 1; position: relative; background: rgba(0,0,0,0.1); overflow: hidden; }
 .page { position: absolute; inset: 0; overflow-y: auto; display: none; -webkit-overflow-scrolling: touch; }
 .page.active { display: block; }
 
-/* 桌面 */
-#home { padding: 16px 20px; }
-.home-header { text-align: center; margin: 10px 0 20px; }
-.home-date { font-size: 13px; color: rgba(255,255,255,0.8); font-weight: 500; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
+/* 桌面布局 */
+#home { padding: 10px 16px 100px; display: flex; flex-direction: column; }
 
-.app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px 14px; }
+/* 顶部小组件 (Widget) */
+.widget-row { display: flex; gap: 15px; margin-bottom: 25px; }
+.widget {
+  flex: 1; border-radius: 22px; padding: 15px; color: #fff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15); backdrop-filter: blur(10px);
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.widget-weather { background: linear-gradient(135deg, #4b79a1, #283e51); }
+.widget-weather .temp { font-size: 38px; font-weight: 300; }
+.widget-weather .city { font-size: 14px; font-weight: 600; }
+.widget-weather .desc { font-size: 12px; }
+.widget-photo { background: url('https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=400&auto=format&fit=crop') center/cover; position: relative;}
+.widget-photo .date { position: absolute; bottom: 10px; left: 15px; font-size: 14px; font-weight: 600; text-shadow: 0 1px 3px rgba(0,0,0,0.8);}
+
+/* 应用网格 */
+.app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 12px; }
 .app-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
 .app-icon .glyph {
-  width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center;
-  font-size: 28px; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,.2); transition: transform .1s;
+  width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
+  font-size: 28px; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,.15); transition: transform .1s;
+  background-size: cover; background-position: center;
 }
 .app-icon:active .glyph { transform: scale(.9); opacity: 0.8; }
 .app-icon .label { font-size: 11px; color: #fff; text-align: center; font-weight: 500; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+
+/* 底部 Dock 栏 */
+.dock {
+  position: absolute; bottom: 20px; left: 12px; right: 12px; height: 85px;
+  background: rgba(255,255,255,0.25); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+  border-radius: 35px; display: flex; justify-content: space-around; align-items: center;
+  padding: 0 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 10;
+}
+.dock .app-icon .label { display: none; } /* Dock栏里的图标不显示文字 */
+.dock .app-icon .glyph { width: 58px; height: 58px; }
+
+/* 搜索框 */
+.search-bar {
+  background: rgba(255,255,255,0.3); backdrop-filter: blur(10px);
+  border-radius: 20px; padding: 6px 15px; margin: 20px auto 0;
+  color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center;
+  width: max-content; font-weight: 500;
+}
 
 /* 应用内页 */
 #app-view { background: #f2f2f7; }
 .app-topbar {
   position: sticky; top: 0; z-index: 10; height: 44px; padding: 0 12px;
   display: flex; align-items: center; justify-content: space-between;
-  background: rgba(249,249,249,.94); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  background: rgba(249,249,249,.94); backdrop-filter: blur(20px);
   border-bottom: .5px solid #d1d1d6; font-size: 16px; font-weight: 600; color: #1c1c1e;
 }
 #back-btn { border: none; background: none; color: #007aff; font-size: 16px; cursor: pointer; padding: 4px 0; }
@@ -119,5 +153,5 @@ html, body {
 .list-item .sub { color: #8e8e93; font-size: 13px; }
 .placeholder { text-align: center; color: #8e8e93; font-size: 15px; padding: 60px 20px; line-height: 1.6; }
 
-#home-indicator { height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding-bottom: env(safe-area-inset-bottom); z-index: 50;}
+#home-indicator { height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding-bottom: env(safe-area-inset-bottom); z-index: 50; background: transparent;}
 #home-indicator::after { content: ""; width: 134px; height: 5px; border-radius: 3px; background: #fff; }
