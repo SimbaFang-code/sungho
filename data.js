@@ -27,11 +27,71 @@ const CHATS = {
       { from: "them", text: "那我知道了，你往左手边那条路走，看到学生会馆就到了" },
       { from: "them", text: "迎新地点在学生会馆一楼，别走错啦" }
     ],
-    // 预设的固定回复选项
     replies: [
       { text: "找到了！谢谢你学长", next: [
         { from: "them", text: "不客气，我是经营学大三的朴成淏，以后有事可以问我" },
         { from: "them", text: "对了，周五晚上我们几个要聚餐，你也来吧？" }
+      ]}
+    ]
+  },
+  riwoo: {
+    name: "李常赫",
+    avatar: "常",
+    color: "#30d158",
+    preview: "舞蹈社这周有开放练习，想来可以看看",
+    messages: [
+      { from: "them", text: "听说你是成淏带过来的学妹？" },
+      { from: "them", text: "我是舞蹈系的李常赫。" }
+    ],
+    replies: [
+      { text: "常赫学长好！", next: [
+        { from: "them", text: "嗯，他人很好的，就是有时候话不多。" },
+        { from: "them", text: "舞蹈社这周有开放练习，想来可以看看。" }
+      ]}
+    ]
+  },
+  taesan: {
+    name: "韩泰山",
+    avatar: "泰",
+    color: "#5e5ce6",
+    preview: "最近在写一首新歌，有空可以来音乐楼听",
+    messages: [
+      { from: "them", text: "你是那个迎新时迷路的新生吧" }
+    ],
+    replies: [
+      { text: "……这么快就传开了吗", next: [
+        { from: "them", text: "哈哈，成淏说的。" },
+        { from: "them", text: "最近在写一首新歌，有空可以来音乐楼听。" }
+      ]}
+    ]
+  },
+  leehan: {
+    name: "金桐儇",
+    avatar: "桐",
+    color: "#64d2ff",
+    preview: "图书馆三楼靠窗的位置光线很好",
+    messages: [
+      { from: "them", text: "你好呀，我是生物系的桐儇。" }
+    ],
+    replies: [
+      { text: "桐儇学长好，请多指教", next: [
+        { from: "them", text: "你平时喜欢去图书馆吗" },
+        { from: "them", text: "图书馆三楼靠窗的位置光线很好，推荐" }
+      ]}
+    ]
+  },
+  woonhak: {
+    name: "金云鹤",
+    avatar: "云",
+    color: "#bf5af2",
+    preview: "学妹！！食堂今天的炸猪排超级好吃！！",
+    messages: [
+      { from: "them", text: "学妹！！食堂今天的炸猪排超级好吃！！" },
+      { from: "them", text: "真的，趁热去吃" }
+    ],
+    replies: [
+      { text: "好，我中午去看看", next: [
+        { from: "them", text: "记得叫上成淏哥，他老是忘记吃饭" }
       ]}
     ]
   },
@@ -42,11 +102,13 @@ const CHATS = {
     preview: "学妹好呀！欢迎加入我们的群聊哈哈",
     messages: [
       { from: "them", text: "学妹好呀！我是传媒系的明宰铉" },
-      { from: "them", text: "成淏那个闷葫芦居然会主动带学妹，稀奇" },
-      { from: "me", text: "宰铉学长好，迎新那天多亏了成淏学长" },
-      { from: "them", text: "哈哈他平时就是热心肠。欢迎加入我们的群聊！" }
+      { from: "them", text: "成淏那个闷葫芦居然会主动带学妹，稀奇" }
     ],
-    replies: []
+    replies: [
+      { text: "宰铉学长好，迎新那天多亏了成淏学长", next: [
+        { from: "them", text: "哈哈他平时就是热心肠。欢迎加入我们的群聊！" }
+      ]}
+    ]
   },
   yujin: {
     name: "崔裕真 (同级)",
@@ -55,23 +117,13 @@ const CHATS = {
     preview: "天呐你认识大三的学长？太厉害了吧",
     messages: [
       { from: "them", text: "你报到弄完了吗？" },
-      { from: "them", text: "天呐你认识大三的学长？太厉害了吧" },
-      { from: "me", text: "迎新的时候迷路碰到的，人很好" },
-      { from: "them", text: "呜呜我也想认识学长，下次聚餐带带我！" }
+      { from: "them", text: "天呐你认识大三的学长？太厉害了吧" }
     ],
-    replies: []
-  },
-  minji: {
-    name: "姜敏智 (同级)",
-    avatar: "智",
-    color: "#af52de",
-    preview: "明天的课在哪个教学楼呀？",
-    messages: [
-      { from: "them", text: "明天的课在哪个教学楼呀？" },
-      { from: "me", text: "我看一下课表，好像在人文楼" },
-      { from: "them", text: "好，那我们明天早上一起去吧！" }
-    ],
-    replies: []
+    replies: [
+      { text: "迎新的时候迷路碰到的，人很好", next: [
+        { from: "them", text: "呜呜我也想认识学长，下次聚餐带带我！" }
+      ]}
+    ]
   },
   group: {
     name: "延世街六人组",
@@ -91,23 +143,11 @@ const CHATS = {
         { from: "them", sender: "金桐儇", text: "期待泰山的自作曲" }
       ]}
     ]
-  },
-  class: {
-    name: "大一经营学 01班",
-    avatar: "课",
-    color: "#34c759",
-    preview: "教授说下周有小测验",
-    messages: [
-      { from: "them", sender: "助教", text: "各位同学，下周本课程有一次随堂小测验，请大家做好准备。" },
-      { from: "them", sender: "崔裕真", text: "天呐，刚开学就测验……" }
-    ],
-    replies: []
   }
 };
 
 const INSTAGRAM = {
-  sungho: { name: "朴成淏", handle: "@sungho_", avatar: "成", color: "#ff9f0a", bio: "经营学 3학년\n서린대학교 学生会", posts: [{ img: "#ff9f0a", caption: "迎新周终于结束了，大家辛苦了。", meta: "3小时前" }] },
-  taesan: { name: "韩泰山", handle: "@taesan_music", avatar: "泰", color: "#5e5ce6", bio: "音乐 · 3학년", posts: [{ img: "#5e5ce6", caption: "《네가 생각난단 말이야》 demo 完成。", meta: "8小时前" }] }
+  sungho: { name: "朴成淏", handle: "@sungho_", avatar: "成", color: "#ff9f0a", bio: "经营学 3학년\n서린대학교 学生会", posts: [{ img: "#ff9f0a", caption: "迎新周终于结束了，大家辛苦了。", meta: "3小时前" }] }
 };
 
 const PHOTOS = [{ color: "#ff9f0a", label: "迎新周" }];
