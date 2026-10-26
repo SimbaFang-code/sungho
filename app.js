@@ -19,65 +19,84 @@ var MEMOS = [
 var gameState = { activeEvent: 0, memoUnlocked: false, likedSunghoPost: false };
 
 var MAP_PLACES = [
-  // --- 小事件 ---
-  { id: "s1", name: "老地方烤肉店", x: 50, y: 45, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  // --- 小事件（日常互怼/搞笑风） ---
+  { 
+    id: "s1", name: "老地方烤肉店", x: 50, y: 45, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
-      { text: "六人聚餐，大家刚坐下。", choices: ["坐在成淏旁边", "坐在云鹤旁边"], reply: "【朴成淏】刚刚聚餐，云鹤一直给你夹肉，我有点不舒服。下次我给你夹。" },
-      { text: "聚餐进行到一半，大家在玩游戏。", choices: ["帮成淏挡酒", "自己喝掉"], reply: "【朴成淏】你干嘛替我挡酒？不过刚刚你脸红的样子，真的很好看。" }
+      { text: "六人聚餐，大家刚坐下。", choices: ["坐在成淏旁边", "坐在云鹤旁边"], reply: "【朴成淏】刚刚聚餐，云鹤一直给你夹肉，你是没长手吗？下次只能吃我夹的，不然我全吃光。" },
+      { text: "聚餐进行到一半，大家在玩游戏。", choices: ["帮成淏挡酒", "自己喝掉"], reply: "【朴成淏】你替我挡什么酒？就你那点酒量，刚喝一口脸就红得跟猴屁股一样，等会儿还得我背你回去。" }
     ]
   },
-  { id: "s2", name: "中央图书馆", x: 25, y: 30, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { 
+    id: "s2", name: "中央图书馆", x: 25, y: 30, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
-      { text: "你在书架旁遇到成淏，他正踮脚找高处的书。", choices: ["帮他拿下来", "假装没看见"], reply: "【朴成淏】刚刚看到你踮脚的样子，像只小兔子。下次这种事，我帮你做就好。" }
+      { text: "你在书架旁遇到成淏，他正踮脚找高处的书。", choices: ["帮他拿下来", "假装没看见"], reply: "【朴成淏】刚刚看到你踮脚的样子，像只小兔子。书拿到了，不过下次这种事，我帮你做就好。" },
+      { text: "成淏趴在桌上睡着了，口水流了一桌子。", choices: ["偷拍他", "给他擦桌子"], reply: "【朴成淏】你是不是偷拍我了？我警告你，把照片删了！不然我就把你上次上课睡着打呼噜的照片发群里。" }
     ]
   },
-  { id: "s3", name: "篮球场", x: 75, y: 20, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { 
+    id: "s3", name: "篮球场", x: 75, y: 20, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
-      { text: "成淏刚打完比赛，满头大汗。", choices: ["跑过去给他送水", "站在远处看"], reply: "【朴成淏】刚刚的水，谢谢。我投进三分球的时候，余光看到你在欢呼。" }
+      { text: "成淏刚打完比赛，满头大汗。", choices: ["跑过去给他送水", "站在远处看"], reply: "【朴成淏】刚刚的水，谢谢。我投进三分球的时候，余光看到你在欢呼，就那一瞬间，我特别想跑过去抱你。" },
+      { text: "篮球滚到了你脚边，成淏跑过来捡。", choices: ["把球扔回给他", "抱在怀里逗他"], reply: "【朴成淏】干嘛抱着我的球不撒手？你想学打球直说，不用在这用美色吸引我注意力。" }
     ]
   },
-  { id: "s4", name: "音乐楼", x: 80, y: 65, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { 
+    id: "s4", name: "音乐楼", x: 80, y: 65, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
-      { text: "经过琴房，听到成淏在弹吉他。", choices: ["推门进去听", "在门外安静听完"], reply: "【朴成淏】刚刚门外是你吧？这首曲子刚写好，想第一个弹给你听。" }
+      { text: "经过琴房，听到成淏在弹吉他。", choices: ["推门进去听", "在门外安静听完"], reply: "【朴成淏】刚刚门外是你吧？这首曲子刚写好，想第一个弹给你听。想不想坐近一点？" },
+      { text: "成淏在弹吉他，结果弦断了。", choices: ["嘲笑他", "问有没有备用弦"], reply: "【朴成淏】别笑了！赶紧帮我找找有没有备用弦，不然等会儿社团演出，我就得上去给大家表演清唱了。" }
     ]
   },
-  { id: "s5", name: "食堂", x: 40, y: 80, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { 
+    id: "s5", name: "食堂", x: 40, y: 80, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
-      { text: "食堂人很多，只有他旁边有空位。", choices: ["坐过去", "去外面吃"], reply: "【朴成淏】怎么去外面了？下次直接坐我旁边，我帮你占座。" }
+      { text: "食堂人很多，只有他旁边有空位。", choices: ["坐过去", "去外面吃"], reply: "【朴成淏】怎么去外面了？下次直接坐我旁边，我帮你占座。" },
+      { text: "你端着汤不小心洒在了他衣服上。", choices: ["赶紧道歉", "假装不是我"], reply: "【朴成淏】别装了，我都看到了。行吧，这件外套算你欠我的，下次请我喝一杯热奶茶，要加双倍珍珠的那种。" }
     ]
   },
-  { id: "s6", name: "操场看台", x: 15, y: 25, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { 
+    id: "s6", name: "操场看台", x: 15, y: 25, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
-      { text: "晚上操场很安静，你来看星星。", choices: ["给成淏发消息", "一个人坐着"], reply: "【朴成淏】看到消息我就跑下来了。你一个人坐在这，也不怕冷。披上我的外套。" }
+      { text: "晚上操场很安静，你来看星星。", choices: ["给成淏发消息", "一个人坐着"], reply: "【朴成淏】看到消息我就跑下来了。你一个人坐在这，也不怕冷。披上我的外套。" },
+      { text: "操场上有人在唱歌，巨难听。", choices: ["捂着耳朵", "跟着吐槽"], reply: "【朴成淏】虽然我也觉得难听，但你吐槽得也太大声了吧？人家都往这边看了，赶紧溜，别被逮到。" }
     ]
   },
-  { id: "s7", name: "校门口夜市", x: 85, y: 40, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { 
+    id: "s7", name: "校门口夜市", x: 85, y: 40, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
-      { text: "夜市上人很多，你差点被挤散。", choices: ["抓住他的衣角", "自己走开"], reply: "【朴成淏】刚刚你抓着我衣角，我真的好想直接牵你的手。" }
+      { text: "夜市上人很多，你差点被挤散。", choices: ["抓住他的衣角", "自己走开"], reply: "【朴成淏】刚刚你抓着我衣角，我真的好想直接牵你的手。" },
+      { text: "你买了一份臭豆腐，非要喂给他吃。", choices: ["强行喂他", "自己吃掉"], reply: "【朴成淏】拿走拿走！我愿称之为生化武器。你要是再逼我吃，我明天就去食堂点一份他不喜欢的东西恶心他。" }
     ]
   },
-  // --- 大事件 ---
-  { id: "p11", name: "校园咖啡店", x: 15, y: 35, clickCount: 0, isBigEvent: true, unlockCondition: 1,
+  
+  // --- 大事件（按顺序解锁，保持极度暧昧风） ---
+  { 
+    id: "p11", name: "校园咖啡店", x: 15, y: 35, clickCount: 0, isBigEvent: true, unlockCondition: 1,
     events: [
       { text: "你带着课本约成淏在咖啡店请教问题。他讲得很认真。", choices: ["夸他讲得好", "假装在听"], reply: "【朴成淏】刚刚看你盯着我看，书都拿倒了。其实你一直看我的话，我完全讲不下去的。" }
     ]
   },
-  { id: "p12", name: "校外智多寺", x: 10, y: 15, clickCount: 0, isBigEvent: true, unlockCondition: 2,
+  { 
+    id: "p12", name: "校外智多寺", x: 10, y: 15, clickCount: 0, isBigEvent: true, unlockCondition: 2,
     events: [
       { text: "你们七个人一起去爬山烧香。你爬不动了。", choices: ["让成淏拉你一把", "自己慢慢爬"], reply: "【朴成淏】手给我。刚刚你抓着我手的时候，突然觉得这山也不算陡了。" }
     ]
   },
-  { id: "p13", name: "教学楼", x: 65, y: 30, clickCount: 0, isBigEvent: true, unlockCondition: 3,
+  { 
+    id: "p13", name: "教学楼", x: 65, y: 30, clickCount: 0, isBigEvent: true, unlockCondition: 3,
     events: [
       { text: "大降温，你穿着单衣在教室冻得发抖。成淏脱下大衣给你。", choices: ["乖乖让他披上", "拒绝"], reply: "【朴成淏】不许拒绝。大衣很暖和，还带着我的体温。你要是感冒了，我会心疼的。" }
     ]
   },
-  { id: "p14", name: "操场跑道", x: 45, y: 25, clickCount: 0, isBigEvent: true, unlockCondition: 4,
+  { 
+    id: "p14", name: "操场跑道", x: 45, y: 25, clickCount: 0, isBigEvent: true, unlockCondition: 4,
     events: [
       { text: "体测800米，你跑完虚脱了。成淏冲过来一把扶住你。", choices: ["靠在他怀里", "推开他"], reply: "【朴成淏】别动，靠着我。刚刚看你跑完脸都白了，我差点冲进跑道去拉你。" }
     ]
   },
-  { id: "p15", name: "体育馆", x: 30, y: 60, clickCount: 0, isBigEvent: true, unlockCondition: 5,
+  { 
+    id: "p15", name: "体育馆", x: 30, y: 60, clickCount: 0, isBigEvent: true, unlockCondition: 5,
     events: [
       { text: "服装设计大赛，你和成淏搭档走秀。", choices: ["夸他西装好看", "害羞低头"], reply: "【朴成淏】很好看吧？刚刚在台上，我只盯着你一个人看。" }
     ]
