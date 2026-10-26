@@ -1,4 +1,3 @@
-let currentChat = null;
 let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
@@ -7,7 +6,7 @@ window.unlockPhone = function() {
   var ls = document.getElementById("lock-screen");
   var mu = document.getElementById("main-ui");
   if (ls && mu) {
-    ls.style.display = "none"; 
+    ls.classList.add("hidden"); 
     mu.classList.remove("hidden"); 
     setTimeout(function() {
       showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho");
@@ -401,9 +400,5 @@ window.likePost = function(postId) {
   }
 }
 
-// 直接强行渲染，等 DOM 加载完再执行
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', renderApps);
-} else {
-  renderApps();
-}
+// 放弃所有监听，强制渲染！
+renderApps();

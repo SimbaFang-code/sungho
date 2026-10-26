@@ -52,76 +52,14 @@ const CHATS = {
       { me: "学长怎么连这种醋都吃", them: "因为，我好像有点太在意你了。" }
     ]
   },
-  riwoo: {
-    name: "李常赫", avatar: "常", color: "#30d158",
-    messages: [
-      { type: "time", text: "9月10日" },
-      { from: "them", text: "舞蹈社这周有开放练习，你要来看吗？" },
-      { from: "me", text: "好呀，常赫学长。" },
-      { from: "them", text: "嗯，成淏也会来。他最近老往舞蹈室跑。" },
-      { type: "time", text: "昨天 18:00" },
-      { from: "them", text: "今天练舞拉伤了，你那边有膏药吗？" },
-      { from: "me", text: "有的！我明天带给你。" }
-    ],
-    story: []
-  },
-  jaehyun: {
-    name: "明宰铉", avatar: "宰", color: "#ff375f",
-    messages: [
-      { type: "time", text: "9月12日" },
-      { from: "them", text: "学妹！传媒系的设备坏了，能不能借你们专业的用一下？" },
-      { type: "me", text: "当然可以，我带你去。" },
-      { type: "time", text: "昨天 19:00" },
-      { from: "them", text: "学妹！周五聚餐一定要来啊！" },
-      { from: "them", text: "成淏可是难得带人来，我们得好好把把关！" }
-    ],
-    story: []
-  },
-  taesan: {
-    name: "韩泰山", avatar: "泰", color: "#5e5ce6",
-    messages: [
-      { type: "time", text: "9月20日" },
-      { from: "them", text: "新歌 demo 发在 IG 了，有空听。" },
-      { from: "me", text: "现在就去听！" },
-      { type: "time", text: "昨天 20:00" },
-      { from: "them", text: "听完给点意见。不过，这首歌是写给某个人的。" }
-    ],
-    story: []
-  },
-  leehan: {
-    name: "金桐儇", avatar: "桐", color: "#64d2ff",
-    messages: [
-      { type: "time", text: "10月1日" },
-      { from: "them", text: "图书馆三楼靠窗位置很好，推荐给你。" },
-      { from: "me", text: "谢谢桐儇学长，我明天去试试" },
-      { type: "time", text: "昨天 20:30" },
-      { from: "them", text: "嗯，光线很好，适合看书。也适合看别人。" }
-    ],
-    story: []
-  },
-  woonhak: {
-    name: "金云鹤", avatar: "云", color: "#bf5af2",
-    messages: [
-      { type: "time", text: "9月5日" },
-      { from: "them", text: "学妹！昨晚聚餐开心吗！我推荐的炸猪排不错吧！" },
-      { from: "me", text: "超级好吃！谢谢云鹤学长" },
-      { type: "time", text: "昨天 22:00" },
-      { from: "them", text: "嘿嘿，下次我再带你去吃更好吃的！不给成淏哥知道！" }
-    ],
-    story: []
-  },
-  yujin: {
-    name: "崔裕真 (同级)", avatar: "裕", color: "#ff9500",
-    messages: [{ type: "time", text: "昨天 21:00" }, { from: "them", text: "天呐，你认识大三那几个帅哥？那个朴成淏好像对你很特殊哦！" }, { from: "me", text: "有吗？他就是比较照顾学妹吧" }, { from: "them", text: "绝对有！我打赌，他肯定对你有意思！你看群里云鹤都在吃醋了哈哈哈哈" }], story: []
-  },
+  riwoo: { name: "李常赫", avatar: "常", color: "#30d158", messages: [{type:"time", text:"昨天"}, {from:"them", text:"舞蹈社有练习。"}], story: [] },
+  taesan: { name: "韩泰山", avatar: "泰", color: "#5e5ce6", messages: [{type:"time", text:"昨天"}, {from:"them", text:"新歌发了。"}], story: [] },
+  leehan: { name: "金桐儇", avatar: "桐", color: "#64d2ff", messages: [{type:"time", text:"昨天"}, {from:"them", text:"图书馆见。"}], story: [] },
+  woonhak: { name: "金云鹤", avatar: "云", color: "#bf5af2", messages: [{type:"time", text:"昨天"}, {from:"them", text:"学妹好！"}], story: [] },
+  yujin: { name: "崔裕真 (同级)", avatar: "裕", color: "#ff9500", messages: [{type:"time", text:"昨天"}, {from:"them", text:"天呐，你认识大三那几个帅哥？"}], story: [] },
   group: {
     name: "延世街六人组", avatar: "群", color: "#8e8e93",
-    messages: [
-      { type: "time", text: "今天 14:30" },
-      { from: "them", sender: "明宰铉", text: "周五聚餐！" },
-      { from: "them", sender: "朴成淏", text: "我带学妹来。" }
-    ],
-    // 群聊去掉冒号，直接用预设对话
+    messages: [{ type: "time", text: "今天 14:30" }, { from: "them", sender: "明宰铉", text: "周五聚餐！" }, { from: "them", sender: "朴成淏", text: "我带学妹来。" }],
     story: [
       { me: "好呀，谢谢大家！", them: "欢迎欢迎！", sender: "明宰铉" },
       { me: "我会准时到的", them: "太好啦！", sender: "金云鹤" }
