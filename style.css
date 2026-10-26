@@ -2,7 +2,7 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",sans-serif;
 }
 body{
   background:#222;
@@ -21,6 +21,7 @@ body{
   position:relative;
   overflow:hidden;
   border:4px solid #111;
+  flex-shrink:0;
 }
 .screen{
   width:100%;
@@ -48,7 +49,6 @@ body{
   gap:4px;
   align-items:center;
 }
-/* 通知弹窗 iOS样式 */
 .notify-popup{
   position:absolute;
   top:52px;
@@ -65,11 +65,11 @@ body{
   gap:10px;
 }
 .notify-popup.show{display:flex;}
-.notify-avatar{width:36px;height:36px;border-radius:50%;background:#ddd;flex-shrink:0;}
+.notify-avatar{width:36px;height:36px;border-radius:50%;background:#ddd;flex-shrink:0; overflow:hidden;}
+.notify-avatar img{width:100%;height:100%;object-fit:cover;}
 .notify-name{font-weight:600;font-size:13px;color:#111;}
 .notify-text{font-size:14px;margin-top:2px;color:#333;}
 
-/* 桌面图标 */
 .home-grid{
   padding:12px 20px;
   display:grid;
@@ -162,19 +162,13 @@ body{
 .icon-safari .needle-red,.icon-safari .needle-white{position:absolute;left:50%;top:50%;width:2px;height:15px;transform-origin:50% 0;z-index:2;}
 .icon-safari .needle-red{background:#ff3b30;transform:translate(-50%,0) rotate(50deg);}
 .icon-safari .needle-white{background:#fff;transform:translate(-50%,0) rotate(-130deg);}
-.icon-music{background:linear-gradient(180deg,#fc2f55 0%,#8f0f3a 100%);}
-.icon-music .music-note{width:22px;height:30px;position:relative;}
-.icon-music .music-note::before{content:"";position:absolute;left:0;top:0;width:10px;height:18px;border:3px solid #fff;border-radius:0 8px 8px 0;border-left:none;}
-.icon-music .music-note::after{content:"";position:absolute;left:10px;top:12px;width:12px;height:12px;border:3px solid #fff;border-radius:50%;}
 .dock{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:320px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);border-radius:24px;padding:10px 14px;display:flex;justify-content:space-around;}
 .dock .icon{width:46px;height:46px;}
 .dock .icon-calendar .calendar-day{font-size:22px;}
 .dock .icon-clock .clock-face{width:36px;height:36px;}
 .dock .icon-messages .bubble-icon{width:28px;height:22px;}
 .dock .icon-safari .compass-icon{width:36px;height:36px;}
-.dock .icon-music .music-note{transform:scale(0.92);}
 
-/* ✅ 小黑条 点击返回主页 */
 .home-indicator{
   position:absolute;
   bottom:6px;
@@ -188,7 +182,6 @@ body{
   z-index:99;
 }
 
-/* 页面容器 */
 .page{
   display:none;
   width:100%;
@@ -199,7 +192,7 @@ body{
 .page.active{display:block;}
 .chat-header{height:44px;background:#f7f7f7;display:flex;align-items:center;justify-content:center;font-weight:600;border-bottom:1px solid #ddd;position:sticky;top:0;z-index:9;}
 
-/* ========= KAKAO TALK 真实iOS样式 ========= */
+/* 中文版KakaoTalk UI */
 .kkt-nav{height:44px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid #eee;}
 .kkt-nav-title{font-size:17px;font-weight:600;}
 .kkt-nav-right{color:#555;gap:16px;display:flex;font-size:18px;}
@@ -210,7 +203,8 @@ body{
 .kkt-tab-content.active{display:block;}
 .kkt-empty{text-align:center;padding:40px;color:#aaa;}
 .kkt-myprofile{display:flex;align-items:center;gap:12px;padding:14px;border-bottom:8px solid #f3f3f3;}
-.kkt-avatar{width:44px;height:44px;border-radius:50%;background:#dddddd;flex-shrink:0;}
+.kkt-avatar{width:44px;height:44px;border-radius:50%;background:#dddddd;flex-shrink:0; overflow:hidden;}
+.kkt-avatar img{width:100%;height:100%;object-fit:cover;}
 .my-avatar{background:#b9b9b9;}
 .kkt-name{font-size:15px;font-weight:500;color:#111;}
 .kkt-status{font-size:12px;color:#888;margin-top:2px;}
@@ -220,8 +214,6 @@ body{
 .kkt-chat-info{flex:1;min-width:0;}
 .kkt-lastmsg{font-size:12px;color:#888;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .kkt-time{font-size:11px;color:#aaa;align-self:flex-start;margin-top:4px;}
-
-/* 聊天房间 */
 .kkt-chatroom{display:none;flex-direction:column;width:100%;height:calc(100% - 48px);background:#fff;position:absolute;top:48px;left:0;z-index:20;}
 .kkt-chat-header{height:44px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid #eee;}
 .kkt-back{font-size:16px;color:#007aff;cursor:pointer;}
@@ -235,7 +227,47 @@ body{
 .kkt-input{flex:1;background:#f0f0f0;border:none;border-radius:20px;padding:9px 14px;font-size:15px;outline:none;}
 .kkt-send{padding:8px 12px;border:none;border-radius:18px;background:#FEE500;color:#222;font-weight:500;}
 .kkt-send:disabled{background:#f4f4f4;color:#bbb;}
-
-/* 橙光单线回复选项弹窗 */
 .reply-option-box{display:none;padding:8px 12px;background:#fff;border-top:1px solid #eee;}
 .reply-option{padding:10px 12px;background:#f4f4f4;border-radius:10px;text-align:center;font-size:15px;cursor:pointer;color:#222;}
+
+/* 仿Instagram完整样式 */
+.insta-header{
+  height:44px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 14px;
+  border-bottom:1px solid #eee;
+  font-size:17px;
+  font-weight:600;
+}
+.insta-header-icon{font-size:18px;gap:14px;display:flex;}
+.insta-stories{
+  display:flex;
+  gap:12px;
+  padding:12px 14px;
+  overflow-x:auto;
+  border-bottom:1px solid #eee;
+}
+.story-item{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;}
+.story-avatar{
+  width:62px;height:62px;
+  border-radius:50%;
+  padding:2px;
+  background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+}
+.story-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid white;}
+.story-name{font-size:11px;}
+.insta-feed{overflow-y:auto;height:calc(100% - 110px);}
+.insta-post{border-bottom:12px solid #eee;}
+.post-header{display:flex;align-items:center;padding:10px 12px;gap:10px;}
+.post-avatar{width:34px;height:34px;border-radius:50%;overflow:hidden;}
+.post-avatar img{width:100%;height:100%;object-fit:cover;}
+.post-name{font-weight:600;font-size:14px;flex:1;}
+.post-more{font-size:18px;}
+.post-img img{width:100%;display:block;}
+.post-action{display:flex;padding:10px 12px;font-size:24px;gap:16px;}
+.post-action .save{margin-left:auto;}
+.post-like{padding:0 12px 6px;font-size:14px;font-weight:600;}
+.post-caption{padding:0 12px 6px;font-size:14px;line-height:1.4;}
+.post-time{padding:0 12px 12px;font-size:11px;color:#777;}

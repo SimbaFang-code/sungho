@@ -1,126 +1,145 @@
 const GAME_DATA = {
   friends:[
-    {key:"seongho", name:"박성호", status:"3학년 / 국문과"},
-    {key:"unhak", name:"김운학", status:"2학년 / 무용과"},
-    {key:"taesan", name:"한태산", status:"3학년 / 미술과"},
-    {key:"group", name:"서린6인방", status:"단체채팅"}
+    {key:"seongho", name:"朴成淏", status:"大三 国文系", avatar:"https://i.imgur.com/placeholder.png"},
+    {key:"unhak", name:"金云鹤", status:"大二 舞蹈系", avatar:"https://i.imgur.com/placeholder.png"},
+    {key:"taesan", name:"韩泰山", status:"大三 美术系", avatar:"https://i.imgur.com/placeholder.png"},
+    {key:"group", name:"瑞林六人小群", status:"群聊", avatar:"https://i.imgur.com/placeholder.png"}
   ],
   chats:{
     seongho:{
-      title:"박성호",
+      title:"朴成淏",
       story:[
-        // 阶段1：初识 好感+3
         {
           others:[
-            {text:"안녕하세요. 오늘 도서관에서 책 떨어뜨렸던 신입생 맞아요?"},
-            {text:"저는 3학년 박성호예요. 괜찮았어요? 책 다 잘 챙겼나요?"}
+            {text:"你好，是今天在图书馆掉了书的新生对吧？"},
+            {text:"我是大三的朴成淏，刚刚有没有吓到你？书都捡齐了吗？"}
           ],
-          playerOption:"네! 정말 감사해요, 오늘 아니었으면 큰일 났을 거예요.",
+          playerOption:"是的！太谢谢你了，刚才差点手忙脚乱。",
           affGain:3
         },
-        // 阶段2：慢慢熟悉 好感+4
         {
           others:[
-            {text:"다음에 책 많이 들고 다닐 때 조심해요."},
-            {text:"혹시 전공 공부 어려운 거 있으면 물어봐도 돼요. 시간 있으면 도와줄게요."}
+            {text:"下次拿很多书的时候小心一点。"},
+            {text:"之后专业课有看不懂的地方，可以来找我，有空我可以帮你。"}
           ],
-          playerOption:"정말 고마워요! 모르는 게 생기면 용기 내서 연락할게요.",
+          playerOption:"太好了，谢谢你！以后有不懂的我会鼓起勇气找你的。",
           affGain:4
         },
-        //阶段3：食堂偶遇，提起别的男生，埋下吃醋伏笔 好感+4
         {
           others:[
-            {text:"점심 먹으러 왔어요? 오늘 학식 메뉴 그렇게 맛있지 않은데."},
-            {text:"방금 운학이 너한테 말 거는 거 봤어요. 아는 사이예요?"}
+            {text:"来食堂吃午饭吗？今天食堂的菜味道一般。"},
+            {text:"刚刚看到云鹤和你搭话，你们认识吗？"}
           ],
-          playerOption:"방금 처음 봤어요. 그냥 인사만 나눴어요.",
+          playerOption:"刚刚才认识，只是简单打了个招呼而已。",
           affGain:4
         },
-        //阶段4：小组作业，长时间相处，好感+5
         {
           others:[
-            {text:"조별과제 같이 하게 됐네요. 편하게 연락해요."},
-            {text:"보고서 자료 정리 힘들면 저랑 같이 도서관에서 해요."}
+            {text:"没想到我们分到同一个小组作业，以后直接找我联系就好。"},
+            {text:"整理报告资料很麻烦，有空可以一起泡图书馆。"}
           ],
-          playerOption:"좋아요! 같이 하면 훨씬 수월할 것 같아요.",
+          playerOption:"好呀，一起做的话会轻松很多！",
           affGain:5
         },
-        //阶段5：湖边傍晚谈心，暧昧升温 好感+6
         {
           others:[
-            {text:"저는 여기 호숫가 자주 와요. 조용해서 마음이 편해져요."},
-            {text:"요즘 자주 너 생각나요. 이상하게 신경 쓰이네."}
+            {text:"我经常来湖边这边，安安静静的，心情会放松很多。"},
+            {text:"最近总是会想起你，不知道为什么会一直留意你。"}
           ],
-          playerOption:"저도 여기 좋아해요. 선배랑 같이 있으면 편안해요.",
+          playerOption:"我也很喜欢这里，和成淏学长待在一起的时候很安心。",
           affGain:6
         },
-        //阶段6：聚餐吃醋名场面（云鹤主动找你说话，成淏克制吃醋）好感+7
         {
           others:[
-            {text:"오늘 운학이 너한테 계속 말 걸어서 조금 신경 쓰였어요."},
-            {text:"질투하는 거 같아서 저도 바보 같지만… 솔직히 말하고 싶었어요."}
+            {text:"刚刚聚餐的时候云鹤一直找你说话，我有点在意。"},
+            {text:"说出来有点傻，但是我好像吃醋了，想跟你说实话。"}
           ],
-          playerOption:"선배가 신경 쓸 필요 없어요. 제가 마음 있는 건 선배예요.",
+          playerOption:"学长不用多想，我在意的人一直是你。",
           affGain:7
         },
-        //阶段7：雨夜告白，关键节点 好感+12
         {
           others:[
-            {text:"비가 많이 오네요. 같이 우산 쓸까요?"},
-            {text:"사실 오래 전부터 좋아했어요. 저랑 사귈래요?"}
+            {text:"雨下好大，要不要一起撑一把伞？"},
+            {text:"其实我喜欢你很久了，要不要和我在一起？"}
           ],
-          playerOption:"네, 저도 선배를 좋아해요. 같이 만나요.",
+          playerOption:"我愿意，我也喜欢学长，我们在一起吧。",
           affGain:12
         },
-        //阶段8：热恋日常 好感+3
         {
           others:[
-            {text:"오늘 데이트 어디로 갈까요?"},
-            {text:"항상 너랑 있는 시간이 제일 행복해요."}
+            {text:"今天约会想去哪里？"},
+            {text:"和你待在一起的时候，永远都是最开心的。"}
           ],
-          playerOption:"카페 가서 이야기 나누고 싶어요.",
+          playerOption:"想去咖啡馆慢慢聊天。",
           affGain:3
         }
       ]
     },
     unhak:{
-      title:"김운학",
+      title:"金云鹤",
       story:[
         {
           others:[
-            {text:"안녕! 성호 선배랑 아는 사이야?"},
-            {text:"나는 운학이야! 너 귀여워서 먼저 인사해봤어."}
+            {text:"嗨！你和成淏学长认识吗？"},
+            {text:"我是云鹤，觉得你很可爱，过来打个招呼。"}
           ],
-          playerOption:"네, 방금 도서관에서 알게 됐어요. 반가워요!",
+          playerOption:"我们刚刚在图书馆认识，你好呀！",
           affGain:2
         }
       ]
     },
     taesan:{
-      title:"한태산",
+      title:"韩泰山",
       story:[
         {
           others:[
-            {text:"그림 그리는 거 좋아해? 호숫가 풍경 그렸어."},
-            {text:"너 보여주고 싶었어."}
+            {text:"喜欢画画吗？这张湖边风景是我画的。"},
+            {text:"想发给你看看。"}
           ],
-          playerOption:"정말 예뻐요! 그림 실력 대단하네요.",
+          playerOption:"好好看！你的画画技术也太棒了。",
           affGain:2
         }
       ]
     },
     group:{
-      title:"서린6인방",
+      title:"瑞林六人小群",
       story:[
         {
           others:[
-            {text:"다들 주말에 같이 고기 먹으러 가자!"},
-            {text:"성호야 너도 같이 오지?"}
+            {text:"周末大家一起去吃烤肉吗！"},
+            {text:"成淏你也一起来吧？"}
           ],
-          playerOption:"좋아요! 저도 같이 가고 싶어요.",
+          playerOption:"好呀，我也想一起去！",
           affGain:1
         }
       ]
     }
-  }
-};
+  },
+  // ===================== IG帖子在这里添加、修改，直接替换img链接为BOYNEXTDOOR照片 =====================
+  instaPosts:[
+    {
+      username:"seongho_bdnd",
+      avatar:"https://i.imgur.com/placeholder.png",
+      img:"https://i.imgur.com/placeholder.png",
+      likecount:"2341",
+      caption:"傍晚的校园湖边，风很舒服✨",
+      time:"2小时前"
+    },
+    {
+      username:"unhak_bdnd",
+      avatar:"https://i.imgur.com/placeholder.png",
+      img:"https://i.imgur.com/placeholder.png",
+      likecount:"3122",
+      caption:"舞蹈练习结束，好累但是很开心🩰",
+      time:"5小时前"
+    },
+    {
+      username:"taesan_bdnd",
+      avatar:"https://i.imgur.com/placeholder.png",
+      img:"https://i.imgur.com/placeholder.png",
+      likecount:"1876",
+      caption:"新画的速写｜湖边日落",
+      time:"昨天"
+    }
+  ]
+}
