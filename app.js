@@ -195,7 +195,7 @@ function goBack() {
   }
 }
 
-// ---------------- 极简的 KKT 渲染 ----------------
+// ---------------- KKT 渲染（修复昵称与群聊头像） ----------------
 function renderKakao(c) {
   c.classList.add("no-padding");
   c.style.backgroundColor = "#fff";
@@ -229,11 +229,13 @@ function renderKakao(c) {
       row.className = "msg-row " + m.from;
       
       var avatarHTML = "";
+      // 无论是单聊还是群聊，只要对方发消息，就显示头像
       if (m.from === "them") {
-         avatarHTML = '<div class="msg-avatar ' + chat.avatarClass + '" style="background-color:' + chat.color + '"></div>';
+         avatarHTML = '<div class="msg-avatar ' + (chat.avatarClass || '') + '" style="background-color:' + chat.color + '"></div>';
       }
 
       var contentHTML = '<div class="msg-content">';
+      // 群聊中显示发送者名字
       if (m.sender) {
          contentHTML += '<div class="msg-sender">' + m.sender + '</div>';
       }
@@ -253,7 +255,7 @@ function renderKakao(c) {
       if (!text) return;
       
       chat.history.push({ from: "me", text: text });
-      chat.preview = text;
+      chat.preview = text; // 更新列表预览
       inputEl.value = "";
       
       var row = document.createElement("div");
@@ -265,7 +267,7 @@ function renderKakao(c) {
     return;
   }
 
-// 聊天列表页
+  // ====== 通讯录列表页 ======
   c.innerHTML = '<div class="kkt-list-bg" id="kkt-list"></div>';
   var list = document.getElementById("kkt-list");
   
@@ -273,21 +275,23 @@ function renderKakao(c) {
     var chat = CHATS[key];
     var item = document.createElement("div"); item.className = "chat-list-item";
     
-    // --- 动态获取最后一条消息 ---
+    // 动态获取最后一条消息
     var lastMsg = chat.history[chat.history.length - 1];
     var previewText = lastMsg.text;
     if (lastMsg.sender) previewText = lastMsg.sender + "：" + lastMsg.text;
-    // ---------------------------
 
     item.innerHTML = 
-      '<div class="chat-avatar ' + chat.avatarClass + '" style="background-color:' + chat.color + '"></div>'
+      // 列表头像
+      '<div class="chat-avatar ' + (chat.avatarClass || '') + '" style="background-color:' + chat.color + '"></div>' +
       '<div class="chat-info">' +
         '<div class="chat-header-row">' +
+          // 这里就是补回来的【备注昵称】
           '<div class="chat-name">' + chat.name + '</div>' +
-          '<div class="chat-time">刚刚</div>' + 
+          '<div class="chat-time">刚刚</div>' +
         '</div>' +
         '<div class="chat-preview">' + previewText + '</div>' +
       '</div>';
+      
     item.onclick = function() { 
       currentChat = key; 
       openApp("kakao", "KakaoTalk"); 
