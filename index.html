@@ -5,12 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>서린대학교</title>
+<title>koz대학교</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div id="phone">
-  <!-- iOS 通知弹窗 -->
   <div id="ios-notification">
     <div class="app-icon-small" style="background:#fee500; display:flex; justify-content:center; align-items:center; font-size:20px; border-radius:10px;">💬</div>
     <div class="notif-content">
@@ -19,10 +18,12 @@
     </div>
   </div>
 
-  <!-- 锁屏：直接点击解锁 -->
-  <div id="lock-screen" class="active" onclick="unlockPhone()">
+  <!-- 锁屏 -->
+  <div id="lock-screen" class="active">
     <div class="lock-time" id="lock-clock">09:41</div>
     <div class="lock-date">10月26日 周一</div>
+    <!-- 整个屏幕都是按钮 -->
+    <div style="position: absolute; inset: 0; z-index: 99; cursor: pointer;" onclick="unlockPhone()"></div>
     <div class="lock-bottom">
       <div id="lock-prompt">点击屏幕解锁</div>
     </div>
@@ -40,7 +41,6 @@
     </div>
 
     <div id="screen">
-      <!-- 桌面 -->
       <div id="home" class="page active">
         <div class="widget-row">
           <div class="widget widget-weather">
@@ -55,7 +55,6 @@
         <div class="dock" id="dock"></div>
       </div>
 
-      <!-- App 容器 -->
       <div id="app-view" class="page">
         <div class="app-topbar">
           <button id="back-btn" onclick="goBack()">‹ 返回</button>
@@ -66,7 +65,9 @@
       </div>
     </div>
   </div>
-  <div id="home-indicator"></div>
+  
+  <!-- 底部横条：点击直接回桌面 -->
+  <div id="home-indicator" onclick="goHome()" style="cursor: pointer; pointer-events: auto;"></div>
 </div>
 <script src="data.js"></script>
 <script src="app.js"></script>

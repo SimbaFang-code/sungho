@@ -1,8 +1,9 @@
+let currentChat = null;
 let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
 
-window.unlockPhone = function() {
+function unlockPhone() {
   var ls = document.getElementById("lock-screen");
   var mu = document.getElementById("main-ui");
   if (ls && mu) {
@@ -100,14 +101,14 @@ function openApp(id, name) {
   c.scrollTop = 0;
 }
 
-window.goHome = function() {
+function goHome() {
   document.getElementById("app-view").classList.remove("active");
   document.getElementById("home").classList.add("active");
   var dock = document.querySelector(".dock");
   if(dock) dock.classList.remove("hidden-dock");
 }
 
-window.goBack = function() {
+function goBack() {
   if (currentChat) { 
     currentChat = null; 
     document.getElementById("app-content").classList.remove("no-padding");
@@ -117,8 +118,6 @@ window.goBack = function() {
     renderAppContent("memo");
   } else { goHome(); }
 }
-
-document.getElementById("back-btn").onclick = goBack;
 
 function renderAppContent(id) {
   var c = document.getElementById("app-content"); c.innerHTML = "";
@@ -144,7 +143,7 @@ function renderKakao(c) {
         '<div id="reply-modal" class="reply-modal">' +
           '<div style="font-size:12px; color:#8e8e93; margin-bottom:10px; text-align:center;">请选择剧情回复</div>' +
           '<div id="reply-options-container"></div>' +
-          '<div style="text-align:center; margin-top:10px;"><span onclick="closeReplyModal()" style="color:#007aff; font-size:14px; cursor:pointer;">取消</span></div>' +
+          '<div style="text-align:center; margin-top:10px;"><span onclick="document.getElementById(\'reply-modal\').classList.remove(\'show\')" style="color:#007aff; font-size:14px; cursor:pointer;">取消</span></div>' +
         '</div>' +
       '</div>';
 
@@ -181,15 +180,13 @@ function renderKakao(c) {
         var btn = document.createElement("div");
         btn.className = "reply-option";
         btn.innerText = chat.story[0].me;
-        btn.onclick = function() { inputEl.value = chat.story[0].me; closeReplyModal(); };
+        btn.onclick = function() { inputEl.value = chat.story[0].me; modal.classList.remove("show"); };
         optionsContainer.appendChild(btn);
         modal.classList.add("show");
       } else {
         inputEl.focus(); 
       }
     };
-
-    window.closeReplyModal = function() { modal.classList.remove("show"); };
 
     sendBtn.onclick = function() {
       if (isTyping) return;
@@ -356,7 +353,7 @@ function renderMemo(c) {
   });
 }
 
-window.checkMemoPass = function() {
+function checkMemoPass() {
   var val = document.getElementById("memo-pass").value;
   if (val === "0530") { gameState.memoUnlocked = true; renderAppContent("memo"); } 
   else { alert("密码错误"); }
@@ -385,7 +382,7 @@ function renderInstagram(c) {
   });
 }
 
-window.likePost = function(postId) {
+function likePost(postId) {
   var heart = document.getElementById('heart_' + postId);
   if (heart.classList.contains('liked')) return; 
   heart.classList.add('liked');
@@ -400,5 +397,5 @@ window.likePost = function(postId) {
   }
 }
 
-// 放弃所有监听，强制渲染！
+// 底部横条点击回桌面已经写在 HTML 里了，这里只需要初始化
 renderApps();
