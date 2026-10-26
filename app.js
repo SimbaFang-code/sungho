@@ -1,46 +1,14 @@
-let currentChat = null;
-let currentMemo = null;
-let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
-let activePinId = null;
-
-function unlockPhone() {
-  var ls = document.getElementById("lock-screen");
-  var mu = document.getElementById("main-ui");
-  if (ls && mu) {
-    ls.classList.add("hidden"); 
-    mu.classList.remove("hidden"); 
-    setTimeout(function() {
-      showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho");
-    }, 1000);
-  }
-}
+var currentChat = null;
+var currentMemo = null;
+var gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
+var activePinId = null;
 
 function updateClock() {
   var now = new Date();
   var timeStr = now.getHours().toString().padStart(2, "0") + ":" + now.getMinutes().toString().padStart(2, "0");
   if(document.getElementById("clock")) document.getElementById("clock").textContent = timeStr;
-  if(document.getElementById("lock-clock")) document.getElementById("lock-clock").textContent = timeStr;
 }
 setInterval(updateClock, 1000); updateClock();
-
-function showNotification(title, body, appId, chatId) {
-  var notif = document.getElementById("ios-notification");
-  if(!notif) return;
-  notif.querySelector("#notif-title-text").innerText = title;
-  notif.querySelector("#notif-body-text").innerText = body;
-  notif.classList.add("show");
-  
-  notif.onclick = function() {
-    notif.classList.remove("show");
-    openApp(appId, "KakaoTalk");
-    if(chatId) {
-        currentChat = chatId;
-        document.getElementById("app-content").classList.add("no-padding");
-        renderAppContent("kakao");
-    }
-  };
-  setTimeout(function() { notif.classList.remove("show"); }, 5000);
-}
 
 function renderApps() {
   var grid = document.getElementById("app-grid"); 
@@ -312,9 +280,6 @@ function renderMap(c) {
            CHATS.sungho.messages.push({ type: "time", text: "刚刚" });
            CHATS.sungho.messages.push({ from: "them", text: "刚刚的水，谢谢。" });
            CHATS.sungho.story.unshift({ me: "学长客气啦，应该的", them: "明天下午有空吗？我请你喝咖啡，就当回礼。" });
-           setTimeout(function() {
-             showNotification("KakaoTalk", "朴成淏：刚刚的水，谢谢。", "kakao", "sungho");
-           }, 2000);
         } else if (gameState.dateCount === 10) {
            setTimeout(function() { alert("【系统提示】你们已经很熟悉了，去 KakaoTalk 看看吧！"); }, 1500);
         }
@@ -391,11 +356,8 @@ function likePost(postId) {
     gameState.likedSunghoPost = true;
     CHATS.sungho.messages.push({ type: "time", text: "刚刚" });
     CHATS.sungho.messages.push({ from: "them", text: "你看到我发的动态啦？明天要一起去吗？" });
-    setTimeout(function() {
-      showNotification("KakaoTalk", "朴成淏：你看到我发的动态啦？明天要一起去吗？", "kakao", "sungho");
-    }, 1500);
   }
 }
 
-// 底部横条点击回桌面已经写在 HTML 里了，这里只需要初始化
+// 开始渲染
 renderApps();
