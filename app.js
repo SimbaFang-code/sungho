@@ -254,6 +254,7 @@ function renderKakao(c) {
       if (!text) return;
       
       chat.history.push({ from: "me", text: text });
+      chat.preview = text;
       inputEl.value = "";
       
       var row = document.createElement("div");
@@ -265,21 +266,28 @@ function renderKakao(c) {
     return;
   }
 
-  // 聊天列表页
+// 聊天列表页
   c.innerHTML = '<div class="kkt-list-bg" id="kkt-list"></div>';
   var list = document.getElementById("kkt-list");
   
   Object.keys(CHATS).forEach(function(key) {
     var chat = CHATS[key];
     var item = document.createElement("div"); item.className = "chat-list-item";
+    
+    // --- 动态获取最后一条消息 ---
+    var lastMsg = chat.history[chat.history.length - 1];
+    var previewText = lastMsg.text;
+    if (lastMsg.sender) previewText = lastMsg.sender + "：" + lastMsg.text;
+    // ---------------------------
+
     item.innerHTML = 
       '<div class="chat-avatar" style="background:' + chat.color + '">' + chat.avatar + '</div>' +
       '<div class="chat-info">' +
         '<div class="chat-header-row">' +
           '<div class="chat-name">' + chat.name + '</div>' +
-          '<div class="chat-time">' + chat.time + '</div>' +
+          '<div class="chat-time">刚刚</div>' + 
         '</div>' +
-        '<div class="chat-preview">' + chat.preview + '</div>' +
+        '<div class="chat-preview">' + previewText + '</div>' +
       '</div>';
     item.onclick = function() { 
       currentChat = key; 
