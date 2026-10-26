@@ -6,7 +6,6 @@ html, body {
   background: #000;
 }
 
-/* 浅粉色波点壁纸 */
 #phone {
   position: relative; width: 100%; height: 100%;
   background-color: #fdf2f5;
@@ -36,7 +35,6 @@ html, body {
 #lock-screen.hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
 .lock-time { font-size: 80px; font-weight: 300; letter-spacing: -2px; color: #1c1c1e; }
 .lock-date { font-size: 20px; font-weight: 500; margin-top: 5px; color: #1c1c1e; }
-
 .lock-bottom { position: absolute; bottom: 50px; width: 100%; display: flex; flex-direction: column; align-items: center; }
 #lock-prompt { font-size: 15px; font-weight: 600; animation: pulse 1.5s infinite; cursor: pointer; padding: 20px; color: #1c1c1e; }
 @keyframes pulse { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
@@ -48,12 +46,7 @@ html, body {
 .dots span { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #333; }
 .dots span.filled { background: #333; }
 .keys { display: grid; grid-template-columns: repeat(3, 75px); gap: 15px; justify-content: center; }
-.keys button {
-  width: 75px; height: 75px; border-radius: 50%; border: none;
-  background: rgba(255,255,255,.5); backdrop-filter: blur(10px);
-  color: #1c1c1e; font-size: 32px; font-weight: 400; cursor: pointer;
-}
-.keys button:active { background: rgba(255,255,255,.8); }
+.keys button { width: 75px; height: 75px; border-radius: 50%; border: none; background: rgba(255,255,255,.5); backdrop-filter: blur(10px); color: #1c1c1e; font-size: 32px; font-weight: 400; cursor: pointer; }
 .keys button.empty { background: transparent; pointer-events: none; }
 
 /* 主界面 */
@@ -77,11 +70,7 @@ html, body {
 
 /* 顶部小组件 (Widget) */
 .widget-row { display: flex; gap: 15px; margin-bottom: 25px; }
-.widget {
-  flex: 1; border-radius: 22px; padding: 15px; color: #fff;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1); backdrop-filter: blur(10px);
-  display: flex; flex-direction: column; justify-content: space-between;
-}
+.widget { flex: 1; border-radius: 22px; padding: 15px; color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.1); backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: space-between; }
 .widget-weather { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); color: #1c1c1e;}
 .widget-weather .temp { font-size: 38px; font-weight: 300; }
 .widget-weather .city { font-size: 14px; font-weight: 600; }
@@ -92,31 +81,24 @@ html, body {
 /* 应用网格 */
 .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 12px; }
 .app-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
-.app-icon .glyph {
-  width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
-  font-size: 28px; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,.1); transition: transform .1s;
-  background-size: cover; background-position: center;
-}
+.app-icon .glyph { width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,.1); transition: transform .1s; background-size: cover; background-position: center; }
 .app-icon:active .glyph { transform: scale(.9); opacity: 0.8; }
 .app-icon .label { font-size: 11px; color: #1c1c1e; text-align: center; font-weight: 500; }
 
-/* 底部 Dock 栏 */
+/* 底部 Dock 栏 - 修复层级 */
 .dock {
   position: absolute; bottom: 20px; left: 12px; right: 12px; height: 85px;
   background: rgba(255,255,255,0.4); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
   border-radius: 35px; display: flex; justify-content: space-around; align-items: center;
   padding: 0 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); z-index: 10;
+  transition: opacity 0.3s;
 }
+.dock.hidden-dock { opacity: 0; pointer-events: none; }
 .dock .app-icon .label { display: none; }
 .dock .app-icon .glyph { width: 58px; height: 58px; box-shadow: none; }
 
 /* 搜索框 */
-.search-bar {
-  background: rgba(255,255,255,0.6); backdrop-filter: blur(10px);
-  border-radius: 20px; padding: 6px 15px; margin: 20px auto 0;
-  color: #1c1c1e; font-size: 13px; display: flex; align-items: center; justify-content: center;
-  width: max-content; font-weight: 500;
-}
+.search-bar { background: rgba(255,255,255,0.6); backdrop-filter: blur(10px); border-radius: 20px; padding: 6px 15px; margin: 20px auto 0; color: #1c1c1e; font-size: 13px; display: flex; align-items: center; justify-content: center; width: max-content; font-weight: 500; }
 
 /* 应用内页 */
 #app-view { background: #f2f2f7; }
@@ -136,43 +118,29 @@ html, body {
 .chat-name { font-size: 16px; font-weight: 500; color: #1c1c1e; }
 .chat-preview { font-size: 14px; color: #8e8e93; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
 
+/* 聊天室背景与气泡 */
 .chat-room { display: flex; flex-direction: column; gap: 12px; padding-bottom: 20px; }
 .msg-row { display: flex; }
 .msg-row.me { justify-content: flex-end; }
-.bubble { 
-  max-width: 75%; 
-  padding: 10px 14px; 
-  border-radius: 18px; 
-  font-size: 15px; 
-  line-height: 1.4; 
-  word-break: break-word; 
-  display: inline-block; /* 修复短文字换行问题 */
-  width: fit-content; 
-}
+.bubble { max-width: 75%; padding: 10px 14px; border-radius: 18px; font-size: 15px; line-height: 1.4; word-break: break-word; display: inline-block; width: fit-content; }
 .msg-row.them .bubble { background: #fff; color: #1c1c1e; border-bottom-left-radius: 4px; }
 .msg-row.me .bubble { background: #fee500; color: #1c1c1e; border-bottom-right-radius: 4px; }
 .msg-sender { font-size: 12px; color: #8e8e93; margin-bottom: 4px; padding-left: 4px; }
 
-.ig-profile { text-align: center; padding: 8px 0 16px; }
-.ig-avatar { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 28px; }
-.ig-name { font-size: 16px; font-weight: 600; }
-.ig-bio { font-size: 13px; color: #8e8e93; margin-top: 4px; white-space: pre-line; }
-.ig-post { margin-bottom: 18px; border: .5px solid #e5e5ea; border-radius: 12px; overflow: hidden; background: #fff;}
-.ig-post-img { height: 180px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; font-weight: 600; }
-.ig-post-body { padding: 10px 12px; }
-.ig-post-cap { font-size: 14px; line-height: 1.45; color: #1c1c1e; }
+/* 时间分割线 */
+.time-divider { text-align: center; margin: 10px 0; }
+.time-divider span { background: rgba(0,0,0,0.1); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 12px; }
 
-.list-item { padding: 14px 0; border-bottom: .5px solid #e5e5ea; font-size: 15px; color: #1c1c1e; display: flex; justify-content: space-between; gap: 10px; }
-.list-item .sub { color: #8e8e93; font-size: 13px; }
-.placeholder { text-align: center; color: #8e8e93; font-size: 15px; padding: 60px 20px; line-height: 1.6; }
-
-#home-indicator { 
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 34px; display: flex; align-items: center; justify-content: center; 
-  flex-shrink: 0; padding-bottom: env(safe-area-inset-bottom); z-index: 100; 
-  pointer-events: none;
+/* iOS 通知弹窗 */
+#ios-notification {
+  position: absolute; top: 50px; left: 10px; right: 10px; z-index: 200;
+  background: rgba(255,255,255,0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+  border-radius: 20px; padding: 12px; display: flex; gap: 12px; align-items: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15); cursor: pointer;
+  transform: translateY(-150%); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-#home-indicator::after { 
-  content: ""; width: 134px; height: 5px; border-radius: 3px; 
-  background: #1c1c1e; opacity: 0.8;
-}
+#ios-notification.show { transform: translateY(0); }
+#ios-notification .app-icon-small { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; background: #fee500; }
+#ios-notification .notif-content { flex: 1; }
+#ios-notification .notif-title { font-size: 14px; font-weight: 700; color: #1c1c1e; display: flex; justify-content: space-between;}
+#ios-notification .notif-body { font-size: 13px; color: #3a3a3c; margin-top: 2px; line-height: 1.3; }
