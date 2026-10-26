@@ -3,14 +3,12 @@ let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
 
-// 全局解锁函数，直接绑定在 HTML 上
 window.unlockPhone = function() {
   const lockScreen = document.getElementById("lock-screen");
   const mainUI = document.getElementById("main-ui");
   if (lockScreen && mainUI) {
     lockScreen.classList.add("hidden");
     mainUI.classList.remove("hidden");
-    // 1秒后弹窗
     setTimeout(() => {
       if (typeof showNotification === 'function') {
         showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho");
@@ -19,7 +17,6 @@ window.unlockPhone = function() {
   }
 }
 
-// 时间更新
 function updateClock() {
   const now = new Date();
   const timeStr = now.getHours().toString().padStart(2, "0") + ":" + now.getMinutes().toString().padStart(2, "0");
@@ -27,7 +24,6 @@ function updateClock() {
 }
 setInterval(updateClock, 1000); updateClock();
 
-// 渲染图标
 function renderApps() {
   const grid = document.getElementById("app-grid"); 
   if (!grid) return; 
@@ -46,8 +42,10 @@ function renderApps() {
       if (app.id === "weather") return `<div class="icon-box icon-weather"><div></div></div>`;
       if (app.id === "settings") return `<div class="icon-box icon-settings"></div>`;
       if (app.id === "phone") return `<div class="icon-box icon-phone"></div>`;
+      if (app.id === "kakao") return `<div class="icon-box icon-kakao"></div>`;
+      if (app.id === "instagram") return `<div class="icon-box icon-ig"></div>`;
     }
-    return `<div class="icon-box" style="background-image:url('${app.icon}'); background-size:cover; background-color:#fff;"></div>`;
+    return `<div class="icon-box"></div>`;
   };
 
   mainApps.forEach(app => {
@@ -114,7 +112,6 @@ function renderAppContent(id) {
   else c.innerHTML = "<div style='text-align:center;padding:50px;color:#999;'>功能接入中</div>";
 }
 
-// 弹窗通知
 function showNotification(title, body, appId, chatId) {
   const notif = document.getElementById("ios-notification");
   notif.querySelector("#notif-title-text").innerText = title;
@@ -133,7 +130,6 @@ function showNotification(title, body, appId, chatId) {
   setTimeout(() => { notif.classList.remove("show"); }, 5000);
 }
 
-// ================= KKT 聊天 =================
 function renderKakao(c) {
   if (currentChat) {
     const chat = CHATS[currentChat];
@@ -239,7 +235,6 @@ function renderKakao(c) {
   });
 }
 
-// ================= 地图打卡与橙光选项 =================
 function renderMap(c) {
   c.innerHTML = `
     <div class="map-container">
@@ -312,11 +307,9 @@ function renderMap(c) {
         btn.style.background = "#ccc";
         btn.disabled = true;
 
-        // 触发成淏的约会后私信（推进剧情！）
         if (place.id === "p2") {
            setTimeout(() => {
              showNotification("KakaoTalk", "朴成淏：刚刚的水，谢谢。", "kakao", "sungho");
-             // 动态加入一段后续聊天记录
              CHATS.sungho.story.unshift({ 
                 me: "学长客气啦，应该的", 
                 them: "明天下午有空吗？我请你喝咖啡，就当回礼。" 
@@ -337,7 +330,6 @@ function renderMap(c) {
   };
 }
 
-// ================= 备忘录 =================
 function renderMemo(c) {
   c.style.backgroundColor = "#fff";
   if (currentMemo) {
@@ -367,7 +359,6 @@ window.checkMemoPass = function() {
   else { alert("密码错误"); }
 }
 
-// ================= Instagram =================
 function renderInstagram(c) {
   c.style.padding = "0"; c.style.backgroundColor = "#fff";
   c.innerHTML = `
@@ -405,7 +396,6 @@ window.likePost = function(postId) {
   }
 }
 
-// 启动！
 document.addEventListener("DOMContentLoaded", () => {
   renderApps();
 });

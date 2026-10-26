@@ -1,6 +1,6 @@
 const APPS = [
-  { id: "kakao", name: "KakaoTalk", icon: "https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" },
-  { id: "instagram", name: "Instagram", icon: "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" },
+  { id: "kakao", name: "KakaoTalk", customClass: "icon-kakao" },
+  { id: "instagram", name: "Instagram", customClass: "icon-ig" },
   { id: "photos", name: "相册", customClass: "icon-photos" },
   { id: "calendar", name: "日历", customClass: "icon-calendar" },
   { id: "memo", name: "备忘录", customClass: "icon-notes" },
@@ -17,56 +17,16 @@ const MEMOS = [
 ];
 
 const MAP_PLACES = [
-  { 
-    id: "p1", name: "中央图书馆", x: 30, y: 40, dateNum: 1, 
-    choices: ["递给他一张纸巾", "假装没看见走开"],
-    reply: "成淏学长在图书馆看书看睡着了，你轻轻递给他一张纸巾。他醒来后对你温柔地笑了。"
-  },
-  { 
-    id: "p2", name: "篮球场", x: 60, y: 25, dateNum: 2, 
-    choices: ["跑过去给他递水", "站在场边等比赛结束"],
-    reply: "成淏刚打完篮球，满身是汗。你给他递了一瓶水，他愣了一下，接过水揉了揉你的头发。"
-  },
-  { 
-    id: "p3", name: "音乐楼", x: 75, y: 60, dateNum: 3, 
-    choices: ["夸他弹吉他很帅", "安静坐在旁边听"],
-    reply: "成淏在音乐楼试音。你安静地坐在旁边，他说这首曲子是为你写的。"
-  },
-  { 
-    id: "p4", name: "老地方烤肉店", x: 40, y: 70, dateNum: 4, 
-    choices: ["帮他包一个生菜包", "让他帮你烤肉"],
-    reply: "聚餐的时候，云鹤一直给你夹肉。成淏看到了，默默把云鹤夹给你的肉都自己吃掉了。"
-  },
-  { 
-    id: "p5", name: "校园咖啡店", x: 55, y: 50, dateNum: 5, 
-    choices: ["点他喜欢的冰美式", "点自己喜欢的奶茶"],
-    reply: "成淏看着你点了他喜欢的冰美式，眼神暗了暗，低声说："你连我喜欢什么都知道？""
-  },
-  { 
-    id: "p6", name: "银杏大道", x: 20, y: 80, dateNum: 6, 
-    choices: ["让他帮你拍照", "帮他拍一张"],
-    reply: "银杏大道上，成淏帮你拍照。拍完后他看着相册说："这张很好看，可以发给我吗？""
-  },
-  { 
-    id: "p7", name: "操场看台", x: 80, y: 20, dateNum: 7, 
-    choices: ["靠在他肩膀上", "递给他耳机"],
-    reply: "操场的晚风很凉，成淏看你冷，默默把外套披在了你身上。"
-  },
-  { 
-    id: "p8", name: "学生会室", x: 65, y: 35, dateNum: 8, 
-    choices: ["给他泡一杯咖啡", "抢走他的文件闹他"],
-    reply: "成淏在整理迎新资料，你给他泡了咖啡。他看着你，突然说："其实迎新那天，我是故意等在那里的。""
-  },
-  { 
-    id: "p9", name: "校门口夜市", x: 10, y: 50, dateNum: 9, 
-    choices: ["让他喂你吃小吃", "假装生气让他哄你"],
-    reply: "夜市上人很多，成淏下意识地抓住了你的手腕，把你护在身侧。"
-  },
-  { 
-    id: "p10", name: "宿舍楼下", x: 45, y: 85, dateNum: 10, 
-    choices: ["抱他一下再走", "亲他一口跑掉"],
-    reply: "在宿舍楼下，成淏看着你，突然把你拉进怀里："做我女朋友吧。""
-  }
+  { id: "p1", name: "中央图书馆", x: 30, y: 40, dateNum: 1, choices: ["递给他一张纸巾", "假装没看见走开"], reply: "成淏学长在图书馆看书看睡着了，你轻轻递给他一张纸巾。他醒来后对你温柔地笑了。" },
+  { id: "p2", name: "篮球场", x: 60, y: 25, dateNum: 2, choices: ["跑过去给他递水", "站在场边等比赛结束"], reply: "成淏刚打完篮球，满身是汗。你给他递了一瓶水，他愣了一下，接过水揉了揉你的头发。" },
+  { id: "p3", name: "音乐楼", x: 75, y: 60, dateNum: 3, choices: ["夸他弹吉他很帅", "安静坐在旁边听"], reply: "成淏在音乐楼试音。你安静地坐在旁边，他说这首曲子是为你写的。" },
+  { id: "p4", name: "老地方烤肉店", x: 40, y: 70, dateNum: 4, choices: ["帮他包一个生菜包", "让他帮你烤肉"], reply: "聚餐的时候，云鹤一直给你夹肉。成淏看到了，默默把云鹤夹给你的肉都自己吃掉了。" },
+  { id: "p5", name: "校园咖啡店", x: 55, y: 50, dateNum: 5, choices: ["点他喜欢的冰美式", "点自己喜欢的奶茶"], reply: "成淏看着你点了他喜欢的冰美式，眼神暗了暗，低声说："你连我喜欢什么都知道？"" },
+  { id: "p6", name: "银杏大道", x: 20, y: 80, dateNum: 6, choices: ["让他帮你拍照", "帮他拍一张"], reply: "银杏大道上，成淏帮你拍照。拍完后他看着相册说："这张很好看，可以发给我吗？"" },
+  { id: "p7", name: "操场看台", x: 80, y: 20, dateNum: 7, choices: ["靠在他肩膀上", "递给他耳机"], reply: "操场的晚风很凉，成淏看你冷，默默把外套披在了你身上。" },
+  { id: "p8", name: "学生会室", x: 65, y: 35, dateNum: 8, choices: ["给他泡一杯咖啡", "抢走他的文件闹他"], reply: "成淏在整理迎新资料，你给他泡了咖啡。他看着你，突然说："其实迎新那天，我是故意等在那里的。"" },
+  { id: "p9", name: "校门口夜市", x: 10, y: 50, dateNum: 9, choices: ["让他喂你吃小吃", "假装生气让他哄你"], reply: "夜市上人很多，成淏下意识地抓住了你的手腕，把你护在身侧。" },
+  { id: "p10", name: "宿舍楼下", x: 45, y: 85, dateNum: 10, choices: ["抱他一下再走", "亲他一口跑掉"], reply: "在宿舍楼下，成淏看着你，突然把你拉进怀里："做我女朋友吧。"" }
 ];
 
 const CHATS = {
@@ -104,10 +64,6 @@ const CHATS = {
   yujin: {
     name: "崔裕真 (同级)", avatar: "裕", color: "#ff9500",
     messages: [{ type: "time", text: "昨天 21:00" }, { from: "them", text: "天呐，你认识大三那几个帅哥？那个朴成淏好像对你很特殊哦！" }, { from: "me", text: "有吗？他就是比较照顾学妹吧" }, { from: "them", text: "绝对有！我打赌，他肯定对你有意思！你看群里云鹤都在吃醋了哈哈哈哈" }], story: []
-  },
-  minji: {
-    name: "姜敏智 (同级)", avatar: "智", color: "#af52de",
-    messages: [{ type: "time", text: "昨天 21:30" }, { from: "them", text: "裕真说你在跟大三的学长们聚餐？" }, { from: "me", text: "嗯，刚结束。" }, { from: "them", text: "哇，那你一定要小心点，不要被他们骗了！尤其是那个看起来很温柔的经营学学长！" }], story: []
   },
   group: {
     name: "延世街六人组", avatar: "群", color: "#8e8e93",
