@@ -30,7 +30,6 @@ function showNotification(title, body, appId, chatId) {
     if (title.includes("成淏") && body.includes("动态")) {
         CHATS.sungho.messages.push({ type: "time", text: "刚刚" });
         CHATS.sungho.messages.push({ from: "them", text: "你看到我发的动态啦？明天要一起去吗？" });
-        CHATS.sungho.replies.unshift({ text: "好呀，明天见", require: "dateAccepted", next: [] });
     } else if (title.includes("成淏") && body.includes("进来吧")) {
         CHATS.sungho.messages.push({ type: "time", text: "刚刚" });
         CHATS.sungho.messages.push({ from: "them", text: "我看到你了，进来吧。" });
@@ -245,8 +244,10 @@ function renderMemo(c) {
   if (currentMemo) {
     const note = MEMOS.find(m => m.id === currentMemo);
     document.getElementById("app-title").textContent = "备忘录";
+    
+    // 移除提示密码是啥
     if (note.isLocked && !gameState.memoUnlocked) {
-       c.innerHTML = `<div class="memo-lock-screen"><h3>此备忘录已锁定</h3><p style="color:#888; font-size:13px; margin-top:8px;">请输入四位密码 (提示:0530)</p><input type="password" id="memo-pass" class="memo-input" maxlength="4" placeholder="****"><br><button onclick="checkMemoPass()" style="margin-top:20px; padding:10px 20px; background:#ffcc00; border:none; border-radius:10px; font-weight:bold;">解锁</button></div>`;
+       c.innerHTML = `<div class="memo-lock-screen"><h3>此备忘录已锁定</h3><p style="color:#888; font-size:13px; margin-top:8px;">请输入四位密码</p><input type="password" id="memo-pass" class="memo-input" maxlength="4" placeholder="****"><br><button onclick="checkMemoPass()" style="margin-top:20px; padding:10px 20px; background:#ffcc00; border:none; border-radius:10px; font-weight:bold;">解锁</button></div>`;
        return;
     }
     c.innerHTML = `<div class="memo-detail"><h1>${note.title}</h1><p style="color:#888; font-size:12px; margin-bottom:20px;">${note.date}</p><p>${note.content}</p></div>`;

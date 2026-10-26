@@ -25,9 +25,10 @@ const CHATS = {
       { from: "them", text: "你好，请问是来参加迎新的新生吗？" },
       { from: "me", text: "是的！但是我地图定位好像不太准……" },
       { from: "them", text: "往左手边那条路走，看到学生会馆就到了。" },
-      { type: "time", text: "9月2日 迎新日 晚上 21:00" },
-      { from: "them", text: "今天带你办完手续，看你好像还是有点晕头转向的。" },
-      { from: "me", text: "哈哈，西凛大真的太大了。" },
+      { type: "time", text: "9月15日 晚上 21:00" },
+      { from: "them", text: "今天看你朋友圈发了图书馆的照片，最近课业很重吗？" },
+      { from: "me", text: "对啊，经营学的全英教材看得我头大。" },
+      { from: "them", text: "有不懂的随时问我，我大三刚好修过这门课。" },
       { type: "time", text: "10月15日 晚上 23:15" },
       { from: "them", text: "今天社团开会累不累？" },
       { from: "me", text: "有点，不过学长你今天怎么也这么晚？" },
@@ -57,28 +58,51 @@ const CHATS = {
   },
   riwoo: {
     name: "李常赫", avatar: "常", color: "#30d158",
-    messages: [{ type: "time", text: "昨天 18:00" }, { from: "them", text: "舞蹈社这周有开放练习，你要来看吗？" }],
-    replies: [{ text: "好呀，常赫学长", next: [{ from: "them", text: "嗯，成淏也会来。" }] }]
+    messages: [
+      { type: "time", text: "昨天 18:00" },
+      { from: "them", text: "舞蹈社这周有开放练习，你要来看吗？" },
+      { from: "me", text: "好呀，常赫学长。" },
+      { from: "them", text: "嗯，成淏也会来。他最近老往舞蹈室跑。" }
+    ],
+    replies: []
   },
   jaehyun: {
     name: "明宰铉", avatar: "宰", color: "#ff375f",
-    messages: [{ type: "time", text: "昨天 19:00" }, { from: "them", text: "学妹！周五聚餐一定要来啊！" }],
-    replies: [{ text: "好呀，一定去", next: [{ from: "them", text: "成淏可是难得带人来，我们得好好把把关！" }] }]
+    messages: [
+      { type: "time", text: "昨天 19:00" },
+      { from: "them", text: "学妹！周五聚餐一定要来啊！" },
+      { from: "them", text: "成淏可是难得带人来，我们得好好把把关！" }
+    ],
+    replies: []
   },
   taesan: {
     name: "韩泰山", avatar: "泰", color: "#5e5ce6",
-    messages: [{ type: "time", text: "昨天 20:00" }, { from: "them", text: "新歌 demo 发在 IG 了，有空听。" }],
-    replies: [{ text: "现在就去听！", next: [{ from: "them", text: "听完给点意见。" }] }]
+    messages: [
+      { type: "time", text: "昨天 20:00" },
+      { from: "them", text: "新歌 demo 发在 IG 了，有空听。" },
+      { from: "me", text: "现在就去听！" }
+    ],
+    replies: []
   },
   leehan: {
     name: "金桐儇", avatar: "桐", color: "#64d2ff",
-    messages: [{ type: "time", text: "昨天 20:30" }, { from: "them", text: "图书馆三楼靠窗位置很好，推荐给你。" }],
-    replies: [{ text: "谢谢桐儇学长，我明天去试试", next: [{ from: "them", text: "嗯，光线很好，适合看书。" }] }]
+    messages: [
+      { type: "time", text: "昨天 20:30" },
+      { from: "them", text: "图书馆三楼靠窗位置很好，推荐给你。" },
+      { from: "me", text: "谢谢桐儇学长，我明天去试试" }
+    ],
+    replies: []
   },
   woonhak: {
     name: "金云鹤", avatar: "云", color: "#bf5af2",
-    messages: [{ type: "time", text: "昨天 22:00" }, { from: "them", text: "学妹！昨晚聚餐开心吗！我推荐的炸猪排不错吧！" }],
-    replies: [{ text: "超级好吃！谢谢云鹤学长", next: [{ from: "them", text: "嘿嘿，下次我再带你去吃更好吃的！" }] }]
+    messages: [
+      { type: "time", text: "昨天 22:00" },
+      { from: "them", text: "学妹！昨晚聚餐开心吗！我推荐的炸猪排不错吧！" },
+      { from: "me", text: "超级好吃！谢谢云鹤学长" }
+    ],
+    replies: [
+      { text: "下次再一起去吃", next: [{ from: "them", text: "太好啦！那说定了！" }] }
+    ]
   },
   group: {
     name: "延世街六人组", avatar: "群", color: "#8e8e93",
@@ -102,8 +126,16 @@ const CHATS = {
   },
   yujin: {
     name: "崔裕真 (同级)", avatar: "裕", color: "#ff9500",
-    messages: [{ type: "time", text: "昨天 21:00" }, { from: "them", text: "天呐，你认识大三那几个帅哥？那个朴成淏好像对你很特殊哦！" }],
-    replies: []
+    messages: [
+      { type: "time", text: "昨天 21:00" },
+      { from: "them", text: "天呐，你认识大三那几个帅哥？那个朴成淏好像对你很特殊哦！" }
+    ],
+    replies: [
+      { text: "有吗？他就是比较照顾学妹吧", next: [
+        { from: "them", text: "绝对有！我打赌，他肯定对你有意思！" },
+        { from: "them", text: "你看群里云鹤都在吃醋了哈哈哈哈" }
+      ]}
+    ]
   }
 };
 
