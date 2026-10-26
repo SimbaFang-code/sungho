@@ -19,12 +19,14 @@
     </div>
   </div>
 
+  <!-- 锁屏 -->
   <div id="lock-screen" class="active">
     <div class="lock-time" id="lock-clock">00:00</div>
     <div class="lock-date" id="lock-date">10月26日 周一</div>
     <div class="lock-bottom"><div id="lock-prompt">点击解锁</div></div>
   </div>
 
+  <!-- 主界面 -->
   <div id="main-ui" class="hidden">
     <div id="statusbar">
       <span id="clock">9:41</span>
@@ -33,6 +35,7 @@
     </div>
 
     <div id="screen">
+      <!-- 桌面 -->
       <div id="home" class="page active">
         <div class="widget-row">
           <div class="widget widget-weather">
@@ -47,13 +50,26 @@
         <div class="dock" id="dock"></div>
       </div>
 
+      <!-- App 容器 -->
       <div id="app-view" class="page">
+        <!-- 顶部导航 -->
         <div class="app-topbar">
           <button id="back-btn">‹ 返回</button>
           <span id="app-title"></span>
           <span style="width:40px"></span>
         </div>
+        
+        <!-- 不同 App 的内容区域 -->
         <div id="app-content"></div>
+
+        <!-- Instagram 专属底部导航 -->
+        <div id="ig-bottom-nav" class="ig-bottom-nav hidden">
+          <div class="ig-nav-icon">🏠</div>
+          <div class="ig-nav-icon">🔍</div>
+          <div class="ig-nav-icon">➕</div>
+          <div class="ig-nav-icon">🎬</div>
+          <div class="ig-nav-icon">👤</div>
+        </div>
       </div>
     </div>
   </div>

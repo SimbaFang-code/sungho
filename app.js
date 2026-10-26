@@ -1,6 +1,5 @@
 let currentChat = null;
-let igUser = null;
-let gameState = { groupDone: false };
+let gameState = { groupDone: false, restaurantDone: false, memoUnlocked: false };
 
 const ICON_STYLES = {
   kakao: { bg: "linear-gradient(135deg, #ffeb3b, #fbc02d)", content: "💬" },
@@ -11,10 +10,8 @@ const ICON_STYLES = {
   map: { bg: "linear-gradient(135deg, #a1c4fd, #c2e9fb)", content: "🗺️" },
   clock: { bg: "linear-gradient(135deg, #2c2c2e, #000000)", content: "🕐" },
   weather: { bg: "linear-gradient(135deg, #89f7fe, #66a6ff)", content: "☀️" },
-  x: { bg: "#000", content: "✕" },
-  community: { bg: "linear-gradient(135deg, #b224ef, #7579ff)", content: "🏫" },
-  phone: { bg: "linear-gradient(135deg, #43e97b, #38f9d7)", content: "📞" },
-  settings: { bg: "linear-gradient(135deg, #e0e0e0, #9e9e9e)", content: "⚙️" }
+  x: { bg: "#000", content: "✕" }, community: { bg: "linear-gradient(135deg, #b224ef, #7579ff)", content: "🏫" },
+  phone: { bg: "linear-gradient(135deg, #43e97b, #38f9d7)", content: "📞" }, settings: { bg: "linear-gradient(135deg, #e0e0e0, #9e9e9e)", content: "⚙️" }
 };
 
 function updateClock() {
@@ -23,64 +20,52 @@ function updateClock() {
   if(document.getElementById("clock")) document.getElementById("clock").textContent = timeStr;
   if(document.getElementById("lock-clock")) document.getElementById("lock-clock").textContent = timeStr;
 }
-setInterval(updateClock, 1000);
-updateClock();
+setInterval(updateClock, 1000); updateClock();
 
-// 锁屏解锁
 const lockScreen = document.getElementById("lock-screen");
 if (lockScreen) {
   lockScreen.onclick = function() {
     this.classList.add("hidden");
     document.getElementById("main-ui").classList.remove("hidden");
-    // 解锁后触发第一波通知
-    setTimeout(() => showNotification("朴成淏", "你好，请问是来参加迎新的新生吗？", "kakao", "sungho"), 1000);
+    // 首次进入，弹窗提示成淏
+    setTimeout(() => showNotification("KakaoTalk", "朴成淏：你好，请问是来参加迎新的新生吗？", "kakao", "sungho"), 1000);
   };
 }
 
-// iOS 弹窗通知功能
 function showNotification(title, body, appId, chatId) {
   const notif = document.getElementById("ios-notification");
-  notif.querySelector(".notif-title").innerText = title;
-  notif.querySelector(".notif-body").innerText = body;
+  notif.querySelector("#notif-title-text").innerText = title;
+  notif.querySelector("#notif-body-text").innerText = body;
   notif.classList.add("show");
   
-  // 点击通知进入聊天
   notif.onclick = () => {
-    notif.classList.remove("show");
+    notif.classList.remove("show"); // 完美收回
     openApp(appId, "KakaoTalk");
-    currentChat = chatId;
-    // 处理进入聊天室的样式
-    document.getElementById("app-content").style.padding = "0";
-    document.getElementById("app-content").style.overflow = "hidden";
-    renderAppContent("kakao");
+    if(chatId) {
+        currentChat = chatId;
+        document.getElementById("app-content").classList.add("no-padding");
+        renderAppContent("kakao");
+    }
   };
-
-  // 5秒后自动消失
+  // 5秒后自动收起
   setTimeout(() => { notif.classList.remove("show"); }, 5000);
 }
 
 function renderApps() {
-  const grid = document.getElementById("app-grid");
-  grid.innerHTML = "";
+  const grid = document.getElementById("app-grid"); grid.innerHTML = "";
   const dockApps = ["phone", "map", "kakao", "instagram"];
   const mainApps = APPS.filter(app => !dockApps.includes(app.id));
-  
   mainApps.forEach(app => {
-    const el = document.createElement("div");
-    el.className = "app-icon";
+    const el = document.createElement("div"); el.className = "app-icon";
     const style = ICON_STYLES[app.id] || { bg: "#ccc", content: "❓" };
     el.innerHTML = `<div class="glyph" style="background:${style.bg}; font-size:24px;">${style.content}</div><div class="label">${app.name}</div>`;
     el.onclick = (e) => { e.stopPropagation(); openApp(app.id, app.name); };
     grid.appendChild(el);
   });
-
-  const dock = document.getElementById("dock");
-  dock.innerHTML = "";
+  const dock = document.getElementById("dock"); dock.innerHTML = "";
   dockApps.forEach(id => {
-    const app = APPS.find(a => a.id === id);
-    if (!app) return;
-    const el = document.createElement("div");
-    el.className = "app-icon";
+    const app = APPS.find(a => a.id === id); if (!app) return;
+    const el = document.createElement("div"); el.className = "app-icon";
     const style = ICON_STYLES[app.id] || { bg: "#ccc", content: "❓" };
     el.innerHTML = `<div class="glyph" style="background:${style.bg}; font-size:24px;">${style.content}</div>`;
     el.onclick = (e) => { e.stopPropagation(); openApp(app.id, app.name); };
@@ -92,18 +77,14 @@ function openApp(id, name) {
   document.getElementById("home").classList.remove("active");
   document.getElementById("app-view").classList.add("active");
   document.getElementById("app-title").textContent = name;
-  // 隐藏底栏
   document.querySelector(".dock").classList.add("hidden-dock");
+  document.getElementById("ig-bottom-nav").classList.add("hidden");
   
   const c = document.getElementById("app-content");
-  if (id === "kakao" && currentChat) {
-    c.style.padding = "0";
-    c.style.overflow = "hidden";
-  } else {
-    c.style.padding = "12px 16px";
-    c.style.overflowY = "auto";
-  }
+  c.classList.remove("no-padding");
+  if(id === "instagram") document.getElementById("ig-bottom-nav").classList.remove("hidden");
 
+  if (id === "kakao" && currentChat) c.classList.add("no-padding");
   renderAppContent(id);
   c.scrollTop = 0;
 }
@@ -111,33 +92,25 @@ function openApp(id, name) {
 function goHome() {
   document.getElementById("app-view").classList.remove("active");
   document.getElementById("home").classList.add("active");
-  // 恢复底栏
   document.querySelector(".dock").classList.remove("hidden-dock");
+  document.getElementById("ig-bottom-nav").classList.add("hidden");
 }
 
 document.getElementById("back-btn").onclick = () => {
   if (currentChat) { 
     currentChat = null; 
-    document.getElementById("app-content").style.padding = "12px 16px";
-    document.getElementById("app-content").style.overflowY = "auto";
+    document.getElementById("app-content").classList.remove("no-padding");
     renderAppContent("kakao"); 
-  }
-  else if (igUser) { igUser = null; renderAppContent("instagram"); }
-  else { goHome(); }
+  } else { goHome(); }
 };
 
 function renderAppContent(id) {
-  const c = document.getElementById("app-content");
-  c.innerHTML = "";
+  const c = document.getElementById("app-content"); c.innerHTML = "";
   if (id === "kakao") renderKakao(c);
   else if (id === "instagram") renderInstagram(c);
-  else if (id === "photos") renderPhotos(c);
-  else if (id === "calendar") renderCalendar(c);
   else if (id === "memo") renderMemo(c);
   else if (id === "map") renderMap(c);
-  else if (id === "clock") renderClock(c);
-  else if (id === "weather") renderWeather(c);
-  else renderPlaceholder(c, id);
+  else c.innerHTML = "<div class='placeholder'>功能接入中</div>";
 }
 
 // ================= KakaoTalk =================
@@ -148,120 +121,174 @@ function renderKakao(c) {
 
     c.innerHTML = `
       <div style="display:flex; flex-direction:column; height:100%; width:100%; background:#b2c7d9;">
-        <div id="chat-room-container" style="flex:1; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:12px;"></div>
+        <div id="chat-room-container" class="chat-room"></div>
         <div style="display:flex; gap:8px; padding:10px; background:#fff; border-top:1px solid #ddd; flex-shrink:0;">
-          <div id="kakao-fake-input" style="flex:1; padding:10px 15px; background:#f1f1f1; border-radius:20px; color:#8e8e93; font-size:14px; cursor:pointer;">点击输入框选择回复...</div>
+          <!-- 真实输入框，可随意打字 -->
+          <input id="kakao-input" type="text" placeholder="发送消息..." style="flex:1; padding:10px 15px; border:none; background:#f1f1f1; border-radius:20px; font-size:14px; outline:none;">
           <button id="kakao-send-btn" style="padding:0 15px; background:#fee500; color:#3c1e1e; border:none; border-radius:20px; font-weight:bold; cursor:pointer;">发送</button>
         </div>
       </div>
     `;
 
     const room = document.getElementById("chat-room-container");
-    const inputText = document.getElementById("kakao-fake-input");
+    const inputEl = document.getElementById("kakao-input");
     const sendBtn = document.getElementById("kakao-send-btn");
 
     const renderMessages = () => {
       room.innerHTML = "";
       chat.messages.forEach(m => {
-        // 如果是时间分割线
-        if (m.type === "time") {
-          room.innerHTML += `<div class="time-divider"><span>${m.text}</span></div>`;
-          return;
-        }
-
-        const row = document.createElement("div");
-        row.className = "msg-row " + m.from;
-        if (m.sender) {
-          row.innerHTML = `
-            <div style="display:flex; flex-direction:column; align-items:flex-start;">
-              <div class="msg-sender">${m.sender}</div>
-              <div class="bubble">${m.text}</div>
-            </div>`;
-        } else {
-          row.innerHTML = `<div class="bubble">${m.text}</div>`;
-        }
+        if (m.type === "time") { room.innerHTML += `<div class="time-divider"><span>${m.text}</span></div>`; return; }
+        const row = document.createElement("div"); row.className = "msg-row " + m.from;
+        row.innerHTML = m.sender 
+          ? `<div style="display:flex; flex-direction:column; align-items:flex-start;"><div class="msg-sender">${m.sender}</div><div class="bubble">${m.text}</div></div>`
+          : `<div class="bubble">${m.text}</div>`;
         room.appendChild(row);
       });
       setTimeout(() => { room.scrollTop = room.scrollHeight; }, 10);
     };
     renderMessages();
 
-    let currentSelectedReply = null;
-
-    inputText.onclick = () => {
-      if (!chat.replies || chat.replies.length === 0) {
-        alert("暂无新回复。");
-        return;
+    // 点击输入框时，如果有固定选项，自动填入第一个
+    inputEl.onclick = () => {
+      if (chat.replies && chat.replies.length > 0) {
+        const nextReply = chat.replies[0];
+        // 检查前置条件
+        if (nextReply.require && !gameState[nextReply.require]) return;
+        inputEl.value = nextReply.text;
       }
-      const nextReply = chat.replies[0];
-      
-      // 检查剧情锁
-      if (nextReply.require && !gameState[nextReply.require]) {
-        alert("现在还不是发这句话的时候哦，先去群里看看吧。");
-        return;
-      }
-
-      inputText.textContent = nextReply.text;
-      inputText.style.color = "#1c1c1e";
-      currentSelectedReply = nextReply;
     };
 
     sendBtn.onclick = () => {
-      if (!currentSelectedReply) return;
-      
-      chat.messages.push({ from: "me", text: currentSelectedReply.text });
-      const usedReply = chat.replies.shift(); 
-      
-      // 触发状态变更
-      if (usedReply.isGroupDone) {
-        gameState.groupDone = true;
-        // 群里发完言，通知成淏解锁新剧情
-        setTimeout(() => showNotification("朴成淏", "对了，迎新结束后有个聚餐，你要一起来吗？", "kakao", "sungho"), 2000);
+      const text = inputEl.value.trim();
+      if (!text) return;
+
+      chat.messages.push({ from: "me", text: text });
+      inputEl.value = "";
+
+      // 判断是否命中了固定回复选项
+      let usedReplyIndex = -1;
+      if (chat.replies) {
+        usedReplyIndex = chat.replies.findIndex(r => r.text === text && (!r.require || gameState[r.require]));
       }
 
-      inputText.textContent = "点击输入框选择回复...";
-      inputText.style.color = "#8e8e93";
-      currentSelectedReply = null;
-      
-      if (usedReply.next) {
-        usedReply.next.forEach(nextMsg => chat.messages.push(nextMsg));
+      if (usedReplyIndex !== -1) {
+        const usedReply = chat.replies.splice(usedReplyIndex, 1)[0];
+        if (usedReply.isGroupDone) gameState.groupDone = true;
+        if (usedReply.isRestaurantDone) {
+           gameState.restaurantDone = true;
+           setTimeout(() => showNotification("KakaoTalk", "朴成淏：聚餐结束啦，安全到宿舍了吗？", "kakao", "sungho"), 2000);
+        }
+        
+        if (usedReply.next) {
+          usedReply.next.forEach(nextMsg => chat.messages.push(nextMsg));
+        }
+      } else {
+        // 随意打字，过一会儿对方回复一个敷衍的，或者不回复（这里设定不回复）
       }
-      
       renderMessages();
     };
-
     return;
   }
 
+  // 列表页
   c.style.backgroundColor = "#fff";
   Object.keys(CHATS).forEach(key => {
     const chat = CHATS[key];
-    const item = document.createElement("div");
-    item.className = "chat-list-item";
-    // 找到最后一条非时间消息做预览
+    const item = document.createElement("div"); item.className = "chat-list-item";
     const msgs = chat.messages.filter(m => m.type !== 'time');
     const lastMsg = msgs[msgs.length - 1] || { text: "" };
-    chat.preview = lastMsg.sender ? `${lastMsg.sender}：${lastMsg.text}` : lastMsg.text;
-
-    item.innerHTML = `<div class="chat-avatar" style="background:${chat.color}">${chat.avatar}</div><div class="chat-info"><div class="chat-name">${chat.name}</div><div class="chat-preview">${chat.preview}</div></div>`;
+    item.innerHTML = `<div class="chat-avatar" style="background:${chat.color}">${chat.avatar}</div><div class="chat-info"><div class="chat-name">${chat.name}</div><div class="chat-preview">${lastMsg.sender ? lastMsg.sender+'：' : ''}${lastMsg.text}</div></div>`;
     item.onclick = () => { 
       currentChat = key; 
-      document.getElementById("app-content").style.padding = "0";
-      document.getElementById("app-content").style.overflow = "hidden";
+      document.getElementById("app-content").classList.add("no-padding");
       renderAppContent("kakao"); 
     };
     c.appendChild(item);
   });
 }
 
-// 其他应用渲染代码保持原样，只是占位
-function renderInstagram(c) { c.style.backgroundColor = "#fff"; c.innerHTML = "<div class='placeholder'>Instagram 功能即将开放</div>"; }
-function renderPhotos(c) { c.style.backgroundColor = "#fff"; c.innerHTML = "<div class='placeholder'>相册 功能即将开放</div>"; }
-function renderCalendar(c) { c.style.backgroundColor = "#fff"; c.innerHTML = "<div class='placeholder'>日历 功能即将开放</div>"; }
-function renderMemo(c) { c.style.backgroundColor = "#fff"; c.innerHTML = "<div class='placeholder'>备忘录 功能即将开放</div>"; }
-function renderMap(c) { c.style.backgroundColor = "#fff"; c.innerHTML = "<div class='placeholder'>地图 功能即将开放</div>"; }
-function renderClock(c) { c.style.backgroundColor = "#fff"; c.innerHTML = "<div class='placeholder'>时钟 功能即将开放</div>"; }
-function renderWeather(c) { c.style.backgroundColor = "#fff"; c.innerHTML = "<div class='placeholder'>天气 功能即将开放</div>"; }
-function renderPlaceholder(c, id) { c.style.backgroundColor = "#fff"; c.innerHTML = "<div class='placeholder'>应用建设中</div>"; }
+// ================= 地图打卡 =================
+function renderMap(c) {
+  c.innerHTML = `<div style="padding:16px;">
+    <h3 style="margin-bottom:12px; font-size:18px;">校园周边</h3>
+    <div id="map-list"></div>
+  </div>`;
+  const list = document.getElementById("map-list");
+  MAP_PLACES.forEach(p => {
+    const el = document.createElement("div"); el.className = "list-item";
+    el.innerHTML = `<div><div style="font-weight:600;margin-bottom:4px;">${p.name}</div><div style="font-size:12px;color:#666;">${p.desc}</div></div>`;
+    el.onclick = () => {
+      if (p.id === "restaurant" && !gameState.restaurantDone) {
+        alert("已到达老地方烤肉店。聚餐正在进行中...");
+        // 触发聚餐后的成淏回复
+        CHATS.sungho.replies.unshift({
+          text: "学长我回宿舍啦", isRestaurantDone: true, next: [
+            { type: "time", text: "晚上 22:00" },
+            { from: "them", text: "今天聚餐开心吗？" },
+            { from: "me", text: "超级开心！大家都好照顾我" },
+            { from: "them", text: "那就好。其实...我有点吃醋，云鹤那小子一直给你夹菜。" }
+          ]
+        });
+        showNotification("KakaoTalk", "朴成淏：聚餐结束啦，安全到宿舍了吗？", "kakao", "sungho");
+      }
+    };
+    list.appendChild(el);
+  });
+}
+
+// ================= 备忘录 =================
+function renderMemo(c) {
+  c.style.backgroundColor = "#fff";
+  if (!gameState.memoUnlocked) {
+    c.innerHTML = `<div class="memo-lock">
+      <h3>备忘录密码</h3>
+      <p style="color:#888; font-size:12px; margin-top:8px;">请输入四位密码</p>
+      <input type="password" id="memo-pass" class="memo-input" maxlength="4" placeholder="****">
+      <br><button onclick="checkMemoPass()" style="margin-top:20px; padding:10px 20px; background:#ffcc00; border:none; border-radius:10px; font-weight:bold;">解锁</button>
+    </div>`;
+    return;
+  }
+  MEMOS.forEach(m => {
+    const el = document.createElement("div");
+    el.style.cssText = "margin-bottom:16px; padding:0 16px;";
+    el.innerHTML = `<div style="font-weight:700;font-size:16px;margin-bottom:6px;">${m.title}</div><div style="font-size:14px;color:#3a3a3c;white-space:pre-line;line-height:1.6;">${m.body}</div>`;
+    c.appendChild(el);
+  });
+}
+window.checkMemoPass = function() {
+  const val = document.getElementById("memo-pass").value;
+  if (val === "0530") {
+    gameState.memoUnlocked = true;
+    renderMemo(document.getElementById("app-content"));
+  } else {
+    alert("密码错误");
+  }
+}
+
+// ================= Instagram =================
+function renderInstagram(c) {
+  c.style.padding = "0"; c.style.backgroundColor = "#fff";
+  c.innerHTML = `
+    <div class="ig-header"><div class="ig-logo">Instagram</div><div>❤️ ✉️</div></div>
+    <div class="ig-story-row">
+      <div class="ig-story"><div class="ig-story-avatar"><div style="background:#ff3b30;"></div></div><span>我的动态</span></div>
+      <div class="ig-story"><div class="ig-story-avatar"><div style="background:#30d158;"></div></div><span>常赫</span></div>
+      <div class="ig-story"><div class="ig-story-avatar"><div style="background:#5e5ce6;"></div></div><span>泰山</span></div>
+      <div class="ig-story"><div class="ig-story-avatar"><div style="background:#ff9f0a;"></div></div><span>成淏</span></div>
+    </div>
+    <div id="ig-feed"></div>
+  `;
+  const feed = document.getElementById("ig-feed");
+  INSTAGRAM_FEED.forEach(post => {
+    feed.innerHTML += `
+      <div class="ig-feed-post">
+        <div class="ig-feed-header"><div class="chat-avatar" style="width:32px;height:32px;font-size:12px;background:#ff9f0a;">${post.avatar}</div><strong>${post.user}</strong></div>
+        <div class="ig-feed-img" style="background:url('${post.img}') center/cover;"></div>
+        <div class="ig-feed-actions">❤️ 💬 ✈️</div>
+        <div class="ig-feed-caption"><strong>${post.user}</strong> ${post.caption}</div>
+      </div>
+    `;
+  });
+}
 
 renderApps();
