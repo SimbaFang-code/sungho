@@ -2,6 +2,39 @@ let currentChat = null;
 let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
+let pinOptions = [];
+
+// 锁屏密码逻辑
+let enteredPin = "";
+function enterPin(num) {
+  if (enteredPin.length >= 4) return;
+  enteredPin += num;
+  updateDots();
+  if (enteredPin.length === 4) {
+    setTimeout(() => {
+      if (enteredPin === "0904") {
+        document.getElementById("lock-screen").classList.add("hidden");
+        document.getElementById("main-ui").classList.remove("hidden");
+        setTimeout(() => showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho"), 1000);
+      } else {
+        alert("密码错误，请重试。");
+        enteredPin = "";
+        updateDots();
+      }
+    }, 200);
+  }
+}
+function updateDots() {
+  const dots = document.querySelectorAll(".dots span");
+  dots.forEach((dot, index) => {
+    if (index < enteredPin.length) dot.classList.add("filled");
+    else dot.classList.remove("filled");
+  });
+}
+document.getElementById("lock-prompt").onclick = function() {
+  this.style.display = "none";
+  document.getElementById("lock-keypad").classList.add("active");
+};
 
 function updateClock() {
   const now = new Date();
@@ -10,15 +43,6 @@ function updateClock() {
   if(document.getElementById("lock-clock")) document.getElementById("lock-clock").textContent = timeStr;
 }
 setInterval(updateClock, 1000); updateClock();
-
-const lockScreen = document.getElementById("lock-screen");
-if (lockScreen) {
-  lockScreen.onclick = function() {
-    this.classList.add("hidden");
-    document.getElementById("main-ui").classList.remove("hidden");
-    setTimeout(() => showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho"), 1000);
-  };
-}
 
 function showNotification(title, body, appId, chatId) {
   const notif = document.getElementById("ios-notification");
@@ -114,13 +138,11 @@ function renderAppContent(id) {
   else c.innerHTML = "<div style='text-align:center;padding:50px;color:#999;'>功能接入中</div>";
 }
 
-// ================= 橙光式逐句对话 KakaoTalk =================
 function renderKakao(c) {
   if (currentChat) {
     const chat = CHATS[currentChat];
     document.getElementById("app-title").textContent = chat.name;
 
-    // 动态生成 HTML
     c.innerHTML = `
       <div class="chat-room-wrapper">
         <div id="chat-room-container" class="chat-room"></div>
@@ -142,7 +164,7 @@ function renderKakao(c) {
     const modal = document.getElementById("reply-modal");
     const optionsContainer = document.getElementById("reply-options-container");
 
-    let isTyping = false; // 核心：防抖，不能连发
+    let isTyping = false; 
 
     const renderMessages = () => {
       room.innerHTML = "";
@@ -158,7 +180,6 @@ function renderKakao(c) {
     };
     renderMessages();
 
-    // 点输入框：检查是否有剧情选项，且当前不处于"等待对方回复"状态
     inputEl.onclick = (e) => {
       e.preventDefault();
       if (isTyping) return; 
@@ -178,22 +199,19 @@ function renderKakao(c) {
     window.closeReplyModal = () => { modal.classList.remove("show"); };
 
     sendBtn.onclick = () => {
-      if (isTyping) return; // 对方正在回复中，不能发
+      if (isTyping) return;
       const text = inputEl.value.trim();
       if (!text) return;
       
-      // 1. 发送玩家消息
       chat.messages.push({ from: "me", text: text });
       inputEl.value = "";
       renderMessages();
 
-      // 2. 如果有剧情，触发回复
       if (chat.story && chat.story.length > 0 && chat.story[0].me === text) {
         const currentStory = chat.story.shift();
-        isTyping = true; // 锁定输入框
+        isTyping = true; 
         inputEl.placeholder = "对方正在输入...";
 
-        // 延迟 1.5 秒后回复
         setTimeout(() => {
           chat.messages.push({ 
             from: "them", 
@@ -225,7 +243,7 @@ function renderKakao(c) {
   });
 }
 
-// ================= 真实 Apple Map =================
+// ================= 地图与橙光选项 =================
 function renderMap(c) {
   c.innerHTML = `
     <div class="map-container">
@@ -233,7 +251,14 @@ function renderMap(c) {
       <div id="map-card" class="map-bottom-card">
         <h3 id="map-title" style="font-size:18px; margin-bottom:5px;">地点名称</h3>
         <p id="map-desc" style="font-size:14px; color:#666;">地点描述</p>
-        <button class="map-btn" id="map-action-btn">模拟打卡</button>
+        <button class="map-btn" id="map-action-btn">确认前往该地点</button>
+      </div>
+      <!-- 橙光选项弹窗 -->
+      <div class="map-choice-modal" id="map-choice-modal">
+        <div class="map-choice-box">
+          <div class="map-choice-title" id="map-choice-title">触发剧情：你要怎么做？</div>
+          <div id="map-choice-options"></div>
+        </div>
       </div>
     </div>
   `;
@@ -243,6 +268,8 @@ function renderMap(c) {
   const title = document.getElementById("map-title");
   const desc = document.getElementById("map-desc");
   const btn = document.getElementById("map-action-btn");
+  const choiceModal = document.getElementById("map-choice-modal");
+  const choiceOptions = document.getElementById("map-choice-options");
 
   MAP_PLACES.forEach(p => {
     const pin = document.createElement("div");
@@ -255,15 +282,16 @@ function renderMap(c) {
       e.stopPropagation();
       activePinId = p.id;
       title.innerText = p.name;
-      desc.innerText = p.triggerMsg;
+      desc.innerText = "点击下方按钮进入该场景。";
       
-      // 判断是否已经打卡
       if (gameState[`date_${p.id}`]) {
-         btn.innerText = "已打卡";
+         btn.innerText = "已完成该地点的剧情";
          btn.style.background = "#ccc";
+         btn.disabled = true;
       } else {
-         btn.innerText = "确认前往该地点";
+         btn.innerText = "模拟前往该地点";
          btn.style.background = "#007aff";
+         btn.disabled = false;
       }
       card.classList.add("show");
     };
@@ -271,31 +299,45 @@ function renderMap(c) {
   });
 
   btn.onclick = () => {
-    if (!activePinId) return;
+    if (!activePinId || btn.disabled) return;
     const place = MAP_PLACES.find(p => p.id === activePinId);
-    if (!gameState[`date_${place.id}`]) {
-      gameState[`date_${place.id}`] = true;
-      gameState.dateCount++;
-      
-      // 进游戏弹窗
-      alert(`打卡成功！\n\n${place.triggerMsg}\n\n目前进度：${gameState.dateCount} / 10`);
-      btn.innerText = "已打卡";
-      btn.style.background = "#ccc";
+    
+    // 弹出橙光选项
+    choiceOptions.innerHTML = "";
+    place.choices.forEach((choice, index) => {
+      const choiceBtn = document.createElement("div");
+      choiceBtn.className = "map-choice-btn";
+      choiceBtn.innerText = choice;
+      choiceBtn.onclick = () => {
+        choiceModal.classList.remove("show");
+        gameState[`date_${place.id}`] = true;
+        gameState.dateCount++;
+        
+        alert(`【剧情触发】\n\n你选择了：${choice}\n\n${place.reply}\n\n（当前攻略进度：${gameState.dateCount}/10）`);
+        btn.innerText = "已完成该地点的剧情";
+        btn.style.background = "#ccc";
+        btn.disabled = true;
 
-      if (gameState.dateCount === 10) {
-        setTimeout(() => alert("【系统提示】你们已经很熟悉了，去 KakaoTalk 看看吧！"), 1000);
-      }
-    }
+        // 触发成淏私信
+        if (place.id === "p2") {
+           setTimeout(() => {
+             showNotification("KakaoTalk", "朴成淏：刚刚的水，谢谢。", "kakao", "sungho");
+           }, 2000);
+        } else if (gameState.dateCount === 10) {
+           setTimeout(() => alert("【系统提示】你们已经很熟悉了，去 KakaoTalk 看看吧！"), 1500);
+        }
+      };
+      choiceOptions.appendChild(choiceBtn);
+    });
+    choiceModal.classList.add("show");
   };
 
-  // 点空白处收起卡片
   c.querySelector('.map-container').onclick = () => {
     card.classList.remove("show");
     activePinId = null;
   };
 }
 
-// ================= 备忘录 =================
 function renderMemo(c) {
   c.style.backgroundColor = "#fff";
   if (currentMemo) {
@@ -325,7 +367,6 @@ window.checkMemoPass = function() {
   else { alert("密码错误"); }
 }
 
-// ================= Instagram =================
 function renderInstagram(c) {
   c.style.padding = "0"; c.style.backgroundColor = "#fff";
   c.innerHTML = `
