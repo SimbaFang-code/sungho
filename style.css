@@ -29,7 +29,6 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 12px; }
 .app-icon { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; transition: transform 0.15s; }
 .app-icon:active { transform: scale(0.92); }
-/* 核心图标样式 */
 .icon-box { width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.25); background: #fff; background-size: cover; background-position: center; }
 .icon-label { font-size: 11px; color: #1c1c1e; font-weight: 500; }
 .search-bar { background: rgba(255,255,255,0.6); border-radius: 20px; padding: 6px 15px; margin: 20px auto 0; font-size: 13px; font-weight: 500; }
@@ -39,18 +38,36 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .dock .icon-label { display: none; }
 .dock .icon-box { width: 58px; height: 58px; box-shadow: none; }
 
-/* 真实图标 URL 库（防白块） */
+/* Kakao & IG 保留真实图片 */
 .icon-kakao { background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg'); background-color: #fee500; }
-.icon-ig { background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg'); }
-.icon-photos { background-image: url('https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/8e1f2b743368e1cb05765b62a2b3b9c5.png'); }
-.icon-calendar { background-image: url('https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/5cc3c9c84e4e22c1282e6e97a1a8c6c0.png'); }
-.icon-memo { background-image: url('https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/e1c3e8c14c8a30f81b581f351b717f7d.png'); }
-.icon-map { background-image: url('https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/4d188f386c10c22cc12963806a36e2f8.png'); }
-.icon-clock { background-image: url('https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/5baf6089c71b23f04f7a2f7e7e9b49be.png'); }
-.icon-weather { background-image: url('https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/8e1f2b743368e1cb05765b62a2b3b9c5.png'); }
-.icon-settings { background-image: url('https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/b3c7780ed4edfbd0cb2a3555d50d09c7.png'); }
-.icon-phone { background-image: url('https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/7cfe74b2eb8e5153d59a4d3b271bb2f2.png'); }
-.icon-x { background: #000; color: #fff; font-size: 28px; font-weight: bold; font-family: sans-serif; }
+.icon-ig { background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg'); background-color: #fff;}
+
+/* 其他图标：纯 CSS 极致还原 */
+.icon-calendar { flex-direction: column; background: #fff; color: #ff3b30; font-weight: 800; }
+.icon-calendar .m { font-size: 10px; margin-top: 8px;} .icon-calendar .d { font-size: 28px; color: #000; line-height: 1;}
+
+.icon-clock { background: #000; border-radius: 50%; border: 3px solid #333; }
+.icon-clock::after { content: ""; width: 4px; height: 4px; background: #fff; border-radius: 50%; box-shadow: -10px 0 0 #fff, 0 -14px 0 #fff; }
+
+.icon-notes { background: #fff; border-top: 12px solid #ffcc00; }
+.icon-notes::after { content: ""; width: 60%; height: 2px; background: #e5e5ea; position: absolute; top: 20px; box-shadow: 0 8px 0 #e5e5ea, 0 16px 0 #e5e5ea; }
+
+.icon-photos { background: #fff; display: grid; grid-template-columns: 1fr 1fr; padding: 6px; gap: 4px; }
+.icon-photos div { border-radius: 2px; }
+
+.icon-maps { background: #fff; background-image: linear-gradient(rgba(52,199,89,.3) 1px, transparent 1px), linear-gradient(90deg, rgba(52,199,89,.3) 1px, transparent 1px); background-size: 12px 12px; }
+.icon-maps div { width: 16px; height: 16px; background: #ff3b30; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); }
+
+.icon-weather { background: linear-gradient(#5ac8fa, #3498db); border-radius: 50%; }
+.icon-weather div { width: 18px; height: 18px; background: #ffcc00; border-radius: 50%; position: absolute; top: 14px; right: 14px; box-shadow: -8px 8px 0 #fff;}
+
+.icon-settings { background: #e0e0e0; border-radius: 50%; border: 4px solid #a0a0a0; }
+.icon-settings::after { content: ""; width: 20px; height: 20px; border: 4px solid #666; border-radius: 50%; }
+
+.icon-phone { background: #34c759; border-radius: 14px; display: flex; justify-content: center; align-items: center; }
+.icon-phone::after { content: "📞"; font-size: 32px; }
+
+.icon-x { background: #000; color: #fff; font-family: sans-serif; font-size: 34px; font-weight: bold; display: flex; align-items: center; justify-content: center; line-height: 1;}
 
 /* App 页面 */
 #app-view { background: #f2f2f7; }
