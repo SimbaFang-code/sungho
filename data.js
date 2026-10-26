@@ -11,14 +11,12 @@ const APPS = [
   { id: "phone", name: "电话", customClass: "icon-phone" }
 ];
 
-// 备忘录
 const MEMOS = [
   { id: "m1", title: "选课笔记", date: "今天 09:00", content: "周一上午有经营学，记得带计算器。\n周三去图书馆借两本全英教材。" },
   { id: "m2", title: "聚餐记录", date: "昨天 22:00", content: "周五晚上六人聚餐，老地方烤肉店。\n宰铉学长请客，大家都很照顾我。" },
-  { id: "m3", title: "绝密剧情提示", date: "现在", isLocked: true, content: "【剧本杀防卡关指南】\n\n1. 主线推进：去群聊回复宰铉，然后回成淏私聊触发吃醋剧情。\n2. 线下解锁：去地图打卡『老地方烤肉店』。\n3. IG联动：去 IG 给成淏点赞，会触发新的心跳私信。" }
+  { id: "m3", title: "绝密剧情提示", date: "现在", isLocked: true, content: "【剧本杀防卡关指南】\n\n1. 主线推进：去群聊回复宰铉，然后回成淏私聊触发吃醋。\n2. 线下解锁：去地图打卡『老地方烤肉店』。\n3. IG联动：去 IG 给成淏点赞，会触发新的心跳私信。" }
 ];
 
-// 聊天记录（包含了长达几个月的暧昧与吃醋拉扯）
 const CHATS = {
   sungho: {
     name: "朴成淏", avatar: "成", color: "#ff9f0a",
@@ -54,13 +52,33 @@ const CHATS = {
         { from: "me", text: "嗯，看起来很好喝。" },
         { from: "them", text: "那家店就在音乐楼旁边。明天下午没课的话，要不要去？我请你。" },
         { from: "them", text: "只有我们两个。" }
-      ]},
-      { text: "好呀，明天见", require: "dateAccepted", next: [
-        { type: "time", text: "明天 下午 14:00" },
-        { from: "them", text: "我先去店里占个靠窗的位置。" },
-        { from: "them", text: "你慢慢来，路上注意安全。" }
       ]}
     ]
+  },
+  riwoo: {
+    name: "李常赫", avatar: "常", color: "#30d158",
+    messages: [{ type: "time", text: "昨天 18:00" }, { from: "them", text: "舞蹈社这周有开放练习，你要来看吗？" }],
+    replies: [{ text: "好呀，常赫学长", next: [{ from: "them", text: "嗯，成淏也会来。" }] }]
+  },
+  jaehyun: {
+    name: "明宰铉", avatar: "宰", color: "#ff375f",
+    messages: [{ type: "time", text: "昨天 19:00" }, { from: "them", text: "学妹！周五聚餐一定要来啊！" }],
+    replies: [{ text: "好呀，一定去", next: [{ from: "them", text: "成淏可是难得带人来，我们得好好把把关！" }] }]
+  },
+  taesan: {
+    name: "韩泰山", avatar: "泰", color: "#5e5ce6",
+    messages: [{ type: "time", text: "昨天 20:00" }, { from: "them", text: "新歌 demo 发在 IG 了，有空听。" }],
+    replies: [{ text: "现在就去听！", next: [{ from: "them", text: "听完给点意见。" }] }]
+  },
+  leehan: {
+    name: "金桐儇", avatar: "桐", color: "#64d2ff",
+    messages: [{ type: "time", text: "昨天 20:30" }, { from: "them", text: "图书馆三楼靠窗位置很好，推荐给你。" }],
+    replies: [{ text: "谢谢桐儇学长，我明天去试试", next: [{ from: "them", text: "嗯，光线很好，适合看书。" }] }]
+  },
+  woonhak: {
+    name: "金云鹤", avatar: "云", color: "#bf5af2",
+    messages: [{ type: "time", text: "昨天 22:00" }, { from: "them", text: "学妹！昨晚聚餐开心吗！我推荐的炸猪排不错吧！" }],
+    replies: [{ text: "超级好吃！谢谢云鹤学长", next: [{ from: "them", text: "嘿嘿，下次我再带你去吃更好吃的！" }] }]
   },
   group: {
     name: "延世街六人组", avatar: "群", color: "#8e8e93",
@@ -81,11 +99,6 @@ const CHATS = {
         { from: "them", sender: "李常赫", text: "他可能吃醋了。" }
       ]}
     ]
-  },
-  woonhak: {
-    name: "金云鹤", avatar: "云", color: "#bf5af2",
-    messages: [{ type: "time", text: "昨天 22:00" }, { from: "them", text: "学妹！昨晚聚餐开心吗！我推荐的炸猪排不错吧！" }],
-    replies: [{ text: "超级好吃！谢谢云鹤学长", next: [{ from: "them", text: "嘿嘿，下次我再带你去吃更好吃的！" }] }]
   },
   yujin: {
     name: "崔裕真 (同级)", avatar: "裕", color: "#ff9500",

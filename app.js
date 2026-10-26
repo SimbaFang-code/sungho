@@ -19,7 +19,6 @@ if (lockScreen) {
   };
 }
 
-// 修复：确保弹窗推入数据，并在点击后跳转
 function showNotification(title, body, appId, chatId) {
   const notif = document.getElementById("ios-notification");
   notif.querySelector("#notif-title-text").innerText = title;
@@ -28,11 +27,9 @@ function showNotification(title, body, appId, chatId) {
   
   notif.onclick = () => {
     notif.classList.remove("show");
-    // 如果发消息，真实写入聊天记录
     if (title.includes("成淏") && body.includes("动态")) {
         CHATS.sungho.messages.push({ type: "time", text: "刚刚" });
         CHATS.sungho.messages.push({ from: "them", text: "你看到我发的动态啦？明天要一起去吗？" });
-        // 解锁答应选项
         CHATS.sungho.replies.unshift({ text: "好呀，明天见", require: "dateAccepted", next: [] });
     } else if (title.includes("成淏") && body.includes("进来吧")) {
         CHATS.sungho.messages.push({ type: "time", text: "刚刚" });
@@ -63,7 +60,7 @@ function renderApps() {
       if (app.id === "map") return `<div class="icon-box icon-maps"><div class="pin"></div></div>`;
       if (app.id === "weather") return `<div class="icon-box icon-weather"><div class="sun"></div><div class="cloud"></div></div>`;
       if (app.id === "settings") return `<div class="icon-box icon-settings"><div class="gear"><div class="gear-inner"></div></div></div>`;
-      if (app.id === "phone") return `<div class="icon-box icon-phone"></div>`;
+      if (app.id === "phone") return `<div class="icon-box icon-phone"><div class="receiver"></div></div>`;
     }
     return `<div class="icon-box" style="background-image:url('${app.icon}'); background-size:cover; background-color:#fff;"></div>`;
   };
@@ -124,7 +121,6 @@ function renderAppContent(id) {
   else c.innerHTML = "<div style='text-align:center;padding:50px;color:#999;'>功能接入中</div>";
 }
 
-// ================= KakaoTalk =================
 function renderKakao(c) {
   if (currentChat) {
     const chat = CHATS[currentChat];
@@ -225,7 +221,6 @@ function renderKakao(c) {
   });
 }
 
-// ================= 地图 =================
 function renderMap(c) {
   c.innerHTML = `<div style="padding:16px;"><h3 style="margin-bottom:12px; font-size:18px;">校园周边</h3><div id="map-list"></div></div>`;
   const list = document.getElementById("map-list");
@@ -245,56 +240,35 @@ function renderMap(c) {
   });
 }
 
-// ================= 备忘录 (完全仿原生文件夹结构) =================
 function renderMemo(c) {
   c.style.backgroundColor = "#fff";
-  
-  // 如果打开了具体的 note
   if (currentMemo) {
     const note = MEMOS.find(m => m.id === currentMemo);
     document.getElementById("app-title").textContent = "备忘录";
-    
     if (note.isLocked && !gameState.memoUnlocked) {
-       c.innerHTML = `<div class="memo-lock-screen">
-          <h3>此备忘录已锁定</h3>
-          <p style="color:#888; font-size:13px; margin-top:8px;">请输入四位密码 (提示:0530)</p>
-          <input type="password" id="memo-pass" class="memo-input" maxlength="4" placeholder="****">
-          <br><button onclick="checkMemoPass()" style="margin-top:20px; padding:10px 20px; background:#ffcc00; border:none; border-radius:10px; font-weight:bold;">解锁</button>
-       </div>`;
+       c.innerHTML = `<div class="memo-lock-screen"><h3>此备忘录已锁定</h3><p style="color:#888; font-size:13px; margin-top:8px;">请输入四位密码 (提示:0530)</p><input type="password" id="memo-pass" class="memo-input" maxlength="4" placeholder="****"><br><button onclick="checkMemoPass()" style="margin-top:20px; padding:10px 20px; background:#ffcc00; border:none; border-radius:10px; font-weight:bold;">解锁</button></div>`;
        return;
     }
-    
-    c.innerHTML = `<div class="memo-detail">
-      <h1>${note.title}</h1>
-      <p style="color:#888; font-size:12px; margin-bottom:20px;">${note.date}</p>
-      <p>${note.content}</p>
-    </div>`;
+    c.innerHTML = `<div class="memo-detail"><h1>${note.title}</h1><p style="color:#888; font-size:12px; margin-bottom:20px;">${note.date}</p><p>${note.content}</p></div>`;
     return;
   }
 
-  // 备忘录列表页
   c.innerHTML = `<div style="padding:16px; font-size:24px; font-weight:bold; border-bottom:1px solid #eee;">文件夹: 我的备忘录</div>`;
   MEMOS.forEach(m => {
     const el = document.createElement("div");
     el.className = "memo-list-item";
     el.innerHTML = `<div class="memo-list-title">${m.title}</div><div class="memo-list-date">${m.date}</div>`;
-    el.onclick = () => {
-      currentMemo = m.id;
-      renderAppContent("memo");
-    };
+    el.onclick = () => { currentMemo = m.id; renderAppContent("memo"); };
     c.appendChild(el);
   });
 }
 
 window.checkMemoPass = function() {
   const val = document.getElementById("memo-pass").value;
-  if (val === "0530") { 
-    gameState.memoUnlocked = true; 
-    renderAppContent("memo"); 
-  } else { alert("密码错误"); }
+  if (val === "0530") { gameState.memoUnlocked = true; renderAppContent("memo"); } 
+  else { alert("密码错误"); }
 }
 
-// ================= Instagram =================
 function renderInstagram(c) {
   c.style.padding = "0"; c.style.backgroundColor = "#fff";
   c.innerHTML = `
@@ -329,7 +303,6 @@ window.likePost = function(postId) {
   if (heart.classList.contains('liked')) return; 
   heart.classList.add('liked');
   heart.innerText = "❤️";
-
   if (postId === "post_2" && !gameState.likedSunghoPost) {
     gameState.likedSunghoPost = true;
     setTimeout(() => {
