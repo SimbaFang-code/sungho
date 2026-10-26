@@ -166,26 +166,25 @@ function renderKakao(c) {
     sendBtn.onclick = () => {
       if (!currentSelectedReply) return;
       
+      // 1. 玩家发言
       chat.messages.push({ from: "me", text: currentSelectedReply.text });
       const usedReply = chat.replies.shift(); 
       
+      // 2. 重置输入框
       inputText.textContent = "点击输入框选择固定回复...";
       inputText.style.color = "#8e8e93";
       currentSelectedReply = null;
       
+      // 3. 瞬间推入所有后续剧情（避免卡顿，直接大篇幅显示）
+      if (usedReply.next) {
+        usedReply.next.forEach(nextMsg => chat.messages.push(nextMsg));
+      }
+      
       renderMessages();
       
-      // 延迟加载后续剧情
-      if (usedReply.next) {
-        let delay = 1000;
-        usedReply.next.forEach(nextMsg => {
-          setTimeout(() => {
-            chat.messages.push(nextMsg);
-            renderMessages();
-          }, delay);
-          delay += 1500; // 每个人间隔1.5秒回复，更像真人群聊
-        });
-      }
+      // 更新列表预览
+      const lastMsg = chat.messages[chat.messages.length - 1];
+      chat.preview = lastMsg.sender ? `${lastMsg.sender}：${lastMsg.text}` : lastMsg.text;
     };
 
     return;
@@ -196,116 +195,7 @@ function renderKakao(c) {
     const chat = CHATS[key];
     const item = document.createElement("div");
     item.className = "chat-list-item";
-    // 截取最后一条消息作为预览
     const lastMsg = chat.messages[chat.messages.length - 1];
     chat.preview = lastMsg.sender ? `${lastMsg.sender}：${lastMsg.text}` : lastMsg.text;
 
-    item.innerHTML = `<div class="chat-avatar" style="background:${chat.color}">${chat.avatar}</div><div class="chat-info"><div class="chat-name">${chat.name}</div><div class="chat-preview">${chat.preview}</div></div>`;
-    item.onclick = () => { 
-      currentChat = key; 
-      document.getElementById("app-content").style.padding = "0";
-      document.getElementById("app-content").style.overflow = "hidden";
-      renderAppContent("kakao"); 
-    };
-    c.appendChild(item);
-  });
-}
-
-// ================= 其他应用 =================
-function renderInstagram(c) {
-  c.style.backgroundColor = "#fff";
-  if (igUser) {
-    const p = INSTAGRAM[igUser];
-    document.getElementById("app-title").textContent = p.name;
-    const wrap = document.createElement("div");
-    wrap.innerHTML = `<div class="ig-profile"><div class="ig-avatar" style="background:${p.color}">${p.avatar}</div><div class="ig-name">${p.name}</div><div class="ig-bio">${p.bio}</div></div>`;
-    p.posts.forEach(post => {
-      const el = document.createElement("div");
-      el.className = "ig-post";
-      el.innerHTML = `<div class="ig-post-img" style="background:${post.img}">📷</div><div class="ig-post-body"><div class="ig-post-cap">${post.caption}</div></div>`;
-      wrap.appendChild(el);
-    });
-    c.appendChild(wrap);
-    return;
-  }
-  Object.keys(INSTAGRAM).forEach(key => {
-    const p = INSTAGRAM[key];
-    const item = document.createElement("div");
-    item.className = "chat-list-item";
-    item.innerHTML = `<div class="chat-avatar" style="background:${p.color}">${p.avatar}</div><div class="chat-info"><div class="chat-name">${p.name}</div><div class="chat-preview">${p.handle}</div></div>`;
-    item.onclick = () => { igUser = key; renderAppContent("instagram"); };
-    c.appendChild(item);
-  });
-}
-
-function renderPhotos(c) {
-  c.style.backgroundColor = "#fff";
-  const grid = document.createElement("div");
-  grid.style.cssText = "display:grid;grid-template-columns:repeat(2,1fr);gap:10px;";
-  PHOTOS.forEach(p => {
-    const el = document.createElement("div");
-    el.style.cssText = `height:130px;border-radius:12px;display:flex;align-items:flex-end;padding:10px;color:#fff;font-size:12px;font-weight:600;background:${p.color};`;
-    el.textContent = p.label;
-    grid.appendChild(el);
-  });
-  c.appendChild(grid);
-}
-
-function renderCalendar(c) {
-  c.style.backgroundColor = "#fff";
-  CALENDAR.forEach(e => {
-    const el = document.createElement("div");
-    el.className = "list-item";
-    el.innerHTML = `<span>${e.title}</span><span class="sub">${e.date}</span>`;
-    c.appendChild(el);
-  });
-}
-
-function renderMemo(c) {
-  c.style.backgroundColor = "#fff";
-  MEMOS.forEach(m => {
-    const el = document.createElement("div");
-    el.style.cssText = "margin-bottom:16px;";
-    el.innerHTML = `<div style="font-weight:700;font-size:16px;margin-bottom:6px;">${m.title}</div><div style="font-size:14px;color:#3a3a3c;white-space:pre-line;line-height:1.6;">${m.body}</div>`;
-    c.appendChild(el);
-  });
-}
-
-function renderMap(c) {
-  c.style.backgroundColor = "#fff";
-  MAP_PLACES.forEach(p => {
-    const el = document.createElement("div");
-    el.className = "list-item";
-    el.style.display = "block";
-    el.innerHTML = `<div style="font-weight:600;margin-bottom:4px;">${p.name}</div><div class="sub">${p.desc}</div>`;
-    c.appendChild(el);
-  });
-}
-
-function renderClock(c) {
-  c.style.backgroundColor = "#fff";
-  const now = new Date();
-  const el = document.createElement("div");
-  el.style.cssText = "text-align:center;padding:80px 0;";
-  el.innerHTML = `<div style="font-size:64px;font-weight:200;letter-spacing:-2px;">${now.getHours().toString().padStart(2,"0")}:${now.getMinutes().toString().padStart(2,"0")}</div>`;
-  c.appendChild(el);
-}
-
-function renderWeather(c) {
-  c.style.backgroundColor = "#fff";
-  const el = document.createElement("div");
-  el.style.cssText = "text-align:center;padding:50px 0;color:#1c1c1e;";
-  el.innerHTML = `<div style="font-size:22px;font-weight:600;">${WEATHER.city}</div><div style="font-size:72px;font-weight:200;margin:12px 0;">${WEATHER.temp}</div>`;
-  c.appendChild(el);
-}
-
-function renderPlaceholder(c, id) {
-  c.style.backgroundColor = "#fff";
-  const app = APPS.find(a => a.id === id);
-  const el = document.createElement("div");
-  el.className = "placeholder";
-  el.textContent = (app ? app.name : "此应用") + " 正在建设中。";
-  c.appendChild(el);
-}
-
-renderApps();
+    item.innerHTML = `<div class="chat-
