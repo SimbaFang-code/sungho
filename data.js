@@ -1,16 +1,14 @@
 const APPS = [
-  { id: "kakao", name: "KakaoTalk", glyph: "💬", color: "#fee500", text: "#3c1e1e" },
-  { id: "instagram", name: "Instagram", glyph: "📷", color: "#e1306c", text: "#fff" },
-  { id: "photos", name: "相册", glyph: "🖼️", color: "#ff9500", text: "#fff" },
-  { id: "calendar", name: "日历", glyph: "📅", color: "#ff3b30", text: "#fff" },
-  { id: "memo", name: "备忘录", glyph: "📝", color: "#ffcc00", text: "#3c1e1e" },
-  { id: "map", name: "校园地图", glyph: "🗺️", color: "#34c759", text: "#fff" },
-  { id: "clock", name: "时钟", glyph: "🕐", color: "#1c1c1e", text: "#fff" },
-  { id: "weather", name: "天气", glyph: "☀️", color: "#5ac8fa", text: "#fff" },
-  { id: "x", name: "X", glyph: "✕", color: "#000", text: "#fff" },
-  { id: "community", name: "校园社区", glyph: "🏫", color: "#5856d6", text: "#fff" },
-  { id: "phone", name: "电话", glyph: "📞", color: "#34c759", text: "#fff" },
-  { id: "settings", name: "设置", glyph: "⚙️", color: "#8e8e93", text: "#fff" }
+  { id: "kakao", name: "KakaoTalk", color: "#fee500", icon: "https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" },
+  { id: "instagram", name: "Instagram", color: "#fff", icon: "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" },
+  { id: "photos", name: "相册", color: "#fff", icon: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/8e1f2b743368e1cb05765b62a2b3b9c5.png" },
+  { id: "calendar", name: "日历", color: "#fff", icon: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/5cc3c9c84e4e22c1282e6e97a1a8c6c0.png" },
+  { id: "memo", name: "备忘录", color: "#fff", icon: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/e1c3e8c14c8a30f81b581f351b717f7d.png" },
+  { id: "map", name: "地图", color: "#fff", icon: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/4d188f386c10c22cc12963806a36e2f8.png" },
+  { id: "clock", name: "时钟", color: "#000", icon: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/5baf6089c71b23f04f7a2f7e7e9b49be.png" },
+  { id: "weather", name: "天气", color: "#5ac8fa", icon: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/8e1f2b743368e1cb05765b62a2b3b9c5.png" },
+  { id: "settings", name: "设置", color: "#8e8e93", icon: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/b3c7780ed4edfbd0cb2a3555d50d09c7.png" },
+  { id: "phone", name: "电话", color: "#34c759", icon: "https://help.apple.com/assets/63D35D3B2B79E30E5F0B4510/en_US/7cfe74b2eb8e5153d59a4d3b271bb2f2.png" }
 ];
 
 const CHATS = {
@@ -25,13 +23,69 @@ const CHATS = {
     replies: [
       { text: "找到了！谢谢你学长", next: [
         { from: "them", text: "不客气。对了，周五晚上我们有个聚餐，你要一起来吗？" }
+      ]},
+      { text: "好呀，那我去凑个热闹", require: "groupDone", next: [
+        { from: "them", text: "嗯，那聚餐见。别紧张。" },
+        { type: "time", text: "周五 21:30 (聚餐后)" },
+        { from: "them", text: "今晚云鹤一直找你说话，他是不是有点太热情了？" },
+        { from: "me", text: "哈哈，云鹤真的很活泼，还一直给我夹肉。" },
+        { from: "them", text: "……" },
+        { from: "them", text: "早知道我就不让他坐你旁边了。" },
+        { from: "me", text: "诶？学长这是吃醋了吗？" },
+        { from: "them", text: "没有。只是觉得你刚来，怕你不习惯。" },
+        { from: "them", text: "（过了好一会）其实，是有一点。" },
+        { from: "them", text: "刚才看你回消息好慢，是不是在和他们聊天？" },
+        { from: "me", text: "没有啦，我在看学长的IG动态。" },
+        { from: "them", text: "那个咖啡照片吗？" },
+        { from: "me", text: "嗯，看起来很好喝。" },
+        { from: "them", text: "那家店就在音乐楼旁边。明天下午没课的话，要不要去？我请你。" },
+        { from: "them", text: "只有我们两个。" }
+      ]},
+      { text: "好呀，明天见", require: "dateAccepted", next: [
+        { type: "time", text: "周六 15:00" },
+        { from: "them", text: "我到了。你从宿舍出来没？" },
+        { from: "me", text: "马上马上！" },
+        { from: "them", text: "不急，我在门口等你。今天风有点大，记得穿件外套。" }
+      ]}
+    ]
+  },
+  yujin: {
+    name: "崔裕真 (同级)", avatar: "裕", color: "#ff9500",
+    messages: [
+      { type: "time", text: "晚上 20:00" },
+      { from: "them", text: "天呐，你认识大三那几个帅哥？特别是那个朴成淏！" }
+    ],
+    replies: [
+      { text: "没有啦，就是迎新认识的", next: [
+        { from: "them", text: "女生的直觉告诉我，他绝对对你有意思！" },
+        { from: "them", text: "你看群里那个云鹤，一看就是个直男，就想和你搭话。" },
+        { from: "them", text: "不过成淏学长那种沉稳型的，吃起醋来一定很可怕哈哈哈哈。" },
+        { from: "me", text: "你别瞎说啦！" }
+      ]}
+    ]
+  },
+  woonhak: {
+    name: "金云鹤", avatar: "云", color: "#bf5af2",
+    messages: [
+      { type: "time", text: "周五 22:00" },
+      { from: "them", text: "学妹！今晚聚餐开心吗！我推荐的炸猪排不错吧！" }
+    ],
+    replies: [
+      { text: "超级好吃！谢谢云鹤学长", next: [
+        { from: "them", text: "嘿嘿，下次我再带你去吃更好吃的！" },
+        { from: "them", text: "对了，成淏哥刚才跟我说话，感觉语气有点酸酸的，他怎么了？" },
+        { from: "me", text: "我也不知道耶……" },
+        { from: "them", text: "不管他！学妹你明天有空吗？要不要去看社团招新！" },
+        { from: "me", text: "我明天好像有点事，下次吧。" }
       ]}
     ]
   },
   jaehyun: {
     name: "明宰铉", avatar: "宰", color: "#ff375f",
-    messages: [{ type: "time", text: "下午 14:00" }, { from: "them", text: "学妹好呀！我是明宰铉，成淏那个闷葫芦居然会主动带学妹！" }],
-    replies: [{ text: "宰铉学长好", next: [{ from: "them", text: "哈哈，周五聚餐一定要来哦！" }] }]
+    messages: [{ type: "time", text: "下午 14:00" }, { from: "them", text: "学妹好呀！周五聚餐一定要来哦！" }],
+    replies: [
+      { text: "好呀，一定去", next: [{ from: "them", text: "成淏可是难得带人来，我们得好好把把关！" }] }
+    ]
   },
   group: {
     name: "延世街六人组", avatar: "群", color: "#8e8e93",
@@ -41,50 +95,34 @@ const CHATS = {
       { from: "them", sender: "金云鹤", text: "学妹学妹！我是云鹤，周五我请你吃炸猪排！" },
       { from: "them", sender: "朴成淏", text: "别吓到人家。" }
     ],
-    replies: [{ text: "好呀，谢谢大家！", isGroupDone: true, next: [{ from: "them", sender: "韩泰山", text: "那周五见。" }] }]
+    replies: [
+      { text: "好呀，谢谢大家！", isGroupDone: true, next: [
+        { from: "them", sender: "韩泰山", text: "那周五见。" },
+        { type: "time", text: "周五 22:30" },
+        { from: "them", sender: "金云鹤", text: "今晚学妹超级可爱！" },
+        { from: "them", sender: "朴成淏", text: "……" },
+        { from: "them", sender: "明宰铉", text: "成淏怎么不说话了？" },
+        { from: "them", sender: "李常赫", text: "他可能吃醋了。" }
+      ]}
+    ]
   },
-  riwoo: {
-    name: "李常赫", avatar: "常", color: "#30d158",
-    messages: [{ type: "time", text: "下午 15:00" }, { from: "them", text: "我是李常赫。听说成淏带你认识了大家。" }],
-    replies: [{ text: "常赫学长好！", next: [{ from: "them", text: "嗯，他人挺好的。舞蹈社开放练习的话可以来看看。" }] }]
-  },
-  taesan: {
-    name: "韩泰山", avatar: "泰", color: "#5e5ce6",
-    messages: [{ type: "time", text: "下午 15:10" }, { from: "them", text: "我是泰山。刚才在群里听宰铉说了。" }],
-    replies: [{ text: "泰山学长好", next: [{ from: "them", text: "嗯，有空可以来音乐楼听我写的新歌。" }] }]
-  },
-  leehan: {
-    name: "金桐儇", avatar: "桐", color: "#64d2ff",
-    messages: [{ type: "time", text: "下午 15:20" }, { from: "them", text: "我是桐儇。欢迎来到西凛大。" }],
-    replies: [{ text: "桐儇学长好", next: [{ from: "them", text: "图书馆三楼靠窗位置光线很好，推荐给你。" }] }]
-  },
-  woonhak: {
-    name: "金云鹤", avatar: "云", color: "#bf5af2",
-    messages: [{ type: "time", text: "下午 15:30" }, { from: "them", text: "学妹！食堂炸猪排真的超好吃！！" }],
-    replies: [{ text: "好，我中午去尝尝", next: [{ from: "them", text: "记得叫上成淏哥，他老不吃饭！" }] }]
-  },
-  yujin: {
-    name: "崔裕真 (同级)", avatar: "裕", color: "#ff9500",
-    messages: [{ type: "time", text: "晚上 18:00" }, { from: "them", text: "天呐，你认识大三那几个帅哥？特别是那个朴成淏，好像对你很特殊哦！" }],
-    replies: [{ text: "没有啦，只是刚认识的学长", next: [{ from: "them", text: "相信我女生的直觉，他绝对对你有意思！" }] }]
-  }
+  riwoo: { name: "李常赫", avatar: "常", color: "#30d158", messages: [{ type: "time", text: "昨天" }, { from: "them", text: "舞蹈社这周有开放练习。" }], replies: [] },
+  taesan: { name: "韩泰山", avatar: "泰", color: "#5e5ce6", messages: [{ type: "time", text: "昨天" }, { from: "them", text: "新歌 demo 发在 IG 了，有空听。" }], replies: [] },
+  leehan: { name: "金桐儇", avatar: "桐", color: "#64d2ff", messages: [{ type: "time", text: "昨天" }, { from: "them", text: "图书馆三楼靠窗位置很好。" }], replies: [] }
 };
 
 const MEMOS = [
-  { title: "选课笔记", body: "周一上午有经营学，记得带计算器。\n周三去图书馆借两本全英教材。" },
-  { title: "待办事项", body: "· 周五晚上参加六人聚餐" },
-  { title: "剧情提示 (密码: 0530)", isLocked: true, body: "【剧本杀探索指南】\n\n1. 目前主线卡在：需要在群里回复大家。\n2. 聚会需要在 【校园地图】 点击『老地方烤肉店』打卡，后续聊天才会触发。\n3. 暧昧期如果不知道怎么推进，记得去翻看成淏的 Instagram 动态。" }
+  { title: "选课笔记", body: "周一上午有经营学。\n周三去图书馆。" },
+  { title: "剧情提示 (密码: 0530)", isLocked: true, body: "【剧本杀指南】\n\n1. 主线推进：去群聊回复大家，然后回成淏私聊。\n2. 待解锁：成淏约你明天去咖啡店（需在 IG 确认他的动态，或在私聊中答应）。\n3. 八卦：看看同级好友裕真怎么说。" }
 ];
 
-// 用于地图打卡联动
 const MAP_PLACES = [
   { id: "student_hall", name: "学生会馆", desc: "迎新活动地。" },
-  { id: "restaurant", name: "老地方烤肉店", desc: "聚餐定在这里。 (点击打卡)" }
+  { id: "restaurant", name: "老地方烤肉店", desc: "聚餐定在这里。" },
+  { id: "cafe", name: "音乐楼旁咖啡店", desc: "成淏推荐的店。" }
 ];
 
-// 高仿 Instagram 数据
 const INSTAGRAM_FEED = [
-  { user: "sungho_", avatar: "成", img: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600", caption: "coffee." },
-  { user: "taesan_music", avatar: "泰", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=600", caption: "新demo." },
-  { user: "jaehyun_m", avatar: "宰", img: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=600", caption: "周五聚餐！" }
+  { id: "post_1", user: "taesan_music", avatar: "泰", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=600", caption: "新demo. 快来听。" },
+  { id: "post_2", user: "sungho_", avatar: "成", img: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600", caption: "coffee. 明天下午会再来。" }
 ];
