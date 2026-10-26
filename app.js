@@ -3,58 +3,34 @@ let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
 
-// 1. 最直接的解锁逻辑：直接点文字就解锁
-function unlockPhone() {
+// 全局解锁函数，直接绑定在 HTML 上
+window.unlockPhone = function() {
   const lockScreen = document.getElementById("lock-screen");
   const mainUI = document.getElementById("main-ui");
   if (lockScreen && mainUI) {
     lockScreen.classList.add("hidden");
     mainUI.classList.remove("hidden");
-    // 延迟1秒弹出成淏的消息
-    setTimeout(() => showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho"), 1000);
+    // 1秒后弹窗
+    setTimeout(() => {
+      if (typeof showNotification === 'function') {
+        showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho");
+      }
+    }, 1000);
   }
 }
 
-// 绑定点击事件（确保页面加载后执行）
-window.addEventListener("DOMContentLoaded", () => {
-  const prompt = document.getElementById("lock-prompt");
-  if (prompt) {
-    prompt.onclick = unlockPhone;
-  }
-});
-
-// 2. 时间更新
+// 时间更新
 function updateClock() {
   const now = new Date();
   const timeStr = now.getHours().toString().padStart(2, "0") + ":" + now.getMinutes().toString().padStart(2, "0");
   if(document.getElementById("clock")) document.getElementById("clock").textContent = timeStr;
-  if(document.getElementById("lock-clock")) document.getElementById("lock-clock").textContent = timeStr;
 }
 setInterval(updateClock, 1000); updateClock();
 
-// 3. 通知弹窗
-function showNotification(title, body, appId, chatId) {
-  const notif = document.getElementById("ios-notification");
-  notif.querySelector("#notif-title-text").innerText = title;
-  notif.querySelector("#notif-body-text").innerText = body;
-  notif.classList.add("show");
-  
-  notif.onclick = () => {
-    notif.classList.remove("show");
-    openApp(appId, "KakaoTalk");
-    if(chatId) {
-        currentChat = chatId;
-        document.getElementById("app-content").classList.add("no-padding");
-        renderAppContent("kakao");
-    }
-  };
-  setTimeout(() => { notif.classList.remove("show"); }, 5000);
-}
-
-// 4. 渲染桌面（绝对不白屏）
+// 渲染图标
 function renderApps() {
   const grid = document.getElementById("app-grid"); 
-  if (!grid) return; // 防止报错
+  if (!grid) return; 
   
   grid.innerHTML = "";
   const dockApps = ["phone", "map", "kakao", "instagram"];
@@ -94,7 +70,6 @@ function renderApps() {
   }
 }
 
-// 5. 打开 App
 function openApp(id, name) {
   document.getElementById("home").classList.remove("active");
   document.getElementById("app-view").classList.add("active");
@@ -139,7 +114,26 @@ function renderAppContent(id) {
   else c.innerHTML = "<div style='text-align:center;padding:50px;color:#999;'>功能接入中</div>";
 }
 
-// ================= KKT 逐句聊天 =================
+// 弹窗通知
+function showNotification(title, body, appId, chatId) {
+  const notif = document.getElementById("ios-notification");
+  notif.querySelector("#notif-title-text").innerText = title;
+  notif.querySelector("#notif-body-text").innerText = body;
+  notif.classList.add("show");
+  
+  notif.onclick = () => {
+    notif.classList.remove("show");
+    openApp(appId, "KakaoTalk");
+    if(chatId) {
+        currentChat = chatId;
+        document.getElementById("app-content").classList.add("no-padding");
+        renderAppContent("kakao");
+    }
+  };
+  setTimeout(() => { notif.classList.remove("show"); }, 5000);
+}
+
+// ================= KKT 聊天 =================
 function renderKakao(c) {
   if (currentChat) {
     const chat = CHATS[currentChat];
@@ -318,9 +312,15 @@ function renderMap(c) {
         btn.style.background = "#ccc";
         btn.disabled = true;
 
+        // 触发成淏的约会后私信（推进剧情！）
         if (place.id === "p2") {
            setTimeout(() => {
              showNotification("KakaoTalk", "朴成淏：刚刚的水，谢谢。", "kakao", "sungho");
+             // 动态加入一段后续聊天记录
+             CHATS.sungho.story.unshift({ 
+                me: "学长客气啦，应该的", 
+                them: "明天下午有空吗？我请你喝咖啡，就当回礼。" 
+             });
            }, 2000);
         } else if (gameState.dateCount === 10) {
            setTimeout(() => alert("【系统提示】你们已经很熟悉了，去 KakaoTalk 看看吧！"), 1500);
@@ -405,5 +405,7 @@ window.likePost = function(postId) {
   }
 }
 
-// 最后启动
-renderApps();
+// 启动！
+document.addEventListener("DOMContentLoaded", () => {
+  renderApps();
+});
