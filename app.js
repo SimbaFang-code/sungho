@@ -14,8 +14,7 @@ var APPS = [
 // --- 完整故事线的背景聊天记录 ---
 var CHATS = {
   sungho: { 
-    name: "朴成淏", avatar: "成", color: "#ff9f0a", time: "刚刚", preview: "明天见。",
-    // 这里的 history 是开局就有的聊天记录
+    name: "朴成淏", avatarClass: "avatar-sh", color: "#ff9f0a", time: "刚刚", preview: "明天见。",
     history: [
       { type: "time", text: "9月2日 迎新日" },
       { from: "them", text: "你好，请问是来参加迎新的新生吗？" },
@@ -39,7 +38,7 @@ var CHATS = {
     ]
   },
   riwoo: { 
-    name: "李常赫", avatar: "常", color: "#30d158", time: "昨天", preview: "到时候见。",
+    name: "李常赫", avatarClass: "avatar-rw", color: "#30d158", time: "昨天", preview: "到时候见。",
     history: [
       { type: "time", text: "9月10日" },
       { from: "them", text: "我是李常赫。听说成淏带你来舞蹈室了。" },
@@ -52,7 +51,7 @@ var CHATS = {
     story: []
   },
   jaehyun: { 
-    name: "明宰铉", avatar: "宰", color: "#ff375f", time: "昨天", preview: "成淏可是难得带人来！",
+    name: "明宰铉", avatarClass: "avatar-jh", color: "#ff375f", time: "昨天", preview: "成淏可是难得带人来！",
     history: [
       { type: "time", text: "9月12日" },
       { from: "them", text: "学妹好呀！我是传媒系的明宰铉！" },
@@ -65,7 +64,7 @@ var CHATS = {
     story: []
   },
   taesan: { 
-    name: "韩泰山", avatar: "泰", color: "#5e5ce6", time: "昨天", preview: "新歌发了。",
+    name: "韩泰山", avatarClass: "avatar-ts", color: "#5e5ce6", time: "昨天", preview: "新歌发了。",
     history: [
       { type: "time", text: "9月20日" },
       { from: "them", text: "我是韩泰山。" },
@@ -77,7 +76,7 @@ var CHATS = {
     story: []
   },
   leehan: { 
-    name: "金桐儇", avatar: "桐", color: "#64d2ff", time: "昨天", preview: "图书馆见。",
+    name: "金桐儇", avatarClass: "avatar-lh", color: "#64d2ff", time: "昨天", preview: "图书馆见。",
     history: [
       { type: "time", text: "10月1日" },
       { from: "them", text: "你好，我是金桐儇。" },
@@ -89,7 +88,7 @@ var CHATS = {
     story: []
   },
   woonhak: { 
-    name: "金云鹤", avatar: "云", color: "#bf5af2", time: "昨天", preview: "学妹好！",
+    name: "金云鹤", avatarClass: "avatar-wh", color: "#bf5af2", time: "昨天", preview: "学妹好！",
     history: [
       { type: "time", text: "9月5日" },
       { from: "them", text: "学妹好！我是云鹤！" },
@@ -102,7 +101,7 @@ var CHATS = {
     story: []
   },
   group: {
-    name: "6+1小分队", avatar: "群", color: "#8e8e93", time: "下午 14:30", preview: "朴成淏：我带学妹来。",
+    name: "6+1小分队", avatarClass: "avatar-group", color: "#8e8e93", time: "下午 14:30", preview: "朴成淏：我带学妹来。",
     history: [
       { type: "time", text: "今天 14:30" },
       { from: "them", sender: "明宰铉", text: "各位！这周五晚上聚餐，老地方！" },
@@ -231,7 +230,7 @@ function renderKakao(c) {
       
       var avatarHTML = "";
       if (m.from === "them") {
-         avatarHTML = '<div class="msg-avatar" style="background:' + chat.color + '">' + chat.avatar + '</div>';
+         avatarHTML = '<div class="msg-avatar ' + chat.avatarClass + '" style="background-color:' + chat.color + '"></div>';
       }
 
       var contentHTML = '<div class="msg-content">';
@@ -281,7 +280,7 @@ function renderKakao(c) {
     // ---------------------------
 
     item.innerHTML = 
-      '<div class="chat-avatar" style="background:' + chat.color + '">' + chat.avatar + '</div>' +
+      '<div class="chat-avatar ' + chat.avatarClass + '" style="background-color:' + chat.color + '"></div>'
       '<div class="chat-info">' +
         '<div class="chat-header-row">' +
           '<div class="chat-name">' + chat.name + '</div>' +

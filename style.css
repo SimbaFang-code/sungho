@@ -119,3 +119,18 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 
 #home-indicator { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 15px; display: flex; align-items: flex-end; justify-content: center; z-index: 100; cursor: pointer; padding-bottom: 5px; }
 #home-indicator::after { content: ""; width: 134px; height: 5px; border-radius: 3px; background: #1c1c1e; opacity: 0.8; }
+/* 自定义 KKT 聊天头像 */
+.avatar-sh { background-image: url('images/sh.png'); }
+.avatar-rw { background-image: url('images/rw.png'); }
+.avatar-jh { background-image: url('images/jh.png'); }
+.avatar-ts { background-image: url('images/ts.png'); }
+.avatar-lh { background-image: url('images/lh.png'); }
+.avatar-wh { background-image: url('images/wh.png'); }
+.avatar-group { background-image: url('images/group.png'); }
+
+/* 让头像图片铺满并居中 */
+.chat-avatar, .msg-avatar {
+  background-size: cover;
+  background-position: center;
+  color: transparent; /* 隐藏掉原来的文字 */
+}
