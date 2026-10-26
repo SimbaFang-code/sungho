@@ -3,7 +3,7 @@ let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
 
-// 解锁
+// 终极解锁：监听整个屏幕
 document.addEventListener("click", function(e) {
   const lockScreen = document.getElementById("lock-screen");
   if (lockScreen && !lockScreen.classList.contains("hidden")) {
@@ -154,7 +154,7 @@ function renderKakao(c) {
 
     let isTyping = false; 
 
-    // 气泡渲染（群聊去掉了冒号，改为在气泡上方显示名字）
+    // 【修复了这里的报错】
     const renderMessages = () => {
       room.innerHTML = "";
       chat.messages.forEach(m => {
@@ -175,12 +175,11 @@ function renderKakao(c) {
     };
     renderMessages();
 
-    // 点击输入框：有剧情就弹选项，没剧情就正常打字
     inputEl.onclick = (e) => {
       e.preventDefault();
       if (isTyping) return; 
       if (chat.story && chat.story.length > 0) {
-        inputEl.blur(); // 禁止键盘
+        inputEl.blur(); 
         optionsContainer.innerHTML = "";
         const btn = document.createElement("div");
         btn.className = "reply-option";
@@ -189,8 +188,7 @@ function renderKakao(c) {
         optionsContainer.appendChild(btn);
         modal.classList.add("show");
       } else {
-        // 剧情走完了，允许自由输入（不弹选项）
-        inputEl.focus();
+        inputEl.focus(); // 没剧情了，允许自由打字
       }
     };
 
@@ -205,7 +203,6 @@ function renderKakao(c) {
       inputEl.value = "";
       renderMessages();
 
-      // 如果命中剧情节点
       if (chat.story && chat.story.length > 0 && chat.story[0].me === text) {
         const currentStory = chat.story.shift();
         isTyping = true; 
@@ -221,9 +218,6 @@ function renderKakao(c) {
           isTyping = false;
           inputEl.placeholder = "发送消息...";
         }, 1500);
-      } else {
-        // 自由输入的内容，对方不回复，只是发出去
-        // 可选：稍微加个已读提示
       }
     };
     return;
@@ -236,7 +230,6 @@ function renderKakao(c) {
     const msgs = chat.messages.filter(m => m.type !== 'time');
     const lastMsg = msgs[msgs.length - 1] || { text: "" };
     
-    // 列表预览如果带名字，为了美观可以保留名字，但聊天室内绝不带冒号
     let previewText = lastMsg.text;
     if (lastMsg.sender) previewText = lastMsg.sender + "：" + lastMsg.text;
     
