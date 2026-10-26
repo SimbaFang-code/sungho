@@ -11,6 +11,12 @@ var APPS = [
   { id: "x", name: "X", iconClass: "icon-x" }
 ];
 
+var MEMOS = [
+  { id: "m1", title: "选课笔记", date: "今天 09:00", content: "周一上午有经营学，记得带计算器。\n周三去图书馆借两本全英教材。" },
+  { id: "m2", title: "课堂作业", date: "昨天 14:00", content: "经营学小组作业：周五前交，记得拉群讨论。\n传媒学：写一篇关于校园媒体的报告。" },
+  { id: "m3", title: "绝密剧情提示", date: "现在", isLocked: true, content: "【剧本杀防卡关指南】\n\n1. 线下事件：需要去地图上点击各个地点触发（例如烤肉店、篮球场）。\n2. 聊天记录：和成淏聊天时，点击输入框会弹出剧情选项。\n3. IG联动：去 Instagram 给成淏点赞，会触发他的私信！" }
+];
+
 var CHATS = {
   sungho: { 
     name: "朴成淏", avatarClass: "avatar-sh", color: "#ff9f0a", time: "刚刚", preview: "明天见。",
@@ -121,7 +127,9 @@ var CHATS = {
       { from: "them", sender: "朴成淏", text: "我带学妹来。" },
       { from: "them", sender: "明宰铉", text: "？！成淏你居然会主动带人！" }
     ],
-    story: []
+    story: [
+      { me: "学长们好！请多指教！", them: "欢迎欢迎！", sender: "明宰铉" }
+    ]
   }
 };
 
@@ -209,6 +217,8 @@ var MAP_PLACES = [
 ];
 
 var currentChat = null;
+var currentMemo = null;
+var gameState = { memoUnlocked: false, likedSunghoPost: false };
 
 function updateClock() {
   var now = new Date();
@@ -267,6 +277,10 @@ function openApp(id, name) {
     renderKakao(c);
   } else if (id === "map") {
     renderMap(c);
+  } else if (id === "memo") {
+    renderMemo(c);
+  } else if (id === "instagram") {
+    renderInstagram(c);
   }
   c.scrollTop = 0;
 }
@@ -277,12 +291,16 @@ function goHome() {
   var dock = document.querySelector(".dock");
   if(dock) dock.classList.remove("hidden-dock");
   currentChat = null;
+  currentMemo = null;
 }
 
 function goBack() { 
   if (currentChat) {
     currentChat = null;
     openApp("kakao", "KakaoTalk");
+  } else if (currentMemo) {
+    currentMemo = null;
+    openApp("memo", "备忘录");
   } else {
     goHome(); 
   }
@@ -494,29 +512,49 @@ function renderMap(c) {
   });
 }
 
-var notifTimeout = null;
-function showNotification(text, chatId, speakerName) {
-  var notif = document.getElementById("ios-notification");
-  var body = document.getElementById("notif-body-text");
-  body.innerText = (speakerName || "朴成淏") + "：" + text;
+function renderMemo(c) {
+  c.style.backgroundColor = "#fff";
+  document.getElementById("app-title").textContent = "备忘录";
   
-  notif.classList.add("show");
-  notif.setAttribute("data-chatid", chatId); 
-  
-  if (notifTimeout) clearTimeout(notifTimeout);
-  notifTimeout = setTimeout(function() {
-    notif.classList.remove("show");
-  }, 3000);
-}
-
-function goToChat() {
-  var notif = document.getElementById("ios-notification");
-  var chatId = notif.getAttribute("data-chatid");
-  notif.classList.remove("show");
-  if (chatId) {
-    currentChat = chatId;
-    openApp("kakao", "KakaoTalk");
+  if (currentMemo) {
+    var note = MEMOS.find(function(m) { return m.id === currentMemo; });
+    if (note.isLocked && !gameState.memoUnlocked) {
+       c.innerHTML = '<div class="memo-lock-screen"><h3>此备忘录已锁定</h3><p style="color:#888; font-size:13px; margin-top:8px;">请输入四位密码</p><input type="password" id="memo-pass" class="memo-input" maxlength="4" placeholder="****"><br><button onclick="checkMemoPass()" style="margin-top:20px; padding:10px 20px; background:#ffcc00; border:none; border-radius:10px; font-weight:bold;">解锁</button></div>';
+       return;
+    }
+    c.innerHTML = '<div class="memo-detail"><h1>' + note.title + '</h1><p style="color:#888; font-size:12px; margin-bottom:20px;">' + note.date + '</p><p>' + note.content + '</p></div>';
+    return;
   }
+
+  c.innerHTML = '<div style="padding:16px; font-size:24px; font-weight:bold; border-bottom:1px solid #eee;">文件夹: 我的备忘录</div>';
+  MEMOS.forEach(function(m) {
+    var el = document.createElement("div");
+    el.className = "memo-list-item";
+    el.innerHTML = '<div class="memo-list-title">' + m.title + '</div><div class="memo-list-date">' + m.date + '</div>';
+    el.onclick = function() { currentMemo = m.id; openApp("memo", "备忘录"); };
+    c.appendChild(el);
+  });
 }
 
-renderApps();
+function checkMemoPass() {
+  var val = document.getElementById("memo-pass").value;
+  if (val === "0904") { gameState.memoUnlocked = true; openApp("memo", "备忘录"); } 
+  else { alert("密码错误"); }
+}
+
+function renderInstagram(c) {
+  c.style.padding = "0"; c.style.backgroundColor = "#fff";
+  c.innerHTML = 
+    '<div class="ig-header"><div class="ig-logo">Instagram</div><div>❤️ ✉️</div></div>' +
+    '<div id="ig-feed"></div>';
+  
+  var feed = document.getElementById("ig-feed");
+  var post = { id: "post_2", user: "sungho_", avatar: "成", img: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600", caption: "coffee." };
+  
+  var postEl = document.createElement("div");
+  postEl.className = "ig-feed-post";
+  postEl.innerHTML = 
+    '<div class="ig-feed-header"><div class="chat-avatar" style="width:32px;height:32px;font-size:12px;background:#ff9f0a;">' + post.avatar + '</div><strong>' + post.user + '</strong></div>' +
+    '<div class="ig-feed-img" style="background-image:url(\'' + post.img + '\');"></div>' +
+    '<div class="ig-feed-actions">' +
+      '<span class="ig-heart" id="heart
