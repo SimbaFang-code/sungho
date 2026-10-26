@@ -103,19 +103,21 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .ig-heart.liked { color: #ed4956; transform: scale(1.1); }
 .ig-feed-caption { padding: 0 10px 10px; font-size: 14px; }
 
-.map-container { width: 100%; height: 100%; background-color: #f0f4f8; background-image: linear-gradient(#d0d7e0 1px, transparent 1px), linear-gradient(90deg, #d0d7e0 1px, transparent 1px); background-size: 40px 40px; position: relative; overflow: hidden; }
-.map-pin { position: absolute; transform: translate(-50%, -100%); cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s;}
-.map-pin:active { transform: translate(-50%, -100%) scale(1.1); }
-.map-pin .pin-icon { width: 24px; height: 24px; background: #007aff; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-.map-pin .pin-label { background: #fff; padding: 4px 10px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-top: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); white-space: nowrap; }
-.map-bottom-card { position: absolute; bottom: 20px; left: 10px; right: 10px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: translateY(150%); transition: transform 0.3s; z-index: 50;}
-.map-bottom-card.show { transform: translateY(0); }
-.map-btn { display: block; width: 100%; padding: 12px; background: #007aff; color: #fff; text-align: center; border-radius: 12px; font-weight: bold; margin-top: 15px; cursor: pointer; }
-.map-choice-modal { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 60; display: none; justify-content: center; align-items: center; padding: 20px; }
-.map-choice-modal.show { display: flex; }
-.map-choice-box { background: #fff; width: 100%; border-radius: 20px; padding: 20px; text-align: center; }
-.map-choice-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #1c1c1e; }
-.map-choice-btn { padding: 12px; background: #f2f2f7; border-radius: 12px; margin-bottom: 10px; font-size: 15px; font-weight: 500; cursor: pointer; border: 1px solid #e5e5ea; }
+var avatarHTML = "";
+      if (m.from === "them") {
+         var avClass = chat.avatarClass || '';
+         var avColor = chat.color;
+         // 如果是群聊，根据发送者名字匹配对应头像
+         if (currentChat === 'group') {
+             if (m.sender === "明宰铉") { avClass = "avatar-jh"; avColor = "#ff375f"; }
+             else if (m.sender === "金云鹤") { avClass = "avatar-wh"; avColor = "#bf5af2"; }
+             else if (m.sender === "朴成淏") { avClass = "avatar-sh"; avColor = "#ff9f0a"; }
+             else if (m.sender === "李常赫") { avClass = "avatar-rw"; avColor = "#30d158"; }
+             else if (m.sender === "韩泰山") { avClass = "avatar-ts"; avColor = "#5e5ce6"; }
+             else if (m.sender === "金桐儇") { avClass = "avatar-lh"; avColor = "#64d2ff"; }
+         }
+         avatarHTML = '<div class="msg-avatar ' + avClass + '" style="background-color:' + avColor + '"></div>';
+      }
 
 #home-indicator { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 15px; display: flex; align-items: flex-end; justify-content: center; z-index: 100; cursor: pointer; padding-bottom: 5px; }
 #home-indicator::after { content: ""; width: 134px; height: 5px; border-radius: 3px; background: #1c1c1e; opacity: 0.8; }

@@ -32,9 +32,6 @@ var CHATS = {
       { from: "them", text: "在看点资料。早点休息吧，晚安。" },
       { type: "time", text: "今天 下午 16:00" },
       { from: "them", text: "宰铉在群里说周五聚餐，你看到了吗？" }
-    ],
-    story: [
-      { me: "看到啦，我一定会去的", them: "嗯，去吧，大家都很想见你。" }
     ]
   },
   riwoo: { 
@@ -47,8 +44,7 @@ var CHATS = {
       { type: "time", text: "昨天" },
       { from: "them", text: "舞蹈社这周有开放练习。" },
       { from: "me", text: "好！那到时候见。" }
-    ],
-    story: []
+    ]
   },
   jaehyun: { 
     name: "明宰铉", avatarClass: "avatar-jh", color: "#ff375f", time: "昨天", preview: "成淏可是难得带人来！",
@@ -60,8 +56,7 @@ var CHATS = {
       { type: "time", text: "昨天" },
       { from: "them", text: "学妹！周五聚餐一定要来啊！" },
       { from: "them", text: "成淏可是难得带人来，我们得好好把把关！" }
-    ],
-    story: []
+    ]
   },
   taesan: { 
     name: "韩泰山", avatarClass: "avatar-ts", color: "#5e5ce6", time: "昨天", preview: "新歌发了。",
@@ -72,8 +67,7 @@ var CHATS = {
       { from: "them", text: "还行。有灵感的话，可以来音乐楼找我。" },
       { type: "time", text: "昨天" },
       { from: "them", text: "新歌发了。" }
-    ],
-    story: []
+    ]
   },
   leehan: { 
     name: "金桐儇", avatarClass: "avatar-lh", color: "#64d2ff", time: "昨天", preview: "图书馆见。",
@@ -84,8 +78,7 @@ var CHATS = {
       { from: "me", text: "谢谢桐儇学长！我明天去看看。" },
       { type: "time", text: "昨天" },
       { from: "them", text: "图书馆见。" }
-    ],
-    story: []
+    ]
   },
   woonhak: { 
     name: "金云鹤", avatarClass: "avatar-wh", color: "#bf5af2", time: "昨天", preview: "学妹好！",
@@ -97,8 +90,7 @@ var CHATS = {
       { from: "them", text: "快去吧！记得叫上成淏哥，他老不按时吃饭。" },
       { type: "time", text: "昨天" },
       { from: "them", text: "学妹！有新开的甜品店，下次一起去啊！" }
-    ],
-    story: []
+    ]
   },
   group: {
     name: "6+1小分队", avatarClass: "avatar-group", color: "#8e8e93", time: "下午 14:30", preview: "朴成淏：我带学妹来。",
@@ -110,12 +102,69 @@ var CHATS = {
       { from: "them", sender: "金云鹤", text: "那不一样！" },
       { from: "them", sender: "朴成淏", text: "我带学妹来。" },
       { from: "them", sender: "明宰铉", text: "？！成淏你居然会主动带人！" }
-    ],
-    story: [
-      { me: "学长学姐们好，我是大一新生！", them: "欢迎欢迎！", sender: "明宰铉" }
     ]
   }
 };
+
+// --- 全新的地图地点与循环事件配置 ---
+var MAP_PLACES = [
+  { 
+    id: "p1", name: "中央图书馆", x: 25, y: 30, clickCount: 0,
+    events: [
+      { text: "你在书架旁遇到成淏，他正踮脚找一本高处的书。", choices: ["帮他拿下来", "假装没看见"], reply: "成淏接过书看着你："谢谢，你长得不高，但很可靠。"" },
+      { text: "成淏趴在桌上睡着了，旁边还有没写完的报告。", choices: ["给他披件外套", "叫醒他"], reply: "他醒来看到外套，眼神温柔："是你啊……陪我待会儿？"" },
+      { text: "你忘带笔记本了，正发愁。", choices: ["向他借", "去外面买"], reply: "成淏直接把本子推给你："用我的吧，我记了双份。"" }
+    ]
+  },
+  { 
+    id: "p2", name: "篮球场", x: 75, y: 20, clickCount: 0,
+    events: [
+      { text: "成淏刚打完一场比赛，满头大汗地坐在场边休息。", choices: ["跑过去给他送水", "站在远处看"], reply: "【KakaoTalk 弹窗】朴成淏：刚刚的水，谢谢。下次换我请你喝东西。" },
+      { text: "篮球滚到了你脚边，成淏跑过来捡。", choices: ["把球扔回给他", "抱在怀里逗他"], reply: "【KakaoTalk 弹窗】朴成淏：刚才故意不给我球是吧？下次见面我要捏你的脸。" },
+      { text: "比赛结束了，他正被一群女生围着。", choices: ["转身走开", "在操场门口等他"], reply: "【KakaoTalk 弹窗】朴成淏：刚才去哪了？我一转眼你就不见了，害我找了半天。" }
+    ]
+  },
+  { 
+    id: "p3", name: "音乐楼", x: 80, y: 65, clickCount: 0,
+    events: [
+      { text: "经过琴房，听到里面传出好听的吉他声，是成淏在弹。", choices: ["推门进去听", "在门外安静听完"], reply: "【KakaoTalk 弹窗】朴成淏：刚刚门外是你吧？进来啊，这首曲子刚写好。" },
+      { text: "成淏正在调试设备，看起来有点烦躁。", choices: ["递给他一瓶水", "找泰山来帮忙"], reply: "【KakaoTalk 弹窗】朴成淏：谢谢你的水，不过找泰山就算了，那家伙只会笑我。" },
+      { text: "社团招新，成淏坐在那里发传单。", choices: ["帮他一起发", "给他买杯咖啡"], reply: "【KakaoTalk 弹窗】朴成淏：咖啡很好喝。不过其实你站在旁边，比一百张传单都有用。" }
+    ]
+  },
+  { 
+    id: "p4", name: "学生会馆", x: 50, y: 45, clickCount: 0,
+    events: [
+      { text: "成淏在开会，你路过刚好和他对上视线。", choices: ["笑着打招呼", "装作没看见走开"], reply: "【KakaoTalk 弹窗】朴成淏：刚刚看到我装没看到是吧？开完会去找你，等着。" },
+      { text: "他在整理一堆厚重的文件，看起来很累。", choices: ["上去帮忙", "去买两杯热可可"], reply: "【KakaoTalk 弹窗】朴成淏：热可可很暖。不过最暖的是，你刚才一直在偷看我。" },
+      { text: "走廊上人很多，你差点被撞倒。", choices: ["抓住他的手臂", "自己站稳"], reply: "【KakaoTalk 弹窗】朴成淏：下次走路看着点。要是我不在，你摔倒了怎么办？" }
+    ]
+  },
+  { 
+    id: "p5", name: "食堂", x: 40, y: 80, clickCount: 0,
+    events: [
+      { text: "你在排队，前面刚好是成淏。", choices: ["拍他肩膀", "默默排着"], reply: "【KakaoTalk 弹窗】朴成淏：刚才拍我肩膀的时候，有没有觉得我背很宽？" },
+      { text: "只有他旁边有空位。", choices: ["坐过去", "去外面吃"], reply: "【KakaoTalk 弹窗】朴成淏：怎么去外面了？下次直接坐我旁边，我帮你占座。" },
+      { text: "你没带饭卡。", choices: ["找他借", "饿着肚子"], reply: "【KakaoTalk 弹窗】朴成淏：下次没带饭卡直接找我。你要是饿瘦了，我怎么跟叔叔阿姨交代？" }
+    ]
+  },
+  { 
+    id: "p6", name: "咖啡店", x: 20, y: 60, clickCount: 0,
+    events: [
+      { text: "成淏一个人在喝咖啡，看起来在发呆。", choices: ["坐过去", "给他发消息"], reply: "【KakaoTalk 弹窗】朴成淏：刚看到你了。过来啊，我想和你一起喝。" },
+      { text: "你在点单，他站在你后面。", choices: ["帮他买单", "AA制"], reply: "【KakaoTalk 弹窗】朴成淏：怎么偷偷帮我买单了？下次必须让我请回来。" },
+      { text: "下雨了，他站在店门口没带伞。", choices: ["走过去共伞", "把伞留给他"], reply: "【KakaoTalk 弹窗】朴成淏：你把伞给我了，自己淋湿了怎么办？" }
+    ]
+  },
+  { 
+    id: "p7", name: "银杏大道", x: 65, y: 80, clickCount: 0,
+    events: [
+      { text: "银杏叶落满一地，他在拍照。", choices: ["偷偷走进他镜头", "在旁边静静看"], reply: "【KakaoTalk 弹窗】朴成淏：刚才那张照片，拍到了你的背影。很好看。" },
+      { text: "他在长椅上看书。", choices: ["坐旁边", "扔个叶子逗他"], reply: "【KakaoTalk 弹窗】朴成淏：刚才用叶子砸我是不是？不乖啊。" },
+      { text: "冷风吹过，你打了一个喷嚏。", choices: ["抱怨天气", "缩缩脖子"], reply: "【KakaoTalk 弹窗】朴成淏：天冷了，下次出门记得多穿点。不然我会心疼。" }
+    ]
+  }
+];
 
 var currentChat = null;
 
@@ -174,6 +223,8 @@ function openApp(id, name) {
   
   if (id === "kakao") {
     renderKakao(c);
+  } else if (id === "map") {
+    renderMap(c);
   }
   c.scrollTop = 0;
 }
@@ -195,7 +246,7 @@ function goBack() {
   }
 }
 
-// ---------------- KKT 渲染（修复昵称与群聊头像） ----------------
+// ---------------- KKT 渲染 ----------------
 function renderKakao(c) {
   c.classList.add("no-padding");
   c.style.backgroundColor = "#fff";
@@ -205,7 +256,6 @@ function renderKakao(c) {
     var chat = CHATS[currentChat];
     document.getElementById("app-title").textContent = chat.name;
     
-    // 聊天室内页
     c.innerHTML = 
       '<div class="chat-room-wrapper">' +
         '<div class="chat-room" id="kkt-room"></div>' +
@@ -218,7 +268,6 @@ function renderKakao(c) {
 
     var room = document.getElementById("kkt-room");
     
-    // 渲染所有历史记录
     chat.history.forEach(function(m) {
       if (m.type === "time") {
         room.innerHTML += '<div class="time-divider"><span>' + m.text + '</span></div>';
@@ -229,13 +278,21 @@ function renderKakao(c) {
       row.className = "msg-row " + m.from;
       
       var avatarHTML = "";
-      // 无论是单聊还是群聊，只要对方发消息，就显示头像
       if (m.from === "them") {
-         avatarHTML = '<div class="msg-avatar ' + (chat.avatarClass || '') + '" style="background-color:' + chat.color + '"></div>';
+         var avClass = chat.avatarClass || '';
+         var avColor = chat.color;
+         if (currentChat === 'group') {
+             if (m.sender === "明宰铉") { avClass = "avatar-jh"; avColor = "#ff375f"; }
+             else if (m.sender === "金云鹤") { avClass = "avatar-wh"; avColor = "#bf5af2"; }
+             else if (m.sender === "朴成淏") { avClass = "avatar-sh"; avColor = "#ff9f0a"; }
+             else if (m.sender === "李常赫") { avClass = "avatar-rw"; avColor = "#30d158"; }
+             else if (m.sender === "韩泰山") { avClass = "avatar-ts"; avColor = "#5e5ce6"; }
+             else if (m.sender === "金桐儇") { avClass = "avatar-lh"; avColor = "#64d2ff"; }
+         }
+         avatarHTML = '<div class="msg-avatar ' + avClass + '" style="background-color:' + avColor + '"></div>';
       }
 
       var contentHTML = '<div class="msg-content">';
-      // 群聊中显示发送者名字
       if (m.sender) {
          contentHTML += '<div class="msg-sender">' + m.sender + '</div>';
       }
@@ -245,17 +302,15 @@ function renderKakao(c) {
       room.appendChild(row);
     });
 
-    // 滚动到底部
     setTimeout(function() { room.scrollTop = room.scrollHeight; }, 10);
 
-    // 发送逻辑（自由输入）
     document.getElementById("kkt-send").onclick = function() {
       var inputEl = document.getElementById("kkt-input");
       var text = inputEl.value.trim();
       if (!text) return;
       
       chat.history.push({ from: "me", text: text });
-      chat.preview = text; // 更新列表预览
+      chat.preview = text;
       inputEl.value = "";
       
       var row = document.createElement("div");
@@ -267,7 +322,6 @@ function renderKakao(c) {
     return;
   }
 
-  // ====== 通讯录列表页 ======
   c.innerHTML = '<div class="kkt-list-bg" id="kkt-list"></div>';
   var list = document.getElementById("kkt-list");
   
@@ -275,28 +329,84 @@ function renderKakao(c) {
     var chat = CHATS[key];
     var item = document.createElement("div"); item.className = "chat-list-item";
     
-    // 动态获取最后一条消息
     var lastMsg = chat.history[chat.history.length - 1];
     var previewText = lastMsg.text;
     if (lastMsg.sender) previewText = lastMsg.sender + "：" + lastMsg.text;
 
     item.innerHTML = 
-      // 列表头像
       '<div class="chat-avatar ' + (chat.avatarClass || '') + '" style="background-color:' + chat.color + '"></div>' +
       '<div class="chat-info">' +
         '<div class="chat-header-row">' +
-          // 这里就是补回来的【备注昵称】
           '<div class="chat-name">' + chat.name + '</div>' +
           '<div class="chat-time">刚刚</div>' +
         '</div>' +
         '<div class="chat-preview">' + previewText + '</div>' +
       '</div>';
-      
     item.onclick = function() { 
       currentChat = key; 
       openApp("kakao", "KakaoTalk"); 
     };
     list.appendChild(item);
+  });
+}
+
+// ---------------- 地图渲染 ----------------
+function renderMap(c) {
+  c.innerHTML = 
+    '<div class="map-container" id="map-container">' +
+      '<div id="map-pins"></div>' +
+      '<div id="map-choice-modal" class="map-choice-modal">' +
+        '<div class="map-choice-box">' +
+          '<div class="map-choice-title" id="map-event-text">事件描述</div>' +
+          '<div id="map-choice-options"></div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  
+  var pinsCont = document.getElementById("map-pins");
+  var choiceModal = document.getElementById("map-choice-modal");
+  var eventText = document.getElementById("map-event-text");
+  var choiceOptions = document.getElementById("map-choice-options");
+
+  MAP_PLACES.forEach(function(p) {
+    var pin = document.createElement("div");
+    pin.className = "map-pin";
+    pin.style.left = p.x + "%";
+    pin.style.top = p.y + "%";
+    pin.innerHTML = '<div class="pin-icon"></div><div class="pin-label">' + p.name + '</div>';
+    
+    pin.onclick = function(e) {
+      e.stopPropagation();
+      var currentEvent = p.events[p.clickCount % 3];
+      eventText.innerText = currentEvent.text;
+      choiceOptions.innerHTML = "";
+      
+      currentEvent.choices.forEach(function(choice, index) {
+        var btn = document.createElement("div");
+        btn.className = "map-choice-btn";
+        btn.innerText = choice;
+        btn.onclick = function() {
+          choiceModal.classList.remove("show");
+          if (index === 1) {
+             p.clickCount++; 
+             return;
+          }
+          if (currentEvent.reply) {
+             var replyText = currentEvent.reply.replace("【KakaoTalk 弹窗】朴成淏：", "");
+             CHATS.sungho.history.push({ type: "time", text: "刚刚" });
+             CHATS.sungho.history.push({ from: "them", text: replyText });
+             CHATS.sungho.preview = replyText;
+             setTimeout(function() {
+               alert("【KakaoTalk 新消息】朴成淏：" + replyText);
+             }, 300);
+          }
+          p.clickCount++;
+        };
+        choiceOptions.appendChild(btn);
+      });
+      choiceModal.classList.add("show");
+    };
+    pinsCont.appendChild(pin);
   });
 }
 
