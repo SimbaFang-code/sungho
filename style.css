@@ -3,20 +3,18 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 #phone { position: relative; width: 100%; height: 100%; background-color: #fdf2f5; background-image: radial-gradient(#f7cbd6 2px, transparent 2px); background-size: 25px 25px; display: flex; flex-direction: column; overflow: hidden; }
 @media (min-width: 600px) { body { display: flex; align-items: center; justify-content: center; background: #1c1c1e; } #phone { width: 390px; height: 844px; border-radius: 54px; border: 12px solid #1a1a1a; box-shadow: 0 30px 80px rgba(0,0,0,.8); } }
 
-/* 锁屏 */
-#lock-screen { position: absolute; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; color: #333; transition: transform .4s, opacity .4s; padding-top: 100px; background-color: #fdf2f5; background-image: radial-gradient(#f7cbd6 2px, transparent 2px); background-size: 25px 25px; }
+#lock-screen { position: absolute; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; color: #333; transition: transform .4s, opacity .4s; padding-top: 100px; background-color: #fdf2f5; background-image: radial-gradient(#f7cbd6 2px, transparent 2px); background-size: 25px 25px; cursor: pointer; }
 #lock-screen.hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
 .lock-time { font-size: 80px; font-weight: 300; letter-spacing: -2px; }
 .lock-date { font-size: 20px; font-weight: 500; margin-top: 5px; }
 .lock-bottom { position: absolute; bottom: 50px; }
-#lock-prompt { font-size: 15px; font-weight: 600; animation: pulse 1.5s infinite; cursor: pointer; }
+#lock-prompt { font-size: 15px; font-weight: 600; animation: pulse 1.5s infinite; }
 @keyframes pulse { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
 
-/* 主界面 */
 #main-ui { position: absolute; inset: 0; display: flex; flex-direction: column; transition: opacity .3s; }
 #main-ui.hidden { opacity: 0; pointer-events: none; }
 #statusbar { height: 48px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; color: #1c1c1e; font-size: 14px; font-weight: 600; flex-shrink: 0; padding-top: env(safe-area-inset-top); z-index: 50; }
-#island { width: 110px; height: 30px; background: #000; border-radius: 20px; position: absolute; left: 50%; transform: translateX(-50%); top: 8px; }
+.island { width: 110px; height: 30px; background: #000; border-radius: 20px; position: absolute; left: 50%; transform: translateX(-50%); top: 8px; }
 .status-right { display: flex; align-items: center; gap: 5px; }
 .signal-icon { width: 14px; height: 11px; position: relative; }
 .signal-icon span { position: absolute; bottom: 0; left: 0; width: 3px; background: #1c1c1e; border-radius: 1px; }
@@ -29,7 +27,6 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .page { position: absolute; inset: 0; overflow-y: auto; display: none; -webkit-overflow-scrolling: touch; }
 .page.active { display: block; }
 
-/* 桌面 */
 #home { padding: 10px 16px 100px; display: flex; flex-direction: column; }
 .widget-row { display: flex; gap: 15px; margin-bottom: 25px; }
 .widget { flex: 1; border-radius: 22px; padding: 15px; color: #fff; display: flex; flex-direction: column; justify-content: space-between; }
@@ -50,7 +47,7 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .dock .icon-label { display: none; }
 .dock .icon-box { width: 58px; height: 58px; }
 
-/* 极简稳定版图标 */
+/* 纯 CSS 图标 */
 .icon-calendar { flex-direction: column; background: #fff; color: #ff3b30; font-weight: 800; }
 .icon-calendar .m { font-size: 10px; } .icon-calendar .d { font-size: 24px; color: #000; }
 .icon-clock { background: #000; border-radius: 50%; border: 3px solid #555; }
@@ -66,6 +63,15 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .icon-settings::after { content: ""; width: 18px; height: 18px; border: 4px solid #999; border-radius: 50%; }
 .icon-phone { background: #34c759; border-radius: 14px; display: flex; justify-content: center; align-items: center; }
 .icon-phone::after { content: "📞"; font-size: 32px; }
+
+/* 完美复刻 KakaoTalk 和 Instagram 图标 */
+.icon-kakao { background: #fee500; position: relative; }
+.icon-kakao::after { content: ""; width: 34px; height: 28px; background: #3c1e1e; border-radius: 14px; position: absolute; bottom: 14px; }
+.icon-kakao::before { content: ""; position: absolute; width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 10px solid #3c1e1e; bottom: 6px; z-index: 2; }
+
+.icon-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%); }
+.icon-ig::after { content: ""; width: 32px; height: 32px; border: 3px solid #fff; border-radius: 10px; position: absolute; }
+.icon-ig::before { content: ""; width: 14px; height: 14px; border: 3px solid #fff; border-radius: 50%; position: absolute; z-index: 2; }
 
 /* App 页面 */
 #app-view { background: #f2f2f7; }
@@ -91,12 +97,11 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .time-divider { text-align: center; margin: 10px 0; }
 .time-divider span { background: rgba(0,0,0,0.1); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 12px; }
 
-/* 选项弹窗 */
+/* 弹窗与地图 */
 .reply-modal { position: absolute; bottom: 0; left: 0; right: 0; background: #fff; border-top-left-radius: 20px; border-top-right-radius: 20px; transform: translateY(100%); transition: transform 0.3s; z-index: 20; padding: 15px; }
 .reply-modal.show { transform: translateY(0); }
 .reply-option { padding: 12px; background: #f1f1f1; border-radius: 10px; margin-bottom: 8px; font-size: 14px; cursor: pointer; text-align: center; font-weight: 500; }
 
-/* 通知 */
 #ios-notification { position: absolute; top: -100px; left: 10px; right: 10px; z-index: 200; background: rgba(255,255,255,0.95); backdrop-filter: blur(25px); border-radius: 20px; padding: 12px; display: flex; gap: 12px; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); cursor: pointer; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 #ios-notification.show { top: 50px; }
 #ios-notification .app-icon-small { width: 40px; height: 40px; border-radius: 10px; }
@@ -116,10 +121,6 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 /* IG */
 .ig-header { display: flex; justify-content: space-between; padding: 10px 16px; background: #fff; border-bottom: 1px solid #dbdbdb; }
 .ig-logo { font-family: 'Billabong', cursive, sans-serif; font-size: 26px; font-weight: bold; }
-.ig-story-row { display: flex; gap: 15px; padding: 10px 16px; background: #fff; overflow-x: auto; border-bottom: 1px solid #dbdbdb; }
-.ig-story { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; }
-.ig-story-avatar { width: 60px; height: 60px; border-radius: 50%; background: #eee; border: 2px solid #f09433; padding: 2px; }
-.ig-story-avatar div { width: 100%; height: 100%; border-radius: 50%; }
 .ig-feed-post { background: #fff; margin-bottom: 10px; border-bottom: 1px solid #dbdbdb; }
 .ig-feed-header { display: flex; align-items: center; gap: 10px; padding: 10px; }
 .ig-feed-img { width: 100%; height: 300px; background: #eee; background-size: cover; background-position: center; }
@@ -128,14 +129,20 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .ig-heart.liked { color: #ed4956; transform: scale(1.1); }
 .ig-feed-caption { padding: 0 10px 10px; font-size: 14px; }
 
-/* 真实 Apple Map 地图 */
-.map-container { width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop') center/cover; position: relative; }
-.map-pin { position: absolute; transform: translate(-50%, -100%); cursor: pointer; display: flex; flex-direction: column; align-items: center; }
-.map-pin .pin-icon { width: 30px; height: 30px; background: #ff3b30; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-.map-pin .pin-label { background: #fff; padding: 4px 10px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-top: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); white-space: nowrap; }
-.map-bottom-card { position: absolute; bottom: 20px; left: 10px; right: 10px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: translateY(150%); transition: transform 0.3s; }
+/* 极简网格地图 */
+.map-container { width: 100%; height: 100%; background-color: #f0f4f8; background-image: linear-gradient(#d0d7e0 1px, transparent 1px), linear-gradient(90deg, #d0d7e0 1px, transparent 1px); background-size: 40px 40px; position: relative; overflow: hidden; }
+.map-pin { position: absolute; transform: translate(-50%, -100%); cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s;}
+.map-pin:active { transform: translate(-50%, -100%) scale(1.1); }
+.map-pin .pin-icon { width: 24px; height: 24px; background: #007aff; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+.map-pin .pin-label { background: #fff; padding: 4px 10px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-top: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); white-space: nowrap; }
+.map-bottom-card { position: absolute; bottom: 20px; left: 10px; right: 10px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: translateY(150%); transition: transform 0.3s; z-index: 50;}
 .map-bottom-card.show { transform: translateY(0); }
 .map-btn { display: block; width: 100%; padding: 12px; background: #007aff; color: #fff; text-align: center; border-radius: 12px; font-weight: bold; margin-top: 15px; cursor: pointer; }
+.map-choice-modal { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 60; display: none; justify-content: center; align-items: center; padding: 20px; }
+.map-choice-modal.show { display: flex; }
+.map-choice-box { background: #fff; width: 100%; border-radius: 20px; padding: 20px; text-align: center; }
+.map-choice-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #1c1c1e; }
+.map-choice-btn { padding: 12px; background: #f2f2f7; border-radius: 12px; margin-bottom: 10px; font-size: 15px; font-weight: 500; cursor: pointer; border: 1px solid #e5e5ea; }
 
 #home-indicator { position: absolute; bottom: 0; left: 0; right: 0; height: 34px; display: flex; align-items: center; justify-content: center; z-index: 100; pointer-events: none; }
 #home-indicator::after { content: ""; width: 134px; height: 5px; border-radius: 3px; background: #1c1c1e; opacity: 0.8; }

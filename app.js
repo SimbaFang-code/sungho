@@ -3,20 +3,13 @@ let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
 
-// 【终极解锁方案】：让整个手机屏幕都能点，绝对不卡死
+// 解锁
 document.addEventListener("click", function(e) {
   const lockScreen = document.getElementById("lock-screen");
-  // 只要锁屏没隐藏，点哪里都会解锁
   if (lockScreen && !lockScreen.classList.contains("hidden")) {
     lockScreen.classList.add("hidden");
     document.getElementById("main-ui").classList.remove("hidden");
-    
-    // 1秒后弹出成淏的微信
-    setTimeout(() => {
-      if (typeof showNotification === 'function') {
-        showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho");
-      }
-    }, 1000);
+    setTimeout(() => showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho"), 1000);
   }
 });
 
@@ -49,7 +42,6 @@ function showNotification(title, body, appId, chatId) {
 function renderApps() {
   const grid = document.getElementById("app-grid"); 
   if (!grid) return;
-  
   grid.innerHTML = "";
   const dockApps = ["phone", "map", "kakao", "instagram"];
   const mainApps = APPS.filter(app => !dockApps.includes(app.id));
@@ -94,7 +86,6 @@ function openApp(id, name) {
   document.getElementById("home").classList.remove("active");
   document.getElementById("app-view").classList.add("active");
   document.getElementById("app-title").textContent = name;
-  
   const dock = document.querySelector(".dock");
   if(dock) dock.classList.add("hidden-dock");
   
@@ -102,7 +93,6 @@ function openApp(id, name) {
   c.classList.remove("no-padding");
   if (id === "kakao" && currentChat) c.classList.add("no-padding");
   if (id === "map") c.classList.add("no-padding");
-  
   renderAppContent(id);
   c.scrollTop = 0;
 }
@@ -145,11 +135,11 @@ function renderKakao(c) {
       <div class="chat-room-wrapper">
         <div id="chat-room-container" class="chat-room"></div>
         <div style="display:flex; gap:8px; padding:10px; background:#fff; border-top:1px solid #ddd; flex-shrink:0;">
-          <input id="kakao-input" type="text" placeholder="点击输入回复..." style="flex:1; padding:10px 15px; border:none; background:#f1f1f1; border-radius:20px; font-size:14px; outline:none;">
+          <input id="kakao-input" type="text" placeholder="发送消息..." style="flex:1; padding:10px 15px; border:none; background:#f1f1f1; border-radius:20px; font-size:14px; outline:none;">
           <button id="kakao-send-btn" style="padding:0 15px; background:#fee500; color:#3c1e1e; border:none; border-radius:20px; font-weight:bold; cursor:pointer;">发送</button>
         </div>
         <div id="reply-modal" class="reply-modal">
-          <div style="font-size:12px; color:#8e8e93; margin-bottom:10px; text-align:center;">请选择回复</div>
+          <div style="font-size:12px; color:#8e8e93; margin-bottom:10px; text-align:center;">请选择剧情回复</div>
           <div id="reply-options-container"></div>
           <div style="text-align:center; margin-top:10px;"><span onclick="closeReplyModal()" style="color:#007aff; font-size:14px; cursor:pointer;">取消</span></div>
         </div>
@@ -164,24 +154,33 @@ function renderKakao(c) {
 
     let isTyping = false; 
 
+    // 气泡渲染（群聊去掉了冒号，改为在气泡上方显示名字）
     const renderMessages = () => {
       room.innerHTML = "";
       chat.messages.forEach(m => {
         if (m.type === "time") { room.innerHTML += `<div class="time-divider"><span>${m.text}</span></div>`; return; }
         const row = document.createElement("div"); row.className = "msg-row " + m.from;
-        row.innerHTML = m.sender 
-          ? `<div style="display:flex; flex-direction:column; align-items:flex-start;"><div class="msg-sender">${m.sender}</div><div class="bubble">${m.text}</div></div>`
-          : `<div class="bubble">${m.text}</div>`;
+        if (m.sender) {
+          row.innerHTML = `
+            <div style="display:flex; flex-direction:column; align-items:flex-start;">
+              <div class="msg-sender">${m.sender}</div>
+              <div class="bubble">${m.text}</div>
+            </div>`;
+        } else {
+          row.innerHTML = `<div class="bubble">${m.text}</div>`;
+        }
         room.appendChild(row);
       });
       setTimeout(() => { room.scrollTop = room.scrollHeight; }, 10);
     };
     renderMessages();
 
+    // 点击输入框：有剧情就弹选项，没剧情就正常打字
     inputEl.onclick = (e) => {
       e.preventDefault();
       if (isTyping) return; 
       if (chat.story && chat.story.length > 0) {
+        inputEl.blur(); // 禁止键盘
         optionsContainer.innerHTML = "";
         const btn = document.createElement("div");
         btn.className = "reply-option";
@@ -190,7 +189,8 @@ function renderKakao(c) {
         optionsContainer.appendChild(btn);
         modal.classList.add("show");
       } else {
-        inputEl.blur();
+        // 剧情走完了，允许自由输入（不弹选项）
+        inputEl.focus();
       }
     };
 
@@ -205,6 +205,7 @@ function renderKakao(c) {
       inputEl.value = "";
       renderMessages();
 
+      // 如果命中剧情节点
       if (chat.story && chat.story.length > 0 && chat.story[0].me === text) {
         const currentStory = chat.story.shift();
         isTyping = true; 
@@ -218,8 +219,11 @@ function renderKakao(c) {
           });
           renderMessages();
           isTyping = false;
-          inputEl.placeholder = "点击输入回复...";
+          inputEl.placeholder = "发送消息...";
         }, 1500);
+      } else {
+        // 自由输入的内容，对方不回复，只是发出去
+        // 可选：稍微加个已读提示
       }
     };
     return;
@@ -231,7 +235,12 @@ function renderKakao(c) {
     const item = document.createElement("div"); item.className = "chat-list-item";
     const msgs = chat.messages.filter(m => m.type !== 'time');
     const lastMsg = msgs[msgs.length - 1] || { text: "" };
-    item.innerHTML = `<div class="chat-avatar" style="background:${chat.color}">${chat.avatar}</div><div class="chat-info"><div class="chat-name">${chat.name}</div><div class="chat-preview">${lastMsg.sender ? lastMsg.sender+'：' : ''}${lastMsg.text}</div></div>`;
+    
+    // 列表预览如果带名字，为了美观可以保留名字，但聊天室内绝不带冒号
+    let previewText = lastMsg.text;
+    if (lastMsg.sender) previewText = lastMsg.sender + "：" + lastMsg.text;
+    
+    item.innerHTML = `<div class="chat-avatar" style="background:${chat.color}">${chat.avatar}</div><div class="chat-info"><div class="chat-name">${chat.name}</div><div class="chat-preview">${previewText}</div></div>`;
     item.onclick = () => { 
       currentChat = key; 
       document.getElementById("app-content").classList.add("no-padding");
