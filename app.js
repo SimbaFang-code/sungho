@@ -1,6 +1,7 @@
 let currentChat = null;
 let currentMemo = null;
-let gameState = { groupDone: false, dateAccepted: false, memoUnlocked: false, likedSunghoPost: false };
+let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
+let activePinId = null;
 
 function updateClock() {
   const now = new Date();
@@ -27,14 +28,6 @@ function showNotification(title, body, appId, chatId) {
   
   notif.onclick = () => {
     notif.classList.remove("show");
-    if (title.includes("成淏") && body.includes("动态")) {
-        CHATS.sungho.messages.push({ type: "time", text: "刚刚" });
-        CHATS.sungho.messages.push({ from: "them", text: "你看到我发的动态啦？明天要一起去吗？" });
-    } else if (title.includes("成淏") && body.includes("进来吧")) {
-        CHATS.sungho.messages.push({ type: "time", text: "刚刚" });
-        CHATS.sungho.messages.push({ from: "them", text: "我看到你了，进来吧。" });
-    }
-
     openApp(appId, "KakaoTalk");
     if(chatId) {
         currentChat = chatId;
@@ -52,14 +45,14 @@ function renderApps() {
   
   const createIconHTML = (app) => {
     if (app.customClass) {
-      if (app.id === "calendar") return `<div class="icon-box icon-calendar"><div class="icon-inner"><div class="month">OCT</div><div class="day">26</div></div></div>`;
-      if (app.id === "clock") return `<div class="icon-box icon-clock"><div class="clock-face"><div class="hand hour"></div><div class="hand minute"></div><div class="center"></div></div></div>`;
-      if (app.id === "memo") return `<div class="icon-box icon-notes"><div class="paper"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>`;
-      if (app.id === "photos") return `<div class="icon-box icon-photos"><div class="photo p1"></div><div class="photo p2"></div><div class="photo p3"></div><div class="photo p4"></div></div>`;
-      if (app.id === "map") return `<div class="icon-box icon-maps"><div class="pin"></div></div>`;
-      if (app.id === "weather") return `<div class="icon-box icon-weather"><div class="sun"></div><div class="cloud"></div></div>`;
-      if (app.id === "settings") return `<div class="icon-box icon-settings"><div class="gear"><div class="gear-inner"></div></div></div>`;
-      if (app.id === "phone") return `<div class="icon-box icon-phone"><div class="receiver"></div></div>`;
+      if (app.id === "calendar") return `<div class="icon-box icon-calendar"><div class="m">OCT</div><div class="d">26</div></div>`;
+      if (app.id === "clock") return `<div class="icon-box icon-clock"></div>`;
+      if (app.id === "memo") return `<div class="icon-box icon-notes"></div>`;
+      if (app.id === "photos") return `<div class="icon-box icon-photos"><div style="background:#ff9500"></div><div style="background:#ff2d55"></div><div style="background:#5856d6"></div><div style="background:#34c759"></div></div>`;
+      if (app.id === "map") return `<div class="icon-box icon-maps"><div></div></div>`;
+      if (app.id === "weather") return `<div class="icon-box icon-weather"><div></div></div>`;
+      if (app.id === "settings") return `<div class="icon-box icon-settings"></div>`;
+      if (app.id === "phone") return `<div class="icon-box icon-phone"></div>`;
     }
     return `<div class="icon-box" style="background-image:url('${app.icon}'); background-size:cover; background-color:#fff;"></div>`;
   };
@@ -90,6 +83,7 @@ function openApp(id, name) {
   const c = document.getElementById("app-content");
   c.classList.remove("no-padding");
   if (id === "kakao" && currentChat) c.classList.add("no-padding");
+  if (id === "map") c.classList.add("no-padding");
   renderAppContent(id);
   c.scrollTop = 0;
 }
@@ -120,20 +114,22 @@ function renderAppContent(id) {
   else c.innerHTML = "<div style='text-align:center;padding:50px;color:#999;'>功能接入中</div>";
 }
 
+// ================= 橙光式逐句对话 KakaoTalk =================
 function renderKakao(c) {
   if (currentChat) {
     const chat = CHATS[currentChat];
     document.getElementById("app-title").textContent = chat.name;
 
+    // 动态生成 HTML
     c.innerHTML = `
       <div class="chat-room-wrapper">
         <div id="chat-room-container" class="chat-room"></div>
         <div style="display:flex; gap:8px; padding:10px; background:#fff; border-top:1px solid #ddd; flex-shrink:0;">
-          <input id="kakao-input" type="text" placeholder="发送消息..." style="flex:1; padding:10px 15px; border:none; background:#f1f1f1; border-radius:20px; font-size:14px; outline:none;">
+          <input id="kakao-input" type="text" placeholder="点击输入回复..." style="flex:1; padding:10px 15px; border:none; background:#f1f1f1; border-radius:20px; font-size:14px; outline:none;">
           <button id="kakao-send-btn" style="padding:0 15px; background:#fee500; color:#3c1e1e; border:none; border-radius:20px; font-weight:bold; cursor:pointer;">发送</button>
         </div>
         <div id="reply-modal" class="reply-modal">
-          <div style="font-size:12px; color:#8e8e93; margin-bottom:10px; text-align:center;">请选择要发送的内容</div>
+          <div style="font-size:12px; color:#8e8e93; margin-bottom:10px; text-align:center;">请选择回复</div>
           <div id="reply-options-container"></div>
           <div style="text-align:center; margin-top:10px;"><span onclick="closeReplyModal()" style="color:#007aff; font-size:14px; cursor:pointer;">取消</span></div>
         </div>
@@ -145,6 +141,8 @@ function renderKakao(c) {
     const sendBtn = document.getElementById("kakao-send-btn");
     const modal = document.getElementById("reply-modal");
     const optionsContainer = document.getElementById("reply-options-container");
+
+    let isTyping = false; // 核心：防抖，不能连发
 
     const renderMessages = () => {
       room.innerHTML = "";
@@ -160,46 +158,53 @@ function renderKakao(c) {
     };
     renderMessages();
 
+    // 点输入框：检查是否有剧情选项，且当前不处于"等待对方回复"状态
     inputEl.onclick = (e) => {
       e.preventDefault();
-      if (chat.replies && chat.replies.length > 0) {
+      if (isTyping) return; 
+      if (chat.story && chat.story.length > 0) {
         optionsContainer.innerHTML = "";
-        chat.replies.forEach((r, index) => {
-          if (r.require && !gameState[r.require]) return;
-          const btn = document.createElement("div");
-          btn.className = "reply-option";
-          btn.innerText = r.text;
-          btn.onclick = () => { inputEl.value = r.text; closeReplyModal(); };
-          optionsContainer.appendChild(btn);
-        });
-        if (optionsContainer.children.length > 0) modal.classList.add("show");
-        else inputEl.blur();
-      } else inputEl.blur();
+        const btn = document.createElement("div");
+        btn.className = "reply-option";
+        btn.innerText = chat.story[0].me;
+        btn.onclick = () => { inputEl.value = chat.story[0].me; closeReplyModal(); };
+        optionsContainer.appendChild(btn);
+        modal.classList.add("show");
+      } else {
+        inputEl.blur();
+      }
     };
 
     window.closeReplyModal = () => { modal.classList.remove("show"); };
 
     sendBtn.onclick = () => {
+      if (isTyping) return; // 对方正在回复中，不能发
       const text = inputEl.value.trim();
       if (!text) return;
+      
+      // 1. 发送玩家消息
       chat.messages.push({ from: "me", text: text });
       inputEl.value = "";
-
-      let usedReplyIndex = -1;
-      if (chat.replies) {
-        usedReplyIndex = chat.replies.findIndex(r => r.text === text && (!r.require || gameState[r.require]));
-      }
-
-      if (usedReplyIndex !== -1) {
-        const usedReply = chat.replies.splice(usedReplyIndex, 1)[0];
-        if (usedReply.isGroupDone) gameState.groupDone = true;
-        if (text === "好呀，明天见") {
-           gameState.dateAccepted = true;
-           MAP_PLACES.push({ id: "cafe_date", name: "音乐楼旁咖啡店", desc: "点击去赴约" });
-        }
-        if (usedReply.next) usedReply.next.forEach(nextMsg => chat.messages.push(nextMsg));
-      }
       renderMessages();
+
+      // 2. 如果有剧情，触发回复
+      if (chat.story && chat.story.length > 0 && chat.story[0].me === text) {
+        const currentStory = chat.story.shift();
+        isTyping = true; // 锁定输入框
+        inputEl.placeholder = "对方正在输入...";
+
+        // 延迟 1.5 秒后回复
+        setTimeout(() => {
+          chat.messages.push({ 
+            from: "them", 
+            text: currentStory.them,
+            sender: currentStory.sender 
+          });
+          renderMessages();
+          isTyping = false;
+          inputEl.placeholder = "点击输入回复...";
+        }, 1500);
+      }
     };
     return;
   }
@@ -220,32 +225,82 @@ function renderKakao(c) {
   });
 }
 
+// ================= 真实 Apple Map =================
 function renderMap(c) {
-  c.innerHTML = `<div style="padding:16px;"><h3 style="margin-bottom:12px; font-size:18px;">校园周边</h3><div id="map-list"></div></div>`;
-  const list = document.getElementById("map-list");
+  c.innerHTML = `
+    <div class="map-container">
+      <div id="map-pins"></div>
+      <div id="map-card" class="map-bottom-card">
+        <h3 id="map-title" style="font-size:18px; margin-bottom:5px;">地点名称</h3>
+        <p id="map-desc" style="font-size:14px; color:#666;">地点描述</p>
+        <button class="map-btn" id="map-action-btn">模拟打卡</button>
+      </div>
+    </div>
+  `;
+  
+  const pinsCont = document.getElementById("map-pins");
+  const card = document.getElementById("map-card");
+  const title = document.getElementById("map-title");
+  const desc = document.getElementById("map-desc");
+  const btn = document.getElementById("map-action-btn");
+
   MAP_PLACES.forEach(p => {
-    const el = document.createElement("div"); el.className = "list-item";
-    el.style.cssText = "padding:12px 0; border-bottom:1px solid #eee; cursor:pointer;";
-    el.innerHTML = `<div style="font-weight:600;margin-bottom:4px;">${p.name}</div><div style="font-size:12px;color:#666;">${p.desc}</div>`;
-    el.onclick = () => {
-      if (p.id === "restaurant" && !gameState.restaurantDone) {
-        alert("已到达老地方烤肉店。聚餐正在进行中...");
-      } else if (p.id === "cafe_date") {
-        alert("已到达咖啡店。成淏学长已经在靠窗的位置等你了...");
-        showNotification("KakaoTalk", "朴成淏：我看到你了，进来吧。", "kakao", "sungho");
+    const pin = document.createElement("div");
+    pin.className = "map-pin";
+    pin.style.left = p.x + "%";
+    pin.style.top = p.y + "%";
+    pin.innerHTML = `<div class="pin-icon"></div><div class="pin-label">${p.name}</div>`;
+    
+    pin.onclick = (e) => {
+      e.stopPropagation();
+      activePinId = p.id;
+      title.innerText = p.name;
+      desc.innerText = p.triggerMsg;
+      
+      // 判断是否已经打卡
+      if (gameState[`date_${p.id}`]) {
+         btn.innerText = "已打卡";
+         btn.style.background = "#ccc";
+      } else {
+         btn.innerText = "确认前往该地点";
+         btn.style.background = "#007aff";
       }
+      card.classList.add("show");
     };
-    list.appendChild(el);
+    pinsCont.appendChild(pin);
   });
+
+  btn.onclick = () => {
+    if (!activePinId) return;
+    const place = MAP_PLACES.find(p => p.id === activePinId);
+    if (!gameState[`date_${place.id}`]) {
+      gameState[`date_${place.id}`] = true;
+      gameState.dateCount++;
+      
+      // 进游戏弹窗
+      alert(`打卡成功！\n\n${place.triggerMsg}\n\n目前进度：${gameState.dateCount} / 10`);
+      btn.innerText = "已打卡";
+      btn.style.background = "#ccc";
+
+      if (gameState.dateCount === 10) {
+        setTimeout(() => alert("【系统提示】你们已经很熟悉了，去 KakaoTalk 看看吧！"), 1000);
+      }
+    }
+  };
+
+  // 点空白处收起卡片
+  c.querySelector('.map-container').onclick = () => {
+    card.classList.remove("show");
+    activePinId = null;
+  };
 }
 
+// ================= 备忘录 =================
 function renderMemo(c) {
   c.style.backgroundColor = "#fff";
   if (currentMemo) {
     const note = MEMOS.find(m => m.id === currentMemo);
     document.getElementById("app-title").textContent = "备忘录";
-    
-    // 移除提示密码是啥
     if (note.isLocked && !gameState.memoUnlocked) {
        c.innerHTML = `<div class="memo-lock-screen"><h3>此备忘录已锁定</h3><p style="color:#888; font-size:13px; margin-top:8px;">请输入四位密码</p><input type="password" id="memo-pass" class="memo-input" maxlength="4" placeholder="****"><br><button onclick="checkMemoPass()" style="margin-top:20px; padding:10px 20px; background:#ffcc00; border:none; border-radius:10px; font-weight:bold;">解锁</button></div>`;
        return;
@@ -270,15 +325,11 @@ window.checkMemoPass = function() {
   else { alert("密码错误"); }
 }
 
+// ================= Instagram =================
 function renderInstagram(c) {
   c.style.padding = "0"; c.style.backgroundColor = "#fff";
   c.innerHTML = `
     <div class="ig-header"><div class="ig-logo">Instagram</div><div>❤️ ✉️</div></div>
-    <div class="ig-story-row">
-      <div class="ig-story"><div class="ig-story-avatar"><div style="background:#ff3b30;"></div></div><span>我的动态</span></div>
-      <div class="ig-story"><div class="ig-story-avatar"><div style="background:#5e5ce6;"></div></div><span>泰山</span></div>
-      <div class="ig-story"><div class="ig-story-avatar"><div style="background:#ff9f0a;"></div></div><span>成淏</span></div>
-    </div>
     <div id="ig-feed"></div>
   `;
   const feed = document.getElementById("ig-feed");

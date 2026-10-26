@@ -13,138 +13,53 @@ const APPS = [
 
 const MEMOS = [
   { id: "m1", title: "选课笔记", date: "今天 09:00", content: "周一上午有经营学，记得带计算器。\n周三去图书馆借两本全英教材。" },
-  { id: "m2", title: "聚餐记录", date: "昨天 22:00", content: "周五晚上六人聚餐，老地方烤肉店。\n宰铉学长请客，大家都很照顾我。" },
-  { id: "m3", title: "绝密剧情提示", date: "现在", isLocked: true, content: "【剧本杀防卡关指南】\n\n1. 主线推进：去群聊回复宰铉，然后回成淏私聊触发吃醋。\n2. 线下解锁：去地图打卡『老地方烤肉店』。\n3. IG联动：去 IG 给成淏点赞，会触发新的心跳私信。" }
+  { id: "m2", title: "绝密剧情提示", date: "现在", isLocked: true, content: "【剧本杀防卡关指南】\n\n1. 熟悉阶段：多去【地图】和成淏打卡约会，累计10次线下约会后才能解锁后续心动剧情。\n2. 发现线索：如果有不懂的，去看看成淏的 IG 动态。" }
+];
+
+// 10次线下约会打卡点
+const MAP_PLACES = [
+  { id: "p1", name: "中央图书馆", x: 30, y: 40, dateNum: 1, triggerMsg: "今天在图书馆偶遇了成淏学长，他帮我找了全英教材。" },
+  { id: "p2", name: "学生会馆", x: 60, y: 25, dateNum: 2, triggerMsg: "成淏学长在学生会馆开会，给我带了冰美式。" },
+  { id: "p3", name: "音乐楼", x: 75, y: 60, dateNum: 3, triggerMsg: "陪成淏学长去音乐楼听泰山排练，他偷偷牵了我的手。" },
+  { id: "p4", name: "老地方烤肉店", x: 40, y: 70, dateNum: 4, triggerMsg: "六人聚餐！云鹤一直灌我酒，被成淏学长挡住了。" },
+  { id: "p5", name: "校园咖啡店", x: 55, y: 50, dateNum: 5, triggerMsg: "和成淏学长单独喝咖啡，聊了彼此的过去。" },
+  { id: "p6", name: "银杏大道", x: 20, y: 80, dateNum: 6, triggerMsg: "散落满地的银杏叶，成淏学长给我拍了好多照片。" },
+  { id: "p7", name: "操场看台", x: 80, y: 20, dateNum: 7, triggerMsg: "看常赫打篮球，成淏学长非要拉着我看日落。" },
+  { id: "p8", name: "学生会室", x: 65, y: 35, dateNum: 8, triggerMsg: "帮他整理迎新资料，他盯着我的眼神好温柔。" },
+  { id: "p9", name: "校门口夜市", x: 10, y: 50, dateNum: 9, triggerMsg: "去夜市吃小吃，他帮我擦掉嘴角的酱汁。" },
+  { id: "p10", name: "宿舍楼下", x: 45, y: 85, dateNum: 10, triggerMsg: "他送我回宿舍，在楼下站了好久都没走。" }
 ];
 
 const CHATS = {
   sungho: {
     name: "朴成淏", avatar: "成", color: "#ff9f0a",
     messages: [
-      { type: "time", text: "9月2日 迎新日 上午 09:30" },
-      { from: "them", text: "你好，请问是来参加迎新的新生吗？" },
-      { from: "me", text: "是的！但是我地图定位好像不太准……" },
-      { from: "them", text: "往左手边那条路走，看到学生会馆就到了。" },
-      { type: "time", text: "9月15日 晚上 21:00" },
-      { from: "them", text: "今天看你朋友圈发了图书馆的照片，最近课业很重吗？" },
-      { from: "me", text: "对啊，经营学的全英教材看得我头大。" },
-      { from: "them", text: "有不懂的随时问我，我大三刚好修过这门课。" },
-      { type: "time", text: "10月15日 晚上 23:15" },
-      { from: "them", text: "今天社团开会累不累？" },
-      { from: "me", text: "有点，不过学长你今天怎么也这么晚？" },
-      { from: "them", text: "在看点资料。早点休息吧，晚安。" },
       { type: "time", text: "今天 下午 16:00" },
       { from: "them", text: "宰铉在群里说周五聚餐，你看到了吗？" }
     ],
-    replies: [
-      { text: "看到啦，我一定会去的", next: [
-        { from: "them", text: "嗯，去吧，大家都很想见你。" },
-        { type: "time", text: "今天 晚上 22:30" },
-        { from: "them", text: "今晚云鹤一直找你说话，他是不是有点太热情了？" },
-        { from: "me", text: "哈哈，云鹤真的很活泼，还一直给我发搞笑视频。" },
-        { from: "them", text: "……" },
-        { from: "them", text: "早知道我就不让他加你了。" },
-        { from: "me", text: "诶？学长这是吃醋了吗？" },
-        { from: "them", text: "没有。只是觉得你刚来，怕你不习惯。" },
-        { from: "them", text: "（过了好一会）其实，是有一点。" },
-        { from: "them", text: "看你回我消息好慢，是不是在和别人聊天？" },
-        { from: "me", text: "没有啦，我在看学长的 IG 动态。" },
-        { from: "them", text: "那个咖啡照片吗？" },
-        { from: "me", text: "嗯，看起来很好喝。" },
-        { from: "them", text: "那家店就在音乐楼旁边。明天下午没课的话，要不要去？我请你。" },
-        { from: "them", text: "只有我们两个。" }
-      ]}
-    ]
-  },
-  riwoo: {
-    name: "李常赫", avatar: "常", color: "#30d158",
-    messages: [
-      { type: "time", text: "昨天 18:00" },
-      { from: "them", text: "舞蹈社这周有开放练习，你要来看吗？" },
-      { from: "me", text: "好呀，常赫学长。" },
-      { from: "them", text: "嗯，成淏也会来。他最近老往舞蹈室跑。" }
-    ],
-    replies: []
-  },
-  jaehyun: {
-    name: "明宰铉", avatar: "宰", color: "#ff375f",
-    messages: [
-      { type: "time", text: "昨天 19:00" },
-      { from: "them", text: "学妹！周五聚餐一定要来啊！" },
-      { from: "them", text: "成淏可是难得带人来，我们得好好把把关！" }
-    ],
-    replies: []
-  },
-  taesan: {
-    name: "韩泰山", avatar: "泰", color: "#5e5ce6",
-    messages: [
-      { type: "time", text: "昨天 20:00" },
-      { from: "them", text: "新歌 demo 发在 IG 了，有空听。" },
-      { from: "me", text: "现在就去听！" }
-    ],
-    replies: []
-  },
-  leehan: {
-    name: "金桐儇", avatar: "桐", color: "#64d2ff",
-    messages: [
-      { type: "time", text: "昨天 20:30" },
-      { from: "them", text: "图书馆三楼靠窗位置很好，推荐给你。" },
-      { from: "me", text: "谢谢桐儇学长，我明天去试试" }
-    ],
-    replies: []
-  },
-  woonhak: {
-    name: "金云鹤", avatar: "云", color: "#bf5af2",
-    messages: [
-      { type: "time", text: "昨天 22:00" },
-      { from: "them", text: "学妹！昨晚聚餐开心吗！我推荐的炸猪排不错吧！" },
-      { from: "me", text: "超级好吃！谢谢云鹤学长" }
-    ],
-    replies: [
-      { text: "下次再一起去吃", next: [{ from: "them", text: "太好啦！那说定了！" }] }
+    // 橙光式剧情树（发一句回一句）
+    story: [
+      { me: "看到啦，我一定会去的", them: "嗯，去吧，大家都很想见你。" },
+      { me: "学长最近好像很忙？", them: "有一点，准备迎新晚会的事情。" },
+      { me: "那要注意休息呀", them: "好。对了，今晚云鹤是不是一直找你说话？" },
+      { me: "是呀，他很热情", them: "……早知道不让他加你了，我有点吃醋。" },
+      { me: "学长怎么连这种醋都吃", them: "因为，我好像有点太在意你了。" }
     ]
   },
   group: {
     name: "延世街六人组", avatar: "群", color: "#8e8e93",
-    messages: [
-      { type: "time", text: "今天 下午 14:30" },
-      { from: "them", sender: "明宰铉", text: "各位！这周五晚上聚餐，老地方！" },
-      { from: "them", sender: "金云鹤", text: "学妹学妹！周五我请你吃炸猪排！" },
-      { from: "them", sender: "朴成淏", text: "别吓到人家。" }
-    ],
-    replies: [
-      { text: "好呀，谢谢大家！", isGroupDone: true, next: [
-        { from: "them", sender: "韩泰山", text: "那周五见。" },
-        { from: "them", sender: "李常赫", text: "收到。" },
-        { type: "time", text: "今天 晚上 19:30" },
-        { from: "them", sender: "金云鹤", text: "学妹今晚没怎么说话，是不是累了？" },
-        { from: "them", sender: "朴成淏", text: "……" },
-        { from: "them", sender: "明宰铉", text: "成淏怎么不说话了？" },
-        { from: "them", sender: "李常赫", text: "他可能吃醋了。" }
-      ]}
+    messages: [{ type: "time", text: "今天 14:30" }, { from: "them", sender: "明宰铉", text: "周五聚餐！" }, { from: "them", sender: "朴成淏", text: "我带学妹来。" }],
+    story: [
+      { me: "好呀，谢谢大家！", them: "宰铉：欢迎欢迎！", sender: "明宰铉" },
+      { me: "我会准时到的", them: "云鹤：太好啦！", sender: "金云鹤" }
     ]
   },
-  yujin: {
-    name: "崔裕真 (同级)", avatar: "裕", color: "#ff9500",
-    messages: [
-      { type: "time", text: "昨天 21:00" },
-      { from: "them", text: "天呐，你认识大三那几个帅哥？那个朴成淏好像对你很特殊哦！" }
-    ],
-    replies: [
-      { text: "有吗？他就是比较照顾学妹吧", next: [
-        { from: "them", text: "绝对有！我打赌，他肯定对你有意思！" },
-        { from: "them", text: "你看群里云鹤都在吃醋了哈哈哈哈" }
-      ]}
-    ]
-  }
+  riwoo: { name: "李常赫", avatar: "常", color: "#30d158", messages: [], story: [] },
+  taesan: { name: "韩泰山", avatar: "泰", color: "#5e5ce6", messages: [], story: [] },
+  leehan: { name: "金桐儇", avatar: "桐", color: "#64d2ff", messages: [], story: [] },
+  woonhak: { name: "金云鹤", avatar: "云", color: "#bf5af2", messages: [], story: [] }
 };
 
-const MAP_PLACES = [
-  { id: "restaurant", name: "老地方烤肉店", desc: "聚餐定在这里。" },
-  { id: "cafe_date", name: "音乐楼旁咖啡店", desc: "成淏推荐的店。" }
-];
-
 const INSTAGRAM_FEED = [
-  { id: "post_1", user: "taesan_music", avatar: "泰", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=600", caption: "新demo. 快来听。" },
-  { id: "post_2", user: "sungho_", avatar: "成", img: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600", caption: "coffee. 明天下午会再来。" }
+  { id: "post_2", user: "sungho_", avatar: "成", img: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600", caption: "coffee." }
 ];
