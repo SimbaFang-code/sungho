@@ -1,4 +1,5 @@
 let currentChat = null;
+let currentMemo = null;
 let gameState = { groupDone: false, dateAccepted: false, memoUnlocked: false, likedSunghoPost: false };
 
 function updateClock() {
@@ -14,17 +15,30 @@ if (lockScreen) {
   lockScreen.onclick = function() {
     this.classList.add("hidden");
     document.getElementById("main-ui").classList.remove("hidden");
-    setTimeout(() => showNotification("KakaoTalk", "朴成淏：今天大家聚餐，你没喝多吧？", "kakao", "sungho"), 1000);
+    setTimeout(() => showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho"), 1000);
   };
 }
 
+// 修复：确保弹窗推入数据，并在点击后跳转
 function showNotification(title, body, appId, chatId) {
   const notif = document.getElementById("ios-notification");
   notif.querySelector("#notif-title-text").innerText = title;
   notif.querySelector("#notif-body-text").innerText = body;
   notif.classList.add("show");
+  
   notif.onclick = () => {
     notif.classList.remove("show");
+    // 如果发消息，真实写入聊天记录
+    if (title.includes("成淏") && body.includes("动态")) {
+        CHATS.sungho.messages.push({ type: "time", text: "刚刚" });
+        CHATS.sungho.messages.push({ from: "them", text: "你看到我发的动态啦？明天要一起去吗？" });
+        // 解锁答应选项
+        CHATS.sungho.replies.unshift({ text: "好呀，明天见", require: "dateAccepted", next: [] });
+    } else if (title.includes("成淏") && body.includes("进来吧")) {
+        CHATS.sungho.messages.push({ type: "time", text: "刚刚" });
+        CHATS.sungho.messages.push({ from: "them", text: "我看到你了，进来吧。" });
+    }
+
     openApp(appId, "KakaoTalk");
     if(chatId) {
         currentChat = chatId;
@@ -40,9 +54,23 @@ function renderApps() {
   const dockApps = ["phone", "map", "kakao", "instagram"];
   const mainApps = APPS.filter(app => !dockApps.includes(app.id));
   
+  const createIconHTML = (app) => {
+    if (app.customClass) {
+      if (app.id === "calendar") return `<div class="icon-box icon-calendar"><div class="icon-inner"><div class="month">OCT</div><div class="day">26</div></div></div>`;
+      if (app.id === "clock") return `<div class="icon-box icon-clock"><div class="clock-face"><div class="hand hour"></div><div class="hand minute"></div><div class="center"></div></div></div>`;
+      if (app.id === "memo") return `<div class="icon-box icon-notes"><div class="paper"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>`;
+      if (app.id === "photos") return `<div class="icon-box icon-photos"><div class="photo p1"></div><div class="photo p2"></div><div class="photo p3"></div><div class="photo p4"></div></div>`;
+      if (app.id === "map") return `<div class="icon-box icon-maps"><div class="pin"></div></div>`;
+      if (app.id === "weather") return `<div class="icon-box icon-weather"><div class="sun"></div><div class="cloud"></div></div>`;
+      if (app.id === "settings") return `<div class="icon-box icon-settings"><div class="gear"><div class="gear-inner"></div></div></div>`;
+      if (app.id === "phone") return `<div class="icon-box icon-phone"></div>`;
+    }
+    return `<div class="icon-box" style="background-image:url('${app.icon}'); background-size:cover; background-color:#fff;"></div>`;
+  };
+
   mainApps.forEach(app => {
     const el = document.createElement("div"); el.className = "app-icon";
-    el.innerHTML = `<div class="glyph" style="background-image:url('${app.icon}'); background-color:${app.color};"></div><div class="label">${app.name}</div>`;
+    el.innerHTML = `${createIconHTML(app)}<span class="icon-label">${app.name}</span>`;
     el.onclick = (e) => { e.stopPropagation(); openApp(app.id, app.name); };
     grid.appendChild(el);
   });
@@ -51,7 +79,7 @@ function renderApps() {
   dockApps.forEach(id => {
     const app = APPS.find(a => a.id === id); if (!app) return;
     const el = document.createElement("div"); el.className = "app-icon";
-    el.innerHTML = `<div class="glyph" style="background-image:url('${app.icon}'); background-color:${app.color};"></div>`;
+    el.innerHTML = createIconHTML(app);
     el.onclick = (e) => { e.stopPropagation(); openApp(app.id, app.name); };
     dock.appendChild(el);
   });
@@ -81,6 +109,9 @@ document.getElementById("back-btn").onclick = () => {
     currentChat = null; 
     document.getElementById("app-content").classList.remove("no-padding");
     renderAppContent("kakao"); 
+  } else if (currentMemo) {
+    currentMemo = null;
+    renderAppContent("memo");
   } else { goHome(); }
 };
 
@@ -93,7 +124,7 @@ function renderAppContent(id) {
   else c.innerHTML = "<div style='text-align:center;padding:50px;color:#999;'>功能接入中</div>";
 }
 
-// ================= KakaoTalk (带选项弹窗) =================
+// ================= KakaoTalk =================
 function renderKakao(c) {
   if (currentChat) {
     const chat = CHATS[currentChat];
@@ -102,14 +133,10 @@ function renderKakao(c) {
     c.innerHTML = `
       <div class="chat-room-wrapper">
         <div id="chat-room-container" class="chat-room"></div>
-        
-        <!-- 底部输入框 -->
         <div style="display:flex; gap:8px; padding:10px; background:#fff; border-top:1px solid #ddd; flex-shrink:0;">
           <input id="kakao-input" type="text" placeholder="发送消息..." style="flex:1; padding:10px 15px; border:none; background:#f1f1f1; border-radius:20px; font-size:14px; outline:none;">
           <button id="kakao-send-btn" style="padding:0 15px; background:#fee500; color:#3c1e1e; border:none; border-radius:20px; font-weight:bold; cursor:pointer;">发送</button>
         </div>
-
-        <!-- 选项弹窗 -->
         <div id="reply-modal" class="reply-modal">
           <div style="font-size:12px; color:#8e8e93; margin-bottom:10px; text-align:center;">请选择要发送的内容</div>
           <div id="reply-options-container"></div>
@@ -138,31 +165,21 @@ function renderKakao(c) {
     };
     renderMessages();
 
-    // 点输入框，弹出选项
     inputEl.onclick = (e) => {
-      e.preventDefault(); // 防止键盘弹出
+      e.preventDefault();
       if (chat.replies && chat.replies.length > 0) {
         optionsContainer.innerHTML = "";
         chat.replies.forEach((r, index) => {
-          if (r.require && !gameState[r.require]) return; // 未满足条件不显示
+          if (r.require && !gameState[r.require]) return;
           const btn = document.createElement("div");
           btn.className = "reply-option";
           btn.innerText = r.text;
-          btn.onclick = () => {
-            inputEl.value = r.text;
-            closeReplyModal();
-          };
+          btn.onclick = () => { inputEl.value = r.text; closeReplyModal(); };
           optionsContainer.appendChild(btn);
         });
-        
-        if (optionsContainer.children.length > 0) {
-           modal.classList.add("show");
-        } else {
-           inputEl.blur(); // 没有选项就允许自由输入
-        }
-      } else {
-        inputEl.blur(); // 没有预设回复，正常打字
-      }
+        if (optionsContainer.children.length > 0) modal.classList.add("show");
+        else inputEl.blur();
+      } else inputEl.blur();
     };
 
     window.closeReplyModal = () => { modal.classList.remove("show"); };
@@ -181,6 +198,10 @@ function renderKakao(c) {
       if (usedReplyIndex !== -1) {
         const usedReply = chat.replies.splice(usedReplyIndex, 1)[0];
         if (usedReply.isGroupDone) gameState.groupDone = true;
+        if (text === "好呀，明天见") {
+           gameState.dateAccepted = true;
+           MAP_PLACES.push({ id: "cafe_date", name: "音乐楼旁咖啡店", desc: "点击去赴约" });
+        }
         if (usedReply.next) usedReply.next.forEach(nextMsg => chat.messages.push(nextMsg));
       }
       renderMessages();
@@ -204,12 +225,9 @@ function renderKakao(c) {
   });
 }
 
-// ================= 地图打卡 =================
+// ================= 地图 =================
 function renderMap(c) {
-  c.innerHTML = `<div style="padding:16px;">
-    <h3 style="margin-bottom:12px; font-size:18px;">校园周边</h3>
-    <div id="map-list"></div>
-  </div>`;
+  c.innerHTML = `<div style="padding:16px;"><h3 style="margin-bottom:12px; font-size:18px;">校园周边</h3><div id="map-list"></div></div>`;
   const list = document.getElementById("map-list");
   MAP_PLACES.forEach(p => {
     const el = document.createElement("div"); el.className = "list-item";
@@ -227,32 +245,56 @@ function renderMap(c) {
   });
 }
 
-// ================= 备忘录 =================
+// ================= 备忘录 (完全仿原生文件夹结构) =================
 function renderMemo(c) {
   c.style.backgroundColor = "#fff";
-  if (!gameState.memoUnlocked) {
-    c.innerHTML = `<div class="memo-lock">
-      <h3>备忘录密码</h3>
-      <p style="color:#888; font-size:12px; margin-top:8px;">请输入四位密码</p>
-      <input type="password" id="memo-pass" class="memo-input" maxlength="4" placeholder="****">
-      <br><button onclick="checkMemoPass()" style="margin-top:20px; padding:10px 20px; background:#ffcc00; border:none; border-radius:10px; font-weight:bold;">解锁</button>
+  
+  // 如果打开了具体的 note
+  if (currentMemo) {
+    const note = MEMOS.find(m => m.id === currentMemo);
+    document.getElementById("app-title").textContent = "备忘录";
+    
+    if (note.isLocked && !gameState.memoUnlocked) {
+       c.innerHTML = `<div class="memo-lock-screen">
+          <h3>此备忘录已锁定</h3>
+          <p style="color:#888; font-size:13px; margin-top:8px;">请输入四位密码 (提示:0530)</p>
+          <input type="password" id="memo-pass" class="memo-input" maxlength="4" placeholder="****">
+          <br><button onclick="checkMemoPass()" style="margin-top:20px; padding:10px 20px; background:#ffcc00; border:none; border-radius:10px; font-weight:bold;">解锁</button>
+       </div>`;
+       return;
+    }
+    
+    c.innerHTML = `<div class="memo-detail">
+      <h1>${note.title}</h1>
+      <p style="color:#888; font-size:12px; margin-bottom:20px;">${note.date}</p>
+      <p>${note.content}</p>
     </div>`;
     return;
   }
+
+  // 备忘录列表页
+  c.innerHTML = `<div style="padding:16px; font-size:24px; font-weight:bold; border-bottom:1px solid #eee;">文件夹: 我的备忘录</div>`;
   MEMOS.forEach(m => {
     const el = document.createElement("div");
-    el.style.cssText = "margin-bottom:16px; padding:0 16px;";
-    el.innerHTML = `<div style="font-weight:700;font-size:16px;margin-bottom:6px;">${m.title}</div><div style="font-size:14px;color:#3a3a3c;white-space:pre-line;line-height:1.6;">${m.body}</div>`;
+    el.className = "memo-list-item";
+    el.innerHTML = `<div class="memo-list-title">${m.title}</div><div class="memo-list-date">${m.date}</div>`;
+    el.onclick = () => {
+      currentMemo = m.id;
+      renderAppContent("memo");
+    };
     c.appendChild(el);
   });
 }
+
 window.checkMemoPass = function() {
   const val = document.getElementById("memo-pass").value;
-  if (val === "0530") { gameState.memoUnlocked = true; renderMemo(document.getElementById("app-content")); } 
-  else { alert("密码错误"); }
+  if (val === "0530") { 
+    gameState.memoUnlocked = true; 
+    renderAppContent("memo"); 
+  } else { alert("密码错误"); }
 }
 
-// ================= Instagram (高仿与点赞) =================
+// ================= Instagram =================
 function renderInstagram(c) {
   c.style.padding = "0"; c.style.backgroundColor = "#fff";
   c.innerHTML = `
@@ -285,7 +327,6 @@ function renderInstagram(c) {
 window.likePost = function(postId) {
   const heart = document.getElementById(`heart_${postId}`);
   if (heart.classList.contains('liked')) return; 
-  
   heart.classList.add('liked');
   heart.innerText = "❤️";
 

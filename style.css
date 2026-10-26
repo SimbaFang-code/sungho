@@ -17,10 +17,18 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 #main-ui.hidden { opacity: 0; pointer-events: none; }
 #statusbar { height: 48px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; color: #1c1c1e; font-size: 14px; font-weight: 600; flex-shrink: 0; padding-top: env(safe-area-inset-top); z-index: 50; }
 #island { width: 110px; height: 30px; background: #000; border-radius: 20px; position: absolute; left: 50%; transform: translateX(-50%); top: 8px; }
-.status-icons { display: flex; align-items: center; }
-.battery-icon { width: 22px; height: 11px; border: 1px solid #1c1c1e; border-radius: 3px; padding: 1px; position: relative; margin-left: 2px; }
-.battery-icon::after { content: ''; position: absolute; right: -3px; top: 3px; width: 2px; height: 3px; background: #1c1c1e; border-radius: 0 2px 2px 0; }
-.battery-level { width: 85%; height: 100%; background: #1c1c1e; border-radius: 1px; }
+
+/* 原生信号与电池 */
+.status-right { display: flex; align-items: center; gap: 5px; }
+.signal-icon { width: 14px; height: 11px; position: relative; }
+.signal-icon span { position: absolute; bottom: 0; left: 0; width: 3px; background: #1c1c1e; border-radius: 1px; }
+.signal-icon span:nth-child(1) { height: 2px; }
+.signal-icon span:nth-child(2) { height: 4px; left: 4px; }
+.signal-icon span:nth-child(3) { height: 7px; left: 8px; }
+.signal-icon span:nth-child(4) { height: 10px; left: 12px; }
+.battery-icon { border: 1px solid rgba(0,0,0,0.4); border-radius: 3px; padding: 1px; width: 22px; height: 11px; position: relative; }
+.battery-icon::after { content: ""; position: absolute; right: -4px; top: 3px; width: 2px; height: 5px; background: rgba(0,0,0,0.4); border-radius: 0 1px 1px 0; }
+.battery-level { height: 100%; width: 80%; background: #1c1c1e; border-radius: 1px; }
 
 #screen { flex: 1; position: relative; overflow: hidden; }
 .page { position: absolute; inset: 0; overflow-y: auto; display: none; -webkit-overflow-scrolling: touch; }
@@ -34,16 +42,49 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .widget-weather .temp { font-size: 38px; font-weight: 300; }
 .widget-photo { background: url('https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?q=80&w=400&auto=format&fit=crop') center/cover; position: relative; }
 .widget-photo .date { position: absolute; bottom: 10px; left: 15px; color: #fff; text-shadow: 0 1px 3px #000; }
-.app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 12px; }
-.app-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
-.app-icon .glyph { width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 4px 10px rgba(0,0,0,.1); transition: transform .1s; background-size: cover; background-position: center; }
-.app-icon:active .glyph { transform: scale(.9); }
-.app-icon .label { font-size: 11px; color: #1c1c1e; font-weight: 500; }
+
+/* 图标网格 */
+.app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 12px; }
+.app-icon { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; transition: transform 0.15s; }
+.app-icon:active { transform: scale(0.92); }
+
+/* 原生 CSS 图标盒 */
+.icon-box { width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.25); }
+.icon-label { font-size: 11px; color: #1c1c1e; font-weight: 500; }
 .search-bar { background: rgba(255,255,255,0.6); border-radius: 20px; padding: 6px 15px; margin: 20px auto 0; font-size: 13px; font-weight: 500; }
+
+/* Dock */
 .dock { position: absolute; bottom: 20px; left: 12px; right: 12px; height: 85px; background: rgba(255,255,255,0.4); backdrop-filter: blur(25px); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; transition: opacity 0.3s; }
 .dock.hidden-dock { opacity: 0; pointer-events: none; }
-.dock .app-icon .label { display: none; }
-.dock .app-icon .glyph { width: 58px; height: 58px; box-shadow: none; }
+.dock .icon-label { display: none; }
+.dock .icon-box { width: 58px; height: 58px; }
+
+/* 具体的原生图标绘制 */
+.icon-calendar { background: #fff; color: #ff3b30; }
+.icon-calendar .icon-inner { display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 800; }
+.icon-calendar .month { font-size: 11px; letter-spacing: 1px; color: #ff3b30; }
+.icon-calendar .day { font-size: 26px; color: #000; line-height: 1; }
+.icon-clock { background: #000; }
+.icon-clock .clock-face { width: 46px; height: 46px; border-radius: 50%; background: #fff; position: relative; }
+.icon-clock .hand { position: absolute; left: 50%; top: 50%; transform-origin: 0 0; background: #000; border-radius: 2px; }
+.icon-clock .hour { width: 2px; height: 11px; transform: translate(-50%, -100%) rotate(30deg); }
+.icon-clock .minute { width: 2px; height: 15px; transform: translate(-50%, -100%) rotate(90deg); }
+.icon-clock .center { position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; background: #000; border-radius: 50%; transform: translate(-50%, -50%); }
+.icon-notes { background: #fef7d6; }
+.icon-notes .paper { width: 70%; height: 78%; background: #fff; border-radius: 4px; padding: 6px; display: flex; flex-direction: column; gap: 4px; }
+.icon-notes .line { height: 3px; background: #ffe37a; border-radius: 2px; }
+.icon-photos { background: #fff; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 3px; padding: 4px; }
+.icon-photos .p1 { background: #ff9500; } .icon-photos .p2 { background: #ff2d55; } .icon-photos .p3 { background: #5856d6; } .icon-photos .p4 { background: #34c759; }
+.icon-maps { background: #fff; background-image: linear-gradient(rgba(52,199,89,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(52,199,89,0.35) 1px, transparent 1px); background-size: 10px 10px; }
+.icon-maps .pin { width: 14px; height: 14px; background: #ff3b30; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); position: relative; }
+.icon-maps .pin::after { content: ""; position: absolute; inset: 3px; background: #fff; border-radius: 50%; }
+.icon-weather { background: linear-gradient(180deg, #5ac8fa, #3498db); }
+.icon-weather .sun { width: 20px; height: 20px; background: #ffcc00; border-radius: 50%; position: absolute; top: 10px; right: 10px; }
+.icon-weather .cloud { width: 34px; height: 14px; background: #fff; border-radius: 20px; position: relative; z-index: 2; }
+.icon-weather .cloud::before { content: ""; position: absolute; width: 16px; height: 16px; background: #fff; border-radius: 50%; top: -8px; left: 6px; }
+.icon-settings { background: #8e8e93; }
+.icon-settings .gear { width: 34px; height: 34px; background: #d1d1d6; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.icon-settings .gear-inner { width: 14px; height: 14px; background: #8e8e93; border-radius: 50%; }
 
 /* App 页面 */
 #app-view { background: #f2f2f7; }
@@ -71,30 +112,35 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .time-divider { text-align: center; margin: 10px 0; }
 .time-divider span { background: rgba(0,0,0,0.1); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 12px; }
 
-/* KakaoTalk 选择框 UI */
-.reply-modal { position: absolute; bottom: 0; left: 0; right: 0; background: #fff; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); transform: translateY(100%); transition: transform 0.3s; z-index: 20; padding: 15px; }
+/* 选项弹窗 */
+.reply-modal { position: absolute; bottom: 0; left: 0; right: 0; background: #fff; border-top-left-radius: 20px; border-top-right-radius: 20px; transform: translateY(100%); transition: transform 0.3s; z-index: 20; padding: 15px; }
 .reply-modal.show { transform: translateY(0); }
-.reply-option { padding: 12px; background: #f1f1f1; border-radius: 10px; margin-bottom: 8px; font-size: 14px; color: #1c1c1e; cursor: pointer; text-align: center; font-weight: 500; }
-.reply-option:active { background: #e5e5ea; }
+.reply-option { padding: 12px; background: #f1f1f1; border-radius: 10px; margin-bottom: 8px; font-size: 14px; cursor: pointer; text-align: center; font-weight: 500; }
 
 /* iOS 弹窗 */
 #ios-notification { position: absolute; top: -100px; left: 10px; right: 10px; z-index: 200; background: rgba(255,255,255,0.95); backdrop-filter: blur(25px); border-radius: 20px; padding: 12px; display: flex; gap: 12px; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); cursor: pointer; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 #ios-notification.show { top: 50px; }
-#ios-notification .app-icon-small { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-#ios-notification .notif-title { font-size: 14px; font-weight: 700; color: #1c1c1e; display: flex; justify-content: space-between; }
-#ios-notification .notif-body { font-size: 13px; color: #3a3a3c; margin-top: 2px; }
+#ios-notification .app-icon-small { width: 40px; height: 40px; border-radius: 10px; }
+#ios-notification .notif-title { font-size: 14px; font-weight: 700; }
+#ios-notification .notif-body { font-size: 13px; margin-top: 2px; }
 
-/* 备忘录 */
-.memo-lock { text-align: center; padding: 50px 20px; }
-.memo-input { padding: 10px; font-size: 18px; text-align: center; border: 1px solid #ccc; border-radius: 10px; width: 150px; margin-top: 20px; }
+/* 备忘录原生风格 */
+.memo-list-item { padding: 15px 20px; background: #fff; border-bottom: 1px solid #e5e5ea; cursor: pointer; display: flex; justify-content: space-between; align-items: center;}
+.memo-list-title { font-size: 16px; font-weight: 600; color: #1c1c1e;}
+.memo-list-date { font-size: 13px; color: #8e8e93;}
+.memo-detail { background: #fff; padding: 20px; height: 100%; }
+.memo-detail h1 { font-size: 24px; margin-bottom: 10px; }
+.memo-detail p { font-size: 15px; line-height: 1.6; color: #333; white-space: pre-wrap; }
+.memo-lock-screen { text-align: center; padding: 80px 20px; background: #fff; height: 100%;}
+.memo-input { padding: 12px; font-size: 18px; text-align: center; border: 1px solid #ccc; border-radius: 10px; width: 160px; margin-top: 20px; }
 
-/* Instagram */
-.ig-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: #fff; border-bottom: 1px solid #dbdbdb; }
+/* IG */
+.ig-header { display: flex; justify-content: space-between; padding: 10px 16px; background: #fff; border-bottom: 1px solid #dbdbdb; }
 .ig-logo { font-family: 'Billabong', cursive, sans-serif; font-size: 26px; font-weight: bold; }
 .ig-story-row { display: flex; gap: 15px; padding: 10px 16px; background: #fff; overflow-x: auto; border-bottom: 1px solid #dbdbdb; }
 .ig-story { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; }
 .ig-story-avatar { width: 60px; height: 60px; border-radius: 50%; background: #eee; border: 2px solid #f09433; padding: 2px; }
-.ig-story-avatar div { width: 100%; height: 100%; border-radius: 50%; background: #ff9f0a; }
+.ig-story-avatar div { width: 100%; height: 100%; border-radius: 50%; }
 .ig-feed-post { background: #fff; margin-bottom: 10px; border-bottom: 1px solid #dbdbdb; }
 .ig-feed-header { display: flex; align-items: center; gap: 10px; padding: 10px; }
 .ig-feed-img { width: 100%; height: 300px; background: #eee; background-size: cover; background-position: center; }
