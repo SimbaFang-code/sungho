@@ -67,11 +67,10 @@ function openApp(id, name) {
   document.getElementById("app-view").classList.add("active");
   document.getElementById("app-title").textContent = name;
   
-  // 统一管理应用内边距
   const c = document.getElementById("app-content");
   if (id === "kakao" && currentChat) {
     c.style.padding = "0";
-    c.style.overflow = "hidden"; // 聊天室禁止外层滚动，由内部独立滚动
+    c.style.overflow = "hidden";
   } else {
     c.style.padding = "12px 16px";
     c.style.overflowY = "auto";
@@ -111,13 +110,12 @@ function renderAppContent(id) {
   else renderPlaceholder(c, id);
 }
 
-// ================= KakaoTalk 核心布局修复 =================
+// ================= KakaoTalk =================
 function renderKakao(c) {
   if (currentChat) {
     const chat = CHATS[currentChat];
     document.getElementById("app-title").textContent = chat.name;
 
-    // 核心修复：使用 Flex 撑满可用高度，内部消息自己滚动，输入框绝对沉底
     c.innerHTML = `
       <div style="display:flex; flex-direction:column; height:100%; width:100%; background:#b2c7d9;">
         <div id="chat-room-container" style="flex:1; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:12px;"></div>
@@ -132,16 +130,12 @@ function renderKakao(c) {
     const inputText = document.getElementById("kakao-fake-input");
     const sendBtn = document.getElementById("kakao-send-btn");
 
-    // 渲染气泡的函数
     const renderMessages = () => {
       room.innerHTML = "";
       chat.messages.forEach(m => {
         const row = document.createElement("div");
         row.className = "msg-row " + m.from;
-        let html = "";
-        
         if (m.sender) {
-          // 群聊气泡带名字
           row.innerHTML = `
             <div style="display:flex; flex-direction:column; align-items:flex-start;">
               <div class="msg-sender">${m.sender}</div>
@@ -152,12 +146,10 @@ function renderKakao(c) {
         }
         room.appendChild(row);
       });
-      // 滚动到最底部
       setTimeout(() => { room.scrollTop = room.scrollHeight; }, 10);
     };
     renderMessages();
 
-    // 交互事件
     let currentSelectedReply = null;
 
     inputText.onclick = () => {
@@ -183,23 +175,31 @@ function renderKakao(c) {
       
       renderMessages();
       
+      // 延迟加载后续剧情
       if (usedReply.next) {
-        setTimeout(() => {
-          usedReply.next.forEach(nextMsg => chat.messages.push(nextMsg));
-          renderMessages();
-        }, 1000);
+        let delay = 1000;
+        usedReply.next.forEach(nextMsg => {
+          setTimeout(() => {
+            chat.messages.push(nextMsg);
+            renderMessages();
+          }, delay);
+          delay += 1500; // 每个人间隔1.5秒回复，更像真人群聊
+        });
       }
     };
 
     return;
   }
 
-  // 聊天列表页
   c.style.backgroundColor = "#fff";
   Object.keys(CHATS).forEach(key => {
     const chat = CHATS[key];
     const item = document.createElement("div");
     item.className = "chat-list-item";
+    // 截取最后一条消息作为预览
+    const lastMsg = chat.messages[chat.messages.length - 1];
+    chat.preview = lastMsg.sender ? `${lastMsg.sender}：${lastMsg.text}` : lastMsg.text;
+
     item.innerHTML = `<div class="chat-avatar" style="background:${chat.color}">${chat.avatar}</div><div class="chat-info"><div class="chat-name">${chat.name}</div><div class="chat-preview">${chat.preview}</div></div>`;
     item.onclick = () => { 
       currentChat = key; 
