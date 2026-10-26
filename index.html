@@ -1,73 +1,280 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#fdeef4" />
 <title>서린대학교</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div id="phone">
-  <!-- 通知弹窗 -->
-  <div id="ios-notification">
-    <div class="app-icon-small" style="background:url('https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg') center/cover #fee500;"></div>
-    <div class="notif-content">
-      <div class="notif-title"><span id="notif-title-text">KakaoTalk</span><span style="font-size:12px;color:#8e8e93;">现在</span></div>
-      <div class="notif-body" id="notif-body-text">新消息</div>
-    </div>
-  </div>
 
-  <!-- 锁屏（极度简化，绝不白屏） -->
-  <div id="lock-screen" class="active" onclick="unlockPhone()">
-    <div class="lock-time">09:41</div>
-    <div class="lock-date">10月26日 周一</div>
-    <div class="lock-bottom">
-      <div id="lock-prompt">点击屏幕解锁</div>
-    </div>
-  </div>
+<div class="phone-frame">
+  <div class="iphone-screen" id="iphoneScreen">
 
-  <!-- 主界面 -->
-  <div id="main-ui" class="hidden">
-    <div id="statusbar">
-      <span id="clock">9:41</span>
-      <div id="island"></div>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <span class="status-time" id="statusTime">22:07</span>
       <div class="status-right">
-        <div class="signal-icon"><span></span><span></span><span></span><span></span></div>
-        <div class="battery-icon"><div class="battery-level"></div></div>
+        <div class="signal-icon">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="wifi-icon"></div>
+        <div class="battery-icon">
+          <div class="battery-level"></div>
+        </div>
       </div>
     </div>
 
-    <div id="screen">
-      <!-- 桌面 -->
-      <div id="home" class="page active">
-        <div class="widget-row">
-          <div class="widget widget-weather">
-            <div class="city">西凛大学 📍</div>
-            <div class="temp">18°</div>
-            <div class="desc">☀️ 多云转晴</div>
+    <!-- 锁屏界面 -->
+    <div class="app-view active" id="lockScreen">
+      <div class="lock-wallpaper"></div>
+      <div class="lock-content">
+        <div class="lock-time" id="lockTime">22:07</div>
+        <div class="lock-date">10月26日 星期日</div>
+        <div class="lock-hint">轻触屏幕显示密码</div>
+      </div>
+
+      <!-- 密码键盘 -->
+      <div class="passcode-panel hidden" id="passcodePanel">
+        <div class="passcode-title">输入密码</div>
+        <div class="passcode-dots">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="passcode-keypad">
+          <button class="key" data-key="1">1</button>
+          <button class="key" data-key="2">2</button>
+          <button class="key" data-key="3">3</button>
+          <button class="key" data-key="4">4</button>
+          <button class="key" data-key="5">5</button>
+          <button class="key" data-key="6">6</button>
+          <button class="key" data-key="7">7</button>
+          <button class="key" data-key="8">8</button>
+          <button class="key" data-key="9">9</button>
+          <button class="key key-empty"></button>
+          <button class="key" data-key="0">0</button>
+          <button class="key key-backspace" id="backspaceKey">⌫</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 主屏幕 -->
+    <div class="app-view" id="homeScreen">
+      <div class="home-wallpaper"></div>
+
+      <div class="app-grid">
+        <div class="app-icon" data-app="calendar">
+          <div class="icon icon-calendar">
+            <div class="calendar-month">OCT</div>
+            <div class="calendar-day">26</div>
           </div>
-          <div class="widget widget-photo"><div class="date">10月26日</div></div>
+          <span class="icon-label">日历</span>
         </div>
-        <div class="app-grid" id="app-grid"></div>
-        <div class="search-bar">🔍 搜索</div>
-        <div class="dock" id="dock"></div>
+
+        <div class="app-icon" data-app="clock">
+          <div class="icon icon-clock">
+            <div class="clock-face">
+              <div class="clock-hand hour"></div>
+              <div class="clock-hand minute"></div>
+              <div class="clock-center"></div>
+            </div>
+          </div>
+          <span class="icon-label">时间</span>
+        </div>
+
+        <div class="app-icon" data-app="photos">
+          <div class="icon icon-photos">
+            <div class="photo photo-1"></div>
+            <div class="photo photo-2"></div>
+            <div class="photo photo-3"></div>
+            <div class="photo photo-4"></div>
+          </div>
+          <span class="icon-label">相册</span>
+        </div>
+
+        <div class="app-icon" data-app="maps">
+          <div class="icon icon-maps">
+            <div class="map-dot"></div>
+            <div class="map-pin"></div>
+          </div>
+          <span class="icon-label">地图</span>
+        </div>
+
+        <div class="app-icon" data-app="weather">
+          <div class="icon icon-weather">
+            <div class="weather-sun"></div>
+            <div class="weather-cloud"></div>
+          </div>
+          <span class="icon-label">天气</span>
+        </div>
+
+        <div class="app-icon" data-app="notes">
+          <div class="icon icon-notes">
+            <div class="note-paper">
+              <div class="note-line"></div>
+              <div class="note-line"></div>
+              <div class="note-line"></div>
+            </div>
+          </div>
+          <span class="icon-label">备忘录</span>
+        </div>
+
+        <div class="app-icon" data-app="kakao">
+          <div class="icon icon-kakao">
+            <div class="kakao-face"></div>
+          </div>
+          <span class="icon-label">KKT</span>
+        </div>
+
+        <div class="app-icon" data-app="instagram">
+          <div class="icon icon-instagram">
+            <div class="camera-outline"></div>
+          </div>
+          <span class="icon-label">Instagram</span>
+        </div>
+
+        <div class="app-icon" data-app="settings">
+          <div class="icon icon-settings">
+            <div class="gear"></div>
+          </div>
+          <span class="icon-label">设置</span>
+        </div>
       </div>
 
-      <!-- App 容器 -->
-      <div id="app-view" class="page">
-        <div class="app-topbar">
-          <button id="back-btn">‹ 返回</button>
-          <span id="app-title"></span>
-          <span style="width:40px"></span>
+      <div class="dock">
+        <div class="app-icon" data-app="phone">
+          <div class="icon icon-phone"></div>
         </div>
-        <div id="app-content"></div>
+        <div class="app-icon" data-app="messages">
+          <div class="icon icon-messages"></div>
+        </div>
+        <div class="app-icon" data-app="safari">
+          <div class="icon icon-safari"></div>
+        </div>
+        <div class="app-icon" data-app="music">
+          <div class="icon icon-music"></div>
+        </div>
+      </div>
+
+      <div class="home-indicator"></div>
+    </div>
+
+    <!-- 备忘录 App -->
+    <div class="app-view" id="app-notes">
+      <div class="app-header">
+        <button class="back-btn" data-back>‹</button>
+        <span class="app-title">备忘录</span>
+        <span class="app-subtitle">3 条</span>
+      </div>
+
+      <div class="note-list">
+        <div class="note-item" data-note="normal">
+          <div class="note-title">校园生活记录</div>
+          <div class="note-preview">今天也是西凛大学的一天……</div>
+        </div>
+
+        <div class="note-item" data-note="normal">
+          <div class="note-title">约会提醒</div>
+          <div class="note-preview">图书馆、篮球场、烤肉店……</div>
+        </div>
+
+        <div class="note-item locked" data-note="secret">
+          <div class="note-title">绝密剧情提示</div>
+          <div class="note-preview">🔒 此备忘录已加密</div>
+        </div>
+      </div>
+
+      <div class="note-detail hidden" id="noteDetail">
+        <div class="note-detail-inner">
+          <h2 id="noteDetailTitle">绝密剧情提示</h2>
+          <p id="noteDetailContent"></p>
+        </div>
+      </div>
+
+      <div class="note-passcode-modal hidden" id="notePasscodeModal">
+        <div class="modal-box">
+          <div class="modal-title">输入备忘录密码</div>
+          <div class="passcode-dots">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div class="passcode-keypad">
+            <button class="key" data-key="1">1</button>
+            <button class="key" data-key="2">2</button>
+            <button class="key" data-key="3">3</button>
+            <button class="key" data-key="4">4</button>
+            <button class="key" data-key="5">5</button>
+            <button class="key" data-key="6">6</button>
+            <button class="key" data-key="7">7</button>
+            <button class="key" data-key="8">8</button>
+            <button class="key" data-key="9">9</button>
+            <button class="key key-empty"></button>
+            <button class="key" data-key="0">0</button>
+            <button class="key key-backspace">⌫</button>
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- 地图 App -->
+    <div class="app-view" id="app-maps">
+      <div class="app-header">
+        <button class="back-btn" data-back>‹</button>
+        <span class="app-title">西凛大学校园地图</span>
+      </div>
+      <div class="campus-map">
+        <div class="map-grid"></div>
+        <div class="map-location" style="top:20%;left:25%;" data-location="图书馆">图书馆</div>
+        <div class="map-location" style="top:45%;left:60%;" data-location="篮球场">篮球场</div>
+        <div class="map-location" style="top:70%;left:30%;" data-location="烤肉店">烤肉店</div>
+        <div class="map-location" style="top:30%;left:75%;" data-location="咖啡馆">咖啡馆</div>
+        <div class="map-location" style="top:60%;left:70%;" data-location="操场">操场</div>
+      </div>
+    </div>
+
+    <!-- KKT 聊天界面 -->
+    <div class="app-view" id="app-kakao">
+      <div class="app-header">
+        <button class="back-btn" data-back>‹</button>
+        <span class="app-title">朴成淏</span>
+      </div>
+      <div class="chat-area" id="chatArea"></div>
+      <div class="chat-input-bar">
+        <input type="text" id="chatInput" readonly />
+        <button class="send-btn" id="sendBtn">发送</button>
+      </div>
+      <div class="option-panel hidden" id="optionPanel"></div>
+    </div>
+
+    <!-- Instagram 界面 -->
+    <div class="app-view" id="app-instagram">
+      <div class="app-header">
+        <button class="back-btn" data-back>‹</button>
+        <span class="app-title">Instagram</span>
+      </div>
+      <div class="ig-feed">
+        <div class="ig-post">
+          <div class="ig-post-header">
+            <div class="ig-avatar"></div>
+            <span>park_seongho</span>
+          </div>
+          <div class="ig-post-image"></div>
+          <div class="ig-post-actions">
+            <button class="like-btn" id="likeBtn">♡</button>
+            <span>点赞 128</span>
+          </div>
+          <div class="ig-post-caption">今天的西凛大学也很好看。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 通用返回按钮容器 -->
+    <div class="home-indicator-area">
+      <div class="home-indicator"></div>
+    </div>
+
   </div>
-  <div id="home-indicator"></div>
 </div>
+
 <script src="data.js"></script>
 <script src="app.js"></script>
 </body>

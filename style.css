@@ -1,151 +1,970 @@
-* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; background: #000; }
-#phone { position: relative; width: 100%; height: 100%; background-color: #fdf2f5; background-image: radial-gradient(#f7cbd6 2px, transparent 2px); background-size: 25px 25px; display: flex; flex-direction: column; overflow: hidden; }
-@media (min-width: 600px) { body { display: flex; align-items: center; justify-content: center; background: #1c1c1e; } #phone { width: 390px; height: 844px; border-radius: 54px; border: 12px solid #1a1a1a; box-shadow: 0 30px 80px rgba(0,0,0,.8); } }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
 
-/* 去除灵动岛 */
-#island { display: none !important; }
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #222;
+}
+
+/* 手机外壳 */
+.phone-frame {
+  width: 100vw;
+  height: 100vh;
+  max-width: 430px;
+  max-height: 932px;
+  margin: 0 auto;
+  background: #000;
+  border-radius: 44px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.iphone-screen {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 状态栏 */
+.status-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.status-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.signal-icon {
+  width: 16px;
+  height: 12px;
+  position: relative;
+}
+
+.signal-icon span {
+  position: absolute;
+  bottom: 0;
+  width: 3px;
+  background: #fff;
+  border-radius: 1px;
+}
+
+.signal-icon span:nth-child(1) { left: 0; height: 3px; }
+.signal-icon span:nth-child(2) { left: 4px; height: 5px; }
+.signal-icon span:nth-child(3) { left: 8px; height: 8px; }
+.signal-icon span:nth-child(4) { left: 12px; height: 11px; }
+
+.wifi-icon {
+  width: 14px;
+  height: 11px;
+  background:
+    radial-gradient(circle at center bottom, #fff 2px, transparent 2.5px),
+    radial-gradient(circle at center bottom, transparent 4px, #fff 4.5px, #fff 6px, transparent 6.5px),
+    radial-gradient(circle at center bottom, transparent 7px, #fff 7.5px, #fff 9px, transparent 9.5px);
+}
+
+.battery-icon {
+  width: 26px;
+  height: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 3px;
+  padding: 1px;
+  position: relative;
+}
+
+.battery-icon::after {
+  content: "";
+  position: absolute;
+  right: -4px;
+  top: 4px;
+  width: 3px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 0 1px 1px 0;
+}
+
+.battery-level {
+  width: 80%;
+  height: 100%;
+  background: #fff;
+  border-radius: 1px;
+}
+
+/* 壁纸：浅粉韩系波点 */
+.lock-wallpaper,
+.home-wallpaper {
+  position: absolute;
+  inset: 0;
+  background-color: #fdeef4;
+  background-image:
+    radial-gradient(#f9c6dc 22%, transparent 23%),
+    radial-gradient(#f7a5c8 18%, transparent 19%),
+    radial-gradient(#fbcde0 14%, transparent 15%);
+  background-size: 90px 90px, 56px 56px, 34px 34px;
+  background-position: 0 0, 20px 12px, 45px 30px;
+  z-index: 0;
+}
 
 /* 锁屏 */
-#lock-screen { position: absolute; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; color: #333; transition: transform .4s, opacity .4s; padding-top: 100px; background-color: #fdf2f5; background-image: radial-gradient(#f7cbd6 2px, transparent 2px); background-size: 25px 25px; }
-#lock-screen.hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
-.lock-time { font-size: 80px; font-weight: 300; letter-spacing: -2px; }
-.lock-date { font-size: 20px; font-weight: 500; margin-top: 5px; }
-.lock-bottom { position: absolute; bottom: 50px; }
-#lock-prompt { font-size: 15px; font-weight: 600; animation: pulse 1.5s infinite; cursor: pointer; }
-@keyframes pulse { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+.app-view {
+  position: absolute;
+  inset: 0;
+  display: none;
+  z-index: 10;
+}
 
-/* 主界面 */
-#main-ui { position: absolute; inset: 0; display: flex; flex-direction: column; transition: opacity .3s; }
-#main-ui.hidden { opacity: 0; pointer-events: none; }
-#statusbar { height: 48px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; color: #1c1c1e; font-size: 14px; font-weight: 600; flex-shrink: 0; padding-top: env(safe-area-inset-top); z-index: 50; }
-.status-right { display: flex; align-items: center; gap: 5px; }
-.signal-icon { width: 14px; height: 11px; position: relative; }
-.signal-icon span { position: absolute; bottom: 0; left: 0; width: 3px; background: #1c1c1e; border-radius: 1px; }
-.signal-icon span:nth-child(1) { height: 2px; } .signal-icon span:nth-child(2) { height: 4px; left: 4px; } .signal-icon span:nth-child(3) { height: 7px; left: 8px; } .signal-icon span:nth-child(4) { height: 10px; left: 12px; }
-.battery-icon { border: 1px solid rgba(0,0,0,0.4); border-radius: 3px; padding: 1px; width: 22px; height: 11px; position: relative; }
-.battery-icon::after { content: ""; position: absolute; right: -4px; top: 3px; width: 2px; height: 5px; background: rgba(0,0,0,0.4); border-radius: 0 1px 1px 0; }
-.battery-level { height: 100%; width: 80%; background: #1c1c1e; border-radius: 1px; }
+.app-view.active {
+  display: block;
+}
 
-#screen { flex: 1; position: relative; overflow: hidden; }
-.page { position: absolute; inset: 0; overflow-y: auto; display: none; -webkit-overflow-scrolling: touch; }
-.page.active { display: block; }
+.lock-content {
+  position: absolute;
+  top: 110px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #222;
+  z-index: 5;
+}
 
-#home { padding: 10px 16px 100px; display: flex; flex-direction: column; }
-.widget-row { display: flex; gap: 15px; margin-bottom: 25px; }
-.widget { flex: 1; border-radius: 22px; padding: 15px; color: #fff; display: flex; flex-direction: column; justify-content: space-between; }
-.widget-weather { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); color: #1c1c1e; }
-.widget-weather .temp { font-size: 38px; font-weight: 300; }
-.widget-photo { background: url('https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?q=80&w=400&auto=format&fit=crop') center/cover; position: relative; }
-.widget-photo .date { position: absolute; bottom: 10px; left: 15px; color: #fff; text-shadow: 0 1px 3px #000; }
+.lock-time {
+  font-size: 72px;
+  font-weight: 200;
+  letter-spacing: -2px;
+}
 
-.app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 12px; }
-.app-icon { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; transition: transform 0.15s; }
-.app-icon:active { transform: scale(0.92); }
-.icon-box { width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.25); background: #fff; }
-.icon-label { font-size: 11px; color: #1c1c1e; font-weight: 500; }
-.search-bar { background: rgba(255,255,255,0.6); border-radius: 20px; padding: 6px 15px; margin: 20px auto 0; font-size: 13px; font-weight: 500; }
+.lock-date {
+  font-size: 16px;
+  margin-top: 6px;
+}
 
-.dock { position: absolute; bottom: 20px; left: 12px; right: 12px; height: 85px; background: rgba(255,255,255,0.4); backdrop-filter: blur(25px); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; transition: opacity 0.3s; }
-.dock.hidden-dock { opacity: 0; pointer-events: none; }
-.dock .icon-label { display: none; }
-.dock .icon-box { width: 58px; height: 58px; }
+.lock-hint {
+  margin-top: 400px;
+  font-size: 14px;
+  opacity: 0.7;
+}
 
-/* 纯 CSS 图标绘制 */
-.icon-calendar { flex-direction: column; background: #fff; color: #ff3b30; font-weight: 800; }
-.icon-calendar .m { font-size: 10px; } .icon-calendar .d { font-size: 24px; color: #000; }
-.icon-clock { background: #000; border-radius: 50%; border: 3px solid #555; }
-.icon-clock::after { content: ""; width: 4px; height: 4px; background: #fff; border-radius: 50%; box-shadow: -10px 0 0 #fff, 0 -12px 0 #fff; }
-.icon-notes { background: #fff; border: 2px solid #fef7d6; background-image: linear-gradient(#ffe37a 2px, transparent 2px); background-size: 100% 12px; background-position: 0 10px; }
-.icon-photos { background: #fff; display: grid; grid-template-columns: 1fr 1fr; padding: 4px; gap: 2px; }
-.icon-photos div { border-radius: 2px; }
-.icon-maps { background: #fff; background-image: linear-gradient(rgba(52,199,89,.3) 1px, transparent 1px), linear-gradient(90deg, rgba(52,199,89,.3) 1px, transparent 1px); background-size: 10px 10px; }
-.icon-maps div { width: 12px; height: 12px; background: #ff3b30; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); }
-.icon-weather { background: linear-gradient(#5ac8fa, #3498db); border-radius: 50%; }
-.icon-weather div { width: 18px; height: 18px; background: #ffcc00; border-radius: 50%; box-shadow: 8px 8px 0 #fff; }
-.icon-settings { background: #e0e0e0; border-radius: 50%; border: 3px solid #999; }
-.icon-settings::after { content: ""; width: 18px; height: 18px; border: 4px solid #999; border-radius: 50%; }
-.icon-phone { background: #34c759; border-radius: 14px; display: flex; justify-content: center; align-items: center; }
-.icon-phone::after { content: "📞"; font-size: 32px; }
+/* 密码键盘 */
+.passcode-panel {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  border-radius: 24px 24px 0 0;
+}
 
-/* 纯 CSS 绘制 KakaoTalk 和 IG 图标 */
-.icon-kakao { background: #fee500; position: relative; }
-.icon-kakao::after { content: ""; width: 30px; height: 24px; background: #3c1e1e; border-radius: 12px; position: absolute; bottom: 15px; }
-.icon-kakao::before { content: ""; position: absolute; width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid #3c1e1e; bottom: 9px; z-index: 2; }
+.passcode-title {
+  text-align: center;
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 16px;
+}
 
-.icon-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-.icon-ig::after { content: ""; width: 30px; height: 30px; border: 3px solid #fff; border-radius: 8px; position: absolute; }
-.icon-ig::before { content: ""; width: 12px; height: 12px; border: 3px solid #fff; border-radius: 50%; position: absolute; z-index: 2; }
+.passcode-dots {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
 
-/* App 页面 */
-#app-view { background: #f2f2f7; }
-.app-topbar { position: sticky; top: 0; z-index: 10; height: 44px; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; background: rgba(249,249,249,.94); backdrop-filter: blur(20px); border-bottom: .5px solid #d1d1d6; font-size: 16px; font-weight: 600; color: #1c1c1e; }
-#back-btn { border: none; background: none; color: #007aff; font-size: 16px; cursor: pointer; }
-#app-content { padding: 12px 16px 40px; height: calc(100% - 44px); overflow-y: auto; position: relative; }
-#app-content.no-padding { padding: 0; overflow: hidden; }
+.passcode-dots span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #d8d8d8;
+  transition: background 0.2s;
+}
 
-/* 聊天室 */
-.chat-list-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: .5px solid #e5e5ea; cursor: pointer; background: #fff; }
-.chat-avatar { width: 50px; height: 50px; border-radius: 18px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 18px; flex-shrink: 0; }
-.chat-info { flex: 1; min-width: 0; }
-.chat-name { font-size: 16px; font-weight: 500; color: #1c1c1e; }
-.chat-preview { font-size: 14px; color: #8e8e93; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
-.chat-room-wrapper { display: flex; flex-direction: column; height: 100%; width: 100%; background: #b2c7d9; position: absolute; inset: 0; }
-.chat-room { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
-.msg-row { display: flex; }
-.msg-row.me { justify-content: flex-end; }
-.bubble { max-width: 75%; padding: 10px 14px; border-radius: 18px; font-size: 15px; line-height: 1.4; word-break: break-word; display: inline-block; width: fit-content; }
-.msg-row.them .bubble { background: #fff; color: #1c1c1e; border-bottom-left-radius: 4px; }
-.msg-row.me .bubble { background: #fee500; color: #3c1e1e; border-bottom-right-radius: 4px; }
-.msg-sender { font-size: 12px; color: #8e8e93; margin-bottom: 4px; padding-left: 4px; }
-.time-divider { text-align: center; margin: 10px 0; }
-.time-divider span { background: rgba(0,0,0,0.1); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 12px; }
+.passcode-dots span.filled {
+  background: #ff2d55;
+}
 
-.reply-modal { position: absolute; bottom: 0; left: 0; right: 0; background: #fff; border-top-left-radius: 20px; border-top-right-radius: 20px; transform: translateY(100%); transition: transform 0.3s; z-index: 20; padding: 15px; }
-.reply-modal.show { transform: translateY(0); }
-.reply-option { padding: 12px; background: #f1f1f1; border-radius: 10px; margin-bottom: 8px; font-size: 14px; cursor: pointer; text-align: center; font-weight: 500; }
+.passcode-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
 
-#ios-notification { position: absolute; top: -100px; left: 10px; right: 10px; z-index: 200; background: rgba(255,255,255,0.95); backdrop-filter: blur(25px); border-radius: 20px; padding: 12px; display: flex; gap: 12px; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); cursor: pointer; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-#ios-notification.show { top: 50px; }
-#ios-notification .app-icon-small { width: 40px; height: 40px; border-radius: 10px; }
-#ios-notification .notif-title { font-size: 14px; font-weight: 700; }
-#ios-notification .notif-body { font-size: 13px; margin-top: 2px; }
+.key {
+  height: 54px;
+  border: none;
+  border-radius: 50%;
+  background: #f2f2f7;
+  font-size: 22px;
+  font-weight: 500;
+  color: #000;
+  cursor: pointer;
+}
+
+.key:active {
+  background: #d1d1d6;
+}
+
+.key-empty {
+  background: transparent;
+}
+
+.key-backspace {
+  background: #e5e5ea;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* 主屏幕 */
+.app-grid {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  padding: 0 22px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px 10px;
+  z-index: 5;
+}
+
+.app-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+}
+
+.icon-label {
+  font-size: 11px;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+/* 图标 */
+.icon-calendar {
+  background: #fff;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 4px;
+}
+
+.calendar-month {
+  font-size: 10px;
+  color: #ff3b30;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.calendar-day {
+  font-size: 24px;
+  color: #000;
+  font-weight: 600;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.icon-clock {
+  background: #000;
+}
+
+.clock-face {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  position: relative;
+}
+
+.clock-hand {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: 0 0;
+  background: #000;
+  border-radius: 2px;
+}
+
+.clock-hand.hour {
+  width: 2px;
+  height: 10px;
+  transform: translate(-50%, -100%) rotate(30deg);
+}
+
+.clock-hand.minute {
+  width: 2px;
+  height: 14px;
+  transform: translate(-50%, -100%) rotate(90deg);
+}
+
+.clock-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  background: #000;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.icon-photos {
+  background: #fff;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  padding: 3px;
+}
+
+.photo {
+  border-radius: 2px;
+}
+
+.photo-1 { background: #ff9500; }
+.photo-2 { background: #ff2d55; }
+.photo-3 { background: #5856d6; }
+.photo-4 { background: #34c759; }
+
+.icon-maps {
+  background: linear-gradient(180deg, #dff6ff, #9ad7ff);
+}
+
+.map-dot {
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+
+.map-pin {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #ff3b30;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+}
+
+.icon-weather {
+  background: linear-gradient(180deg, #7ad7ff, #2f80d1);
+}
+
+.weather-sun {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 18px;
+  height: 18px;
+  background: #ffd60a;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #ffe066;
+}
+
+.weather-cloud {
+  width: 32px;
+  height: 12px;
+  background: #fff;
+  border-radius: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.weather-cloud::before,
+.weather-cloud::after {
+  content: "";
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.weather-cloud::before {
+  width: 14px;
+  height: 14px;
+  top: -7px;
+  left: 5px;
+}
+
+.weather-cloud::after {
+  width: 10px;
+  height: 10px;
+  top: -4px;
+  right: 5px;
+}
+
+.icon-notes {
+  background: #fffbe8;
+}
+
+.note-paper {
+  width: 70%;
+  height: 72%;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.note-line {
+  height: 2px;
+  background: #ffe37a;
+  border-radius: 2px;
+}
+
+.icon-kakao {
+  background: #ffeb00;
+}
+
+.kakao-face {
+  width: 34px;
+  height: 34px;
+  background: #3c1e1f;
+  border-radius: 50%;
+  position: relative;
+}
+
+.kakao-face::before,
+.kakao-face::after {
+  content: "";
+  position: absolute;
+  top: 11px;
+  width: 6px;
+  height: 6px;
+  background: #ffeb00;
+  border-radius: 50%;
+}
+
+.kakao-face::before { left: 7px; }
+.kakao-face::after { right: 7px; }
+
+.icon-instagram {
+  background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+.camera-outline {
+  width: 34px;
+  height: 34px;
+  border: 3px solid #fff;
+  border-radius: 10px;
+  position: relative;
+}
+
+.camera-outline::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+}
+
+.icon-settings {
+  background: #8e8e93;
+}
+
+.gear {
+  width: 34px;
+  height: 34px;
+  background: #d1d1d6;
+  border-radius: 50%;
+  position: relative;
+}
+
+.gear::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  background: conic-gradient(
+    #d1d1d6 0 10deg, transparent 10deg 35deg,
+    #d1d1d6 35deg 45deg, transparent 45deg 70deg,
+    #d1d1d6 70deg 80deg, transparent 80deg 105deg,
+    #d1d1d6 105deg 115deg, transparent 115deg 140deg,
+    #d1d1d6 140deg 150deg, transparent 150deg 175deg,
+    #d1d1d6 175deg 185deg, transparent 185deg 210deg,
+    #d1d1d6 210deg 220deg, transparent 220deg 245deg,
+    #d1d1d6 245deg 255deg, transparent 255deg 280deg,
+    #d1d1d6 280deg 290deg, transparent 290deg 315deg,
+    #d1d1d6 315deg 325deg, transparent 325deg 350deg,
+    #d1d1d6 350deg 360deg
+  );
+  border-radius: 50%;
+  mask: radial-gradient(circle, transparent 10px, #000 10px);
+  -webkit-mask: radial-gradient(circle, transparent 10px, #000 10px);
+}
+
+.icon-phone {
+  background: linear-gradient(180deg, #5ef764, #29b847);
+}
+
+.icon-phone::before {
+  content: "";
+  width: 24px;
+  height: 12px;
+  border: 3px solid #fff;
+  border-radius: 3px;
+  transform: rotate(135deg);
+  position: relative;
+}
+
+.icon-messages {
+  background: linear-gradient(180deg, #5ef764, #29b847);
+}
+
+.icon-messages::before {
+  content: "";
+  width: 28px;
+  height: 22px;
+  background: #fff;
+  border-radius: 14px;
+  position: relative;
+}
+
+.icon-safari {
+  background: linear-gradient(180deg, #7ac7ff, #1e88e5);
+}
+
+.icon-safari::before {
+  content: "";
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border-radius: 50%;
+  position: relative;
+}
+
+.icon-music {
+  background: linear-gradient(180deg, #fc2f55, #8f0f3a);
+}
+
+.icon-music::before {
+  content: "";
+  width: 22px;
+  height: 28px;
+  position: relative;
+  border-left: 3px solid #fff;
+  border-top: 3px solid #fff;
+  border-right: 3px solid #fff;
+  border-radius: 10px 10px 0 0;
+}
+
+/* Dock */
+.dock {
+  position: absolute;
+  bottom: 30px;
+  left: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 28px;
+  padding: 12px 10px;
+  display: flex;
+  justify-content: space-around;
+  z-index: 5;
+}
+
+.dock .icon {
+  width: 46px;
+  height: 46px;
+}
+
+.home-indicator-area {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.home-indicator {
+  width: 134px;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+/* App 通用头部 */
+.app-header {
+  position: absolute;
+  top: 44px;
+  left: 0;
+  right: 0;
+  height: 44px;
+  background: #f2f2f7;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  z-index: 20;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.back-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  color: #007aff;
+  cursor: pointer;
+}
+
+.app-title {
+  flex: 1;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.app-subtitle {
+  width: 36px;
+  font-size: 12px;
+  color: #8e8e93;
+  text-align: right;
+}
 
 /* 备忘录 */
-.memo-list-item { padding: 15px 20px; background: #fff; border-bottom: 1px solid #e5e5ea; cursor: pointer; display: flex; justify-content: space-between; align-items: center;}
-.memo-list-title { font-size: 16px; font-weight: 600; color: #1c1c1e;}
-.memo-list-date { font-size: 13px; color: #8e8e93;}
-.memo-detail { background: #fff; padding: 20px; height: 100%; }
-.memo-detail h1 { font-size: 24px; margin-bottom: 10px; }
-.memo-detail p { font-size: 15px; line-height: 1.6; color: #333; white-space: pre-wrap; }
-.memo-lock-screen { text-align: center; padding: 80px 20px; background: #fff; height: 100%;}
-.memo-input { padding: 12px; font-size: 18px; text-align: center; border: 1px solid #ccc; border-radius: 10px; width: 160px; margin-top: 20px; outline:none;}
+.note-list {
+  position: absolute;
+  top: 88px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #f2f2f7;
+  overflow-y: auto;
+  padding: 10px 14px;
+}
 
-/* IG */
-.ig-header { display: flex; justify-content: space-between; padding: 10px 16px; background: #fff; border-bottom: 1px solid #dbdbdb; }
-.ig-logo { font-family: 'Billabong', cursive, sans-serif; font-size: 26px; font-weight: bold; }
-.ig-feed-post { background: #fff; margin-bottom: 10px; border-bottom: 1px solid #dbdbdb; }
-.ig-feed-header { display: flex; align-items: center; gap: 10px; padding: 10px; }
-.ig-feed-img { width: 100%; height: 300px; background: #eee; background-size: cover; background-position: center; }
-.ig-feed-actions { padding: 10px; font-size: 24px; display: flex; gap: 15px; }
-.ig-heart { cursor: pointer; transition: transform 0.2s; }
-.ig-heart.liked { color: #ed4956; transform: scale(1.1); }
-.ig-feed-caption { padding: 0 10px 10px; font-size: 14px; }
+.note-item {
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  cursor: pointer;
+}
+
+.note-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 4px;
+}
+
+.note-preview {
+  font-size: 13px;
+  color: #8e8e93;
+}
+
+.note-detail {
+  position: absolute;
+  inset: 88px 0 0 0;
+  background: #f2f2f7;
+  z-index: 30;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.note-detail-inner h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.note-detail-inner p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #333;
+}
+
+.note-passcode-modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+}
+
+.modal-box {
+  width: 86%;
+  background: #fff;
+  border-radius: 20px;
+  padding: 22px;
+}
+
+.modal-title {
+  text-align: center;
+  font-size: 15px;
+  margin-bottom: 16px;
+  color: #333;
+}
 
 /* 地图 */
-.map-container { width: 100%; height: 100%; background-color: #f0f4f8; background-image: linear-gradient(#d0d7e0 1px, transparent 1px), linear-gradient(90deg, #d0d7e0 1px, transparent 1px); background-size: 40px 40px; position: relative; overflow: hidden; }
-.map-pin { position: absolute; transform: translate(-50%, -100%); cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s;}
-.map-pin:active { transform: translate(-50%, -100%) scale(1.1); }
-.map-pin .pin-icon { width: 24px; height: 24px; background: #007aff; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-.map-pin .pin-label { background: #fff; padding: 4px 10px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-top: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); white-space: nowrap; }
-.map-bottom-card { position: absolute; bottom: 20px; left: 10px; right: 10px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: translateY(150%); transition: transform 0.3s; z-index: 50;}
-.map-bottom-card.show { transform: translateY(0); }
-.map-btn { display: block; width: 100%; padding: 12px; background: #007aff; color: #fff; text-align: center; border-radius: 12px; font-weight: bold; margin-top: 15px; cursor: pointer; }
-.map-choice-modal { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 60; display: none; justify-content: center; align-items: center; padding: 20px; }
-.map-choice-modal.show { display: flex; }
-.map-choice-box { background: #fff; width: 100%; border-radius: 20px; padding: 20px; text-align: center; }
-.map-choice-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #1c1c1e; }
-.map-choice-btn { padding: 12px; background: #f2f2f7; border-radius: 12px; margin-bottom: 10px; font-size: 15px; font-weight: 500; cursor: pointer; border: 1px solid #e5e5ea; }
+.campus-map {
+  position: absolute;
+  top: 88px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #eaf6ff;
+}
 
-#home-indicator { position: absolute; bottom: 0; left: 0; right: 0; height: 34px; display: flex; align-items: center; justify-content: center; z-index: 100; pointer-events: none; }
-#home-indicator::after { content: ""; width: 134px; height: 5px; border-radius: 3px; background: #1c1c1e; opacity: 0.8; }
+.map-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(120, 180, 220, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 180, 220, 0.35) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.map-location {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: #ff3b30;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 14px;
+  font-size: 12px;
+  box-shadow: 0 4px 10px rgba(255, 59, 48, 0.4);
+  cursor: pointer;
+}
+
+/* 聊天 */
+.chat-area {
+  position: absolute;
+  top: 88px;
+  left: 0;
+  right: 0;
+  bottom: 60px;
+  padding: 16px;
+  overflow-y: auto;
+  background: #f2f2f7;
+}
+
+.bubble {
+  max-width: 72%;
+  padding: 9px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+
+.bubble.other {
+  background: #fff;
+  color: #000;
+  border-top-left-radius: 4px;
+}
+
+.bubble.me {
+  background: #95ec69;
+  color: #000;
+  margin-left: auto;
+  border-top-right-radius: 4px;
+}
+
+.chat-input-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 10px;
+  border-top: 1px solid #e5e5ea;
+}
+
+#chatInput {
+  flex: 1;
+  height: 36px;
+  border: 1px solid #e5e5ea;
+  border-radius: 18px;
+  padding: 0 14px;
+  font-size: 14px;
+  outline: none;
+  background: #f2f2f7;
+}
+
+.send-btn {
+  width: 56px;
+  height: 36px;
+  border: none;
+  border-radius: 18px;
+  background: #007aff;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.option-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 60px;
+  background: #fff;
+  border-top: 1px solid #e5e5ea;
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 25;
+}
+
+.option-item {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f2f2f7;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.option-item:active {
+  background: #f2f2f7;
+}
+
+/* Instagram */
+.ig-feed {
+  position: absolute;
+  top: 88px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #f2f2f7;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.ig-post {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.ig-post-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ig-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f09433, #bc1888);
+}
+
+.ig-post-image {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(135deg, #ffd6e8, #b5f0ff);
+}
+
+.ig-post-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px 4px;
+  font-size: 13px;
+}
+
+.like-btn {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  cursor: pointer;
+  color: #000;
+}
+
+.like-btn.liked {
+  color: #ff2d55;
+}
+
+.ig-post-caption {
+  padding: 0 12px 12px;
+  font-size: 13px;
+  color: #333;
+}
+
+/* 屏幕适配 */
+@media (max-width: 360px) {
+  .lock-time {
+    font-size: 60px;
+  }
+
+  .icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .dock .icon {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+@media (min-width: 414px) {
+  .lock-time {
+    font-size: 84px;
+  }
+
+  .app-grid {
+    padding: 0 26px;
+  }
+}
