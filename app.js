@@ -3,11 +3,22 @@ let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
 
-window.unlockPhone = function() {
-  document.getElementById("lock-screen").classList.add("hidden");
-  document.getElementById("main-ui").classList.remove("hidden");
-  setTimeout(() => showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho"), 1000);
-}
+// 【终极解锁方案】：让整个手机屏幕都能点，绝对不卡死
+document.addEventListener("click", function(e) {
+  const lockScreen = document.getElementById("lock-screen");
+  // 只要锁屏没隐藏，点哪里都会解锁
+  if (lockScreen && !lockScreen.classList.contains("hidden")) {
+    lockScreen.classList.add("hidden");
+    document.getElementById("main-ui").classList.remove("hidden");
+    
+    // 1秒后弹出成淏的微信
+    setTimeout(() => {
+      if (typeof showNotification === 'function') {
+        showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho");
+      }
+    }, 1000);
+  }
+});
 
 function updateClock() {
   const now = new Date();
@@ -22,6 +33,7 @@ function showNotification(title, body, appId, chatId) {
   notif.querySelector("#notif-title-text").innerText = title;
   notif.querySelector("#notif-body-text").innerText = body;
   notif.classList.add("show");
+  
   notif.onclick = () => {
     notif.classList.remove("show");
     openApp(appId, "KakaoTalk");
@@ -36,7 +48,8 @@ function showNotification(title, body, appId, chatId) {
 
 function renderApps() {
   const grid = document.getElementById("app-grid"); 
-  if(!grid) return;
+  if (!grid) return;
+  
   grid.innerHTML = "";
   const dockApps = ["phone", "map", "kakao", "instagram"];
   const mainApps = APPS.filter(app => !dockApps.includes(app.id));
@@ -81,6 +94,7 @@ function openApp(id, name) {
   document.getElementById("home").classList.remove("active");
   document.getElementById("app-view").classList.add("active");
   document.getElementById("app-title").textContent = name;
+  
   const dock = document.querySelector(".dock");
   if(dock) dock.classList.add("hidden-dock");
   
@@ -88,6 +102,7 @@ function openApp(id, name) {
   c.classList.remove("no-padding");
   if (id === "kakao" && currentChat) c.classList.add("no-padding");
   if (id === "map") c.classList.add("no-padding");
+  
   renderAppContent(id);
   c.scrollTop = 0;
 }
@@ -109,6 +124,8 @@ window.goBack = function() {
     renderAppContent("memo");
   } else { goHome(); }
 }
+
+document.getElementById("back-btn").onclick = goBack;
 
 function renderAppContent(id) {
   const c = document.getElementById("app-content"); c.innerHTML = "";
