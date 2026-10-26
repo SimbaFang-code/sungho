@@ -14,7 +14,7 @@ var APPS = [
 var MEMOS = [
   { id: "m1", title: "选课笔记", date: "今天 09:00", content: "周一上午有经营学，记得带计算器。\n周三去图书馆借两本全英教材。" },
   { id: "m2", title: "课堂作业", date: "昨天 14:00", content: "经营学小组作业：周五前交，记得拉群讨论。\n传媒学：写一篇关于校园媒体的报告。" },
-  { id: "m3", title: "绝密剧情提示", date: "现在", isLocked: true, content: "【剧本杀防卡关指南】\n\n1. 线下事件：需要去地图上点击各个地点触发（例如烤肉店、篮球场）。\n2. 聊天记录：和成淏聊天时，点击输入框会弹出剧情选项。\n3. IG联动：去 Instagram 给成淏点赞，会触发他的私信！" }
+  { id: "m3", title: "绝密剧情提示", date: "现在", isLocked: true, content: "【剧本杀防卡关指南】\n\n1. 线下事件：需要去地图上点击各个地点触发（例如烤肉店、篮球场）。\n2. 聊天记录：和各个学长聊天时，点击输入框会弹出剧情选项。\n3. IG联动：去 Instagram 给成淏点赞，会触发他的私信！" }
 ];
 
 var CHATS = {
@@ -28,107 +28,92 @@ var CHATS = {
       { from: "me", text: "好像在一棵很大的银杏树旁边" },
       { from: "them", text: "那我知道了，你往左手边那条路走，看到学生会馆就到了。" },
       { from: "me", text: "找到了！谢谢学长！" },
-      { type: "time", text: "9月15日 晚上" },
-      { from: "them", text: "今天在图书馆看到你了，在啃全英教材吗？" },
-      { from: "me", text: "对啊，经营学好难……学长你也在图书馆吗？" },
-      { from: "them", text: "嗯。如果有不懂的，随时拍下来发给我。" },
-      { from: "me", text: "好！那以后就麻烦学长啦~" },
       { type: "time", text: "今天 下午 16:00" },
       { from: "them", text: "宰铉在群里说周五聚餐，你看到了吗？" }
     ],
     story: [
       { me: "看到啦，我一定会去的！", them: "嗯，去吧，大家都很想见你。" },
-      { me: "学长会去吗？", them: "当然。我不去的话，谁替你挡酒？" },
-      { me: "嘿嘿，那太好了", them: "对了，周五那天穿得好看点。" },
-      { me: "诶？为什么？", them: "因为……我想和你多拍几张照片。" }
+      { me: "学长会去吗？", them: "当然。我不去的话，谁替你挡酒？" }
     ]
   },
   riwoo: { 
-    name: "李常赫", avatarClass: "avatar-rw", color: "#30d158", time: "昨天", preview: "到时候见。",
+    name: "李常赫", avatarClass: "avatar-rw", color: "#30d158", time: "昨天", preview: "舞蹈社的日常。",
     history: [
       { type: "time", text: "9月10日" },
       { from: "them", text: "我是李常赫。听说成淏带你来舞蹈室了。" },
       { from: "me", text: "啊，是的常赫学长！学长跳舞超帅的！" },
-      { from: "them", text: "谢谢。如果觉得经营学无聊，可以来舞蹈社看看。会让你放松很多。" },
-      { from: "me", text: "好呀好呀，有空一定去！" },
-      { type: "time", text: "昨天" },
-      { from: "them", text: "舞蹈社这周有开放练习。" },
-      { from: "me", text: "收到！这周末见！" }
+      { from: "them", text: "谢谢。如果觉得经营学无聊，可以来舞蹈社看看。" }
     ],
-    story: []
+    story: [
+      { me: "常赫学长，明天舞蹈社有活动吗？", them: "有。不过……成淏也会来，他最近练得很勤。" },
+      { me: "诶？他练什么？", them: "不知道。不过他老是偷看你，我都看到了。" }
+    ]
   },
   jaehyun: { 
-    name: "明宰铉", avatarClass: "avatar-jh", color: "#ff375f", time: "昨天", preview: "成淏可是难得带人来！",
+    name: "明宰铉", avatarClass: "avatar-jh", color: "#ff375f", time: "昨天", preview: "聚餐定啦！",
     history: [
       { type: "time", text: "9月12日" },
       { from: "them", text: "学妹好呀！我是传媒系的明宰铉！" },
       { from: "me", text: "宰铉学长好！" },
-      { from: "them", text: "成淏那个闷葫芦居然会主动带学妹，太阳打西边出来了！" },
-      { from: "me", text: "哈哈，迎新那天多亏了他。" },
-      { type: "time", text: "昨天" },
-      { from: "them", text: "学妹！周五聚餐一定要来啊！" },
-      { from: "me", text: "一定一定！" },
-      { from: "them", text: "成淏可是难得带人来，我们得好好把把关！" }
+      { from: "them", text: "周五聚餐一定要来啊！成淏可是难得带人来！" }
     ],
-    story: []
+    story: [
+      { me: "宰铉学长，聚餐会有什么活动吗？", them: "有啊！玩游戏！到时候我要抽签分组，你猜你会和谁一组？" },
+      { me: "不知道诶……", them: "我赌一百块，绝对是成淏。他刚才还在问我怎么作弊呢哈哈哈。" }
+    ]
   },
   taesan: { 
-    name: "韩泰山", avatarClass: "avatar-ts", color: "#5e5ce6", time: "昨天", preview: "新歌发了。",
+    name: "韩泰山", avatarClass: "avatar-ts", color: "#5e5ce6", time: "昨天", preview: "新歌demo。",
     history: [
       { type: "time", text: "9月20日" },
-      { from: "them", text: "我是韩泰山。" },
-      { from: "me", text: "泰山学长好！听说你写歌很厉害。" },
-      { from: "them", text: "还行。有灵感的话，可以来音乐楼找我。" },
-      { from: "me", text: "好！我很期待！" },
-      { type: "time", text: "昨天" },
-      { from: "them", text: "新歌发了。" },
-      { from: "me", text: "马上去听！" }
+      { from: "them", text: "我是韩泰山。新歌发了，有空听。" },
+      { from: "me", text: "好！我很期待！" }
     ],
-    story: []
+    story: [
+      { me: "泰山学长，新歌很好听！", them: "谢谢。其实副歌那段旋律，是看着你和成淏打闹的时候写的。" },
+      { me: "啊？我们的打闹？", them: "嗯，很有生命力。别告诉成淏，他会脸红的。" }
+    ]
   },
   leehan: { 
     name: "金桐儇", avatarClass: "avatar-lh", color: "#64d2ff", time: "昨天", preview: "图书馆见。",
     history: [
       { type: "time", text: "10月1日" },
-      { from: "them", text: "你好，我是金桐儇。" },
-      { from: "me", text: "桐儇学长好！" },
-      { from: "them", text: "刚才看到你在一楼找不到书，其实三楼靠窗的位置更安静，书也更全。" },
-      { from: "me", text: "哇，谢谢学长！我明天去看看。" },
-      { type: "time", text: "昨天" },
-      { from: "them", text: "图书馆见。" },
-      { from: "me", text: "嗯嗯，待会见！" }
+      { from: "them", text: "你好，我是金桐儇。三楼靠窗位置很好。" },
+      { from: "me", text: "谢谢学长！我明天去看看。" }
     ],
-    story: []
+    story: [
+      { me: "桐儇学长，你在图书馆吗？", them: "在。成淏也在，他占了个双人座，说在等人。" },
+      { me: "等人？等谁？", them: "你觉得呢？他已经在往门口看了十分钟了。" }
+    ]
   },
   woonhak: { 
     name: "金云鹤", avatarClass: "avatar-wh", color: "#bf5af2", time: "昨天", preview: "学妹好！",
     history: [
       { type: "time", text: "9月5日" },
-      { from: "them", text: "学妹好！我是云鹤！" },
-      { from: "me", text: "云鹤学长好！" },
-      { from: "them", text: "听说食堂今天的炸猪排超级好吃！你去了吗！" },
-      { from: "me", text: "还没呢，正准备去。" },
-      { from: "them", text: "快去吧！记得叫上成淏哥，他老不按时吃饭。" },
-      { type: "time", text: "昨天" },
-      { from: "them", text: "学妹！有新开的甜品店，下次一起去啊！" },
-      { from: "me", text: "好呀，说定了！" }
+      { from: "them", text: "学妹好！我是云鹤！食堂炸猪排超好吃！" },
+      { from: "me", text: "云鹤学长好！我改天去尝尝。" }
     ],
-    story: []
+    story: [
+      { me: "云鹤学长，最近有什么好玩的事吗？", them: "有！我听说成淏哥手机壁纸换成你的照片了！他没告诉你吗？" },
+      { me: "？？真的假的", them: "真的！那天他手机亮了，我刚好看到了。不过你别告诉他是我说的！" }
+    ]
   },
   group: {
     name: "6+1小分队", avatarClass: "avatar-group", color: "#8e8e93", time: "下午 14:30", preview: "朴成淏：我带学妹来。",
     history: [
       { type: "time", text: "今天 14:30" },
-      { from: "them", sender: "明宰铉", text: "各位！这周五晚上聚餐，老地方！" },
+      { from: "them", sender: "明宰铉", text: "各位！周五晚上聚餐，老地方！" },
       { from: "me", text: "收到！" },
-      { from: "them", sender: "金云鹤", text: "好耶！我最近发现了一家超好吃的店！" },
+      { from: "them", sender: "金云鹤", text: "好耶！有新开的店！" },
       { from: "them", sender: "李常赫", text: "你上周不是才去过吗？" },
       { from: "them", sender: "金云鹤", text: "那不一样！" },
       { from: "them", sender: "朴成淏", text: "我带学妹来。" },
-      { from: "them", sender: "明宰铉", text: "？！成淏你居然会主动带人！" }
+      { from: "them", sender: "明宰铉", text: "？！成淏你居然会主动带人！" },
+      { from: "them", sender: "韩泰山", text: "他哪天不主动？" },
+      { from: "them", sender: "金桐儇", text: "就是，每天抱着手机傻笑。" }
     ],
     story: [
-      { me: "学长们好！请多指教！", them: "欢迎欢迎！", sender: "明宰铉" }
+      { me: "学长们好！我会准时到的！", them: "欢迎欢迎！", sender: "明宰铉" }
     ]
   }
 };
@@ -137,471 +122,101 @@ var MAP_PLACES = [
   { 
     id: "p1", name: "中央图书馆", x: 25, y: 30, clickCount: 0,
     events: [
-      { text: "你在书架旁遇到成淏，他正踮脚找一本高处的书。", choices: ["帮他拿下来", "假装没看见"], reply: "【朴成淏】刚刚看到你踮脚的样子，像只小兔子。谢谢啦，书拿到了，下次请你喝奶茶。" },
-      { text: "成淏趴在桌上睡着了，旁边还有没写完的报告。", choices: ["给他披件外套", "叫醒他"], reply: "【朴成淏】醒来看到你的外套了。我睡得有点沉，没压坏你的衣服吧？为了感谢你，晚上请你吃饭。" },
-      { text: "你忘带笔记本了，正发愁。", choices: ["向他借", "去外面买"], reply: "【朴成淏】用我的吧，我记了双份。不过……你拿什么还我？" }
+      { text: "你在书架旁遇到成淏，他正踮脚找一本高处的书。", choices: ["帮他拿下来", "假装没看见"], reply: "【朴成淏】刚刚看到你踮脚的样子，像只小兔子。书拿到了，不过……下次这种事，我帮你做就好。" },
+      { text: "成淏趴在桌上睡着了，旁边还有没写完的报告。", choices: ["给他披件外套", "叫醒他"], reply: "【朴成淏】醒来看到你的外套了，没压坏你的衣服吧？刚刚醒来第一眼看到是你，感觉很好。" },
+      { text: "你忘带笔记本了，正发愁。", choices: ["向他借", "去外面买"], reply: "【朴成淏】用我的吧。不过……你是不是故意的？想让我多关注你？" },
+      { text: "你复习到很晚，一转头看到成淏坐在你旁边，假装看书。", choices: ["给他传纸条", "小声问他", "拍他肩膀"], reply: "【朴成淏】你传的纸条我收起来了。别告诉别人，我其实一直在偷看你，书都没翻页。" },
+      { text: "期末周，你为了占座起得很早。推开门，成淏已经在那儿了，旁边放着一杯热咖啡。", choices: ["坐下喝咖啡", "去外面买"], reply: "【朴成淏】咖啡是给你的。我知道你怕苦，加了两块糖。" }
     ]
   },
   { 
     id: "p2", name: "篮球场", x: 75, y: 20, clickCount: 0,
     events: [
-      { text: "成淏刚打完一场比赛，满头大汗地坐在场边。", choices: ["跑过去给他送水", "站在远处看"], reply: "【朴成淏】刚刚的水，谢谢。我刚才投进三分球的时候，余光看到你好像在欢呼？" },
-      { text: "篮球滚到了你脚边，成淏跑过来捡。", choices: ["把球扔回给他", "抱在怀里逗他"], reply: "【朴成淏】刚才故意不给我球是吧？下次见面我要捏你的脸。" },
-      { text: "比赛结束，他正被一群女生围着。", choices: ["转身走开", "在操场门口等他"], reply: "【朴成淏】刚才去哪了？我一转眼你就不见了。那群女生只是来送水的，我都没接。" }
+      { text: "成淏刚打完一场比赛，满头大汗地坐在场边。", choices: ["跑过去给他送水", "站在远处看"], reply: "【朴成淏】刚刚的水，谢谢。我投进三分球的时候，余光看到你在欢呼，就那一瞬间，我特别想跑过去抱你。" },
+      { text: "篮球滚到了你脚边，成淏跑过来捡。", choices: ["把球扔回给他", "抱在怀里逗他"], reply: "【朴成淏】刚才故意不给我球是吧？不乖。下次见面我可要抓着你胳膊不放了。" },
+      { text: "比赛结束，他正被一群女生围着。", choices: ["转身走开", "在操场门口等他"], reply: "【朴成淏】刚才去哪了？我一眼都没看她们，一直在找你。" },
+      { text: "云鹤在篮球场打球，非拉着你来当观众。", choices: ["给云鹤加油", "偷看旁边跑步的成淏"], reply: "【金云鹤】学妹！你刚刚是不是偷看成淏哥了？我都看到了！" },
+      { text: "成淏在练球，你路过。他假装没看见，结果投了个三不沾。", choices: ["笑出声", "装作没看到"], reply: "【朴成淏】你刚才笑了对吧？我听到你声音了，才投丢的，你要负责。" }
     ]
   },
   { 
     id: "p3", name: "音乐楼", x: 80, y: 65, clickCount: 0,
     events: [
-      { text: "经过琴房，听到里面传出好听的吉他声，是成淏在弹。", choices: ["推门进去听", "在门外安静听完"], reply: "【朴成淏】刚刚门外是你吧？进来啊，这首曲子刚写好，想第一个弹给你听。" },
-      { text: "成淏正在调试设备，看起来有点烦躁。", choices: ["递给他一瓶水", "找泰山来帮忙"], reply: "【朴成淏】谢谢你的水。不过找泰山就算了，那家伙只会笑我。有你在旁边陪着，我心情好多了。" },
-      { text: "社团招新，成淏坐在那里发传单。", choices: ["帮他一起发", "给他买杯咖啡"], reply: "【朴成淏】咖啡很好喝。不过其实你站在旁边，比一百张传单都有用，好多男生都在看你，我有点后悔让你来了。" }
+      { text: "经过琴房，听到里面传出好听的吉他声，是成淏在弹。", choices: ["推门进去听", "在门外安静听完"], reply: "【朴成淏】刚刚门外是你吧？这首曲子刚写好，我想第一个弹给你听。想不想坐近一点？" },
+      { text: "泰山在做音乐，你帮他去买水。", choices: ["顺便给成淏买一瓶", "只给泰山买"], reply: "【韩泰山】买了两瓶？另一瓶是给成淏的吧。他就在隔壁琴房，去看看吧。" },
+      { text: "社团招新，成淏坐在那里发传单。", choices: ["帮他一起发", "给他买杯咖啡"], reply: "【朴成淏】咖啡很好喝。不过刚刚好多男生都在看你，我有点后悔让你来帮忙了。" },
+      { text: "泰山正在试音，让你听听他新写的旋律。", choices: ["认真听给出意见", "走神看手机"], reply: "【韩泰山】认真听。这段其实是我写给你和成淏的。别告诉他。" },
+      { text: "成淏在音乐楼练吉他，手指磨破了。", choices: ["拿创可贴给他", "让他自己处理"], reply: "【朴成淏】谢谢。其实一点都不疼，但你给我贴创可贴的时候，心跳有点快。" }
     ]
   },
   { 
     id: "p4", name: "老地方烤肉店", x: 50, y: 45, clickCount: 0,
     events: [
-      { text: "六人聚餐，大家刚坐下。", choices: ["坐在成淏旁边", "坐在云鹤旁边"], reply: "【朴成淏】刚刚聚餐，看到云鹤一直给你夹肉，你吃得还挺开心？我有点不舒服，下次我给你夹。" },
-      { text: "聚餐进行到一半，大家在玩游戏。", choices: ["帮成淏挡酒", "自己喝掉"], reply: "【朴成淏】你干嘛替我喝酒？你酒量不好不知道吗？刚刚你脸红的样子……我看了好久。" },
-      { text: "聚餐结束，大家在门口告别。", choices: ["等成淏一起走", "跟闺蜜先走"], reply: "【朴成淏】刚刚没看到你，还以为你丢下我先走了。还好你还在，走吧，我送你回宿舍。" }
+      { text: "六人聚餐，大家刚坐下。", choices: ["坐在成淏旁边", "坐在云鹤旁边"], reply: "【朴成淏】刚刚聚餐，云鹤一直给你夹肉，我有点不舒服。下次我给你夹，你只能吃我夹的。" },
+      { text: "聚餐进行到一半，大家在玩游戏。", choices: ["帮成淏挡酒", "自己喝掉"], reply: "【朴成淏】你干嘛替我挡酒？不过……刚刚你脸红的样子，真的很好看。他们都在起哄，我居然有点开心。" },
+      { text: "聚餐结束，大家在门口告别。", choices: ["等成淏一起走", "跟闺蜜先走"], reply: "【朴成淏】刚刚以为你丢下我先走了，结果看到你在门口等我。走吧，今晚这路，希望它再长一点。" },
+      { text: "聚餐时，宰铉提议玩真心话大冒险。", choices: ["参与游戏", "在旁边看"], reply: "【明宰铉】学妹！你抽到了大冒险！去和成淏对视十秒！快点！全桌都在起哄！" },
+      { text: "云鹤喝多了，靠在成淏肩上。你有点吃醋。", choices: ["上去拉开云鹤", "自己生闷气"], reply: "【朴成淏】你怎么了？刚刚好像不太高兴。云鹤他只是喝醉了，我让他靠了一下。其实我一直在看你。" }
     ]
   },
   { 
     id: "p5", name: "食堂", x: 40, y: 80, clickCount: 0,
     events: [
-      { text: "你在排队，前面刚好是成淏。", choices: ["拍他肩膀", "默默排着"], reply: "【朴成淏】刚才拍我肩膀的时候，我其实吓一跳，但回头看到是你，又觉得挺开心。" },
-      { text: "食堂人很多，只有他旁边有空位。", choices: ["坐过去", "去外面吃"], reply: "【朴成淏】怎么去外面了？下次直接坐我旁边，我帮你占座，我每天都在这吃。" },
-      { text: "你没带饭卡。", choices: ["找他借", "饿着肚子"], reply: "【朴成淏】下次没带饭卡直接找我。你要是饿瘦了，我怎么跟叔叔阿姨交代？刚刚刷我的卡，怎么还脸红了？" }
+      { text: "你在排队，前面刚好是成淏。", choices: ["拍他肩膀", "默默排着"], reply: "【朴成淏】刚才拍我肩膀，我回头看到是你，心里高兴了一下。下次别默默排着，直接来找我。" },
+      { text: "食堂人很多，只有他旁边有空位。", choices: ["坐过去", "去外面吃"], reply: "【朴成淏】怎么去外面了？下次直接坐我旁边。室友他们都问我，你是不是我女朋友。" },
+      { text: "你没带饭卡。", choices: ["找他借", "饿着肚子"], reply: "【朴成淏】下次没带饭卡直接找我。刚刚你刷我的卡，脸红了。我室友看到了，现在都在群里笑话我。" },
+      { text: "常赫在食堂端着盘子，看起来有点累。", choices: ["帮他拿一下", "跟他打招呼"], reply: "【李常赫】谢谢。舞蹈社刚排练完，有点累。你吃了吗？一起吧。" },
+      { text: "桐儇在食堂角落看书，面前只有一杯咖啡。", choices: ["给他买份饭", "不打扰他"], reply: "【金桐儇】谢谢你，你怎么知道我没吃饭？……其实我一直在等你来。" }
     ]
   },
   { 
     id: "p6", name: "校园咖啡店", x: 20, y: 60, clickCount: 0,
     events: [
-      { text: "成淏一个人在喝咖啡，看起来在发呆。", choices: ["坐过去", "给他发消息"], reply: "【朴成淏】刚看到你了。怎么不坐过来？我想和你一起喝，顺便……聊聊。" },
-      { text: "你在点单，他站在你后面。", choices: ["帮他买单", "AA制"], reply: "【朴成淏】怎么偷偷帮我买单了？下次必须让我请回来，可以点你最喜欢的那杯。" },
-      { text: "下雨了，他站在店门口没带伞。", choices: ["走过去共伞", "把伞留给他"], reply: "【朴成淏】你把伞给我了，自己淋湿了怎么办？刚刚我们在伞下，距离好像有点太近了。" }
+      { text: "成淏一个人在喝咖啡，看起来在发呆。", choices: ["坐过去", "给他发消息"], reply: "【朴成淏】刚看到你了，怎么不坐过来？我想和你一起喝，顺便……聊聊关于我们的事。" },
+      { text: "你在点单，他站在你后面。", choices: ["帮他买单", "AA制"], reply: "【朴成淏】怎么偷偷帮我买单了？下次必须让我请回来，我还想让店员误会一下我们是一对。" },
+      { text: "下雨了，他站在店门口没带伞。", choices: ["走过去共伞", "把伞留给他"], reply: "【朴成淏】你把伞给我了？刚刚我们在伞下，距离近到……我差点没忍住。" },
+      { text: "咖啡店打工的宰铉看到你，疯狂冲你招手。", choices: ["过去打招呼", "假装不认识"], reply: "【明宰铉】学妹！给你拉了个超好看的花！帮我拿给成淏看看，让他嫉妒一下哈哈哈。" },
+      { text: "咖啡店人很多，你没座位了。", choices: ["去别家", "等一等"], reply: "【朴成淏】过来，我对面有位置。我帮你占了的。" }
     ]
   },
   { 
     id: "p7", name: "银杏大道", x: 65, y: 80, clickCount: 0,
     events: [
-      { text: "银杏叶落满一地，他在拍照。", choices: ["偷偷走进他镜头", "在旁边静静看"], reply: "【朴成淏】刚才那张照片，拍到了你的背影。很好看，我已经设成屏保了。" },
-      { text: "他在长椅上看书。", choices: ["坐旁边", "扔个叶子逗他"], reply: "【朴成淏】刚才用叶子砸我是不是？不乖啊，下次我要抓着你胳膊了。" },
-      { text: "冷风吹过，你打了一个喷嚏。", choices: ["抱怨天气", "缩缩脖子"], reply: "【朴成淏】天冷了，下次出门记得多穿点。刚刚看你发抖，好想把你抱进怀里。" }
+      { text: "银杏叶落满一地，他在拍照。", choices: ["偷偷走进他镜头", "在旁边静静看"], reply: "【朴成淏】刚才那张照片拍到了你的背影。很好看，我已经设成屏保了，别笑我。" },
+      { text: "他在长椅上看书。", choices: ["坐旁边", "扔个叶子逗他"], reply: "【朴成淏】刚才用叶子砸我是不是？下次我要抓着你，不让你跑了。" },
+      { text: "冷风吹过，你打了一个喷嚏。", choices: ["抱怨天气", "缩缩脖子"], reply: "【朴成淏】天冷了，下次出门记得多穿点。刚刚看你发抖，好想把你抱进怀里。" },
+      { text: "你在这里遇到了桐儇。他正在观察一棵树。", choices: ["问他在看什么", "悄悄离开"], reply: "【金桐儇】我在看树的年轮。不过你来了，我就看你了。" },
+      { text: "成淏在捡地上的银杏叶。", choices: ["凑过去看", "帮他一起捡"], reply: "【朴成淏】我想挑一片最好看的夹在书里。你想选哪片？我们一起选。" }
     ]
   },
   { 
     id: "p8", name: "操场看台", x: 15, y: 25, clickCount: 0,
     events: [
       { text: "晚上操场很安静，你来看星星。", choices: ["给成淏发消息", "一个人坐着"], reply: "【朴成淏】看到消息我就跑下来了。你一个人坐在这，也不怕冷。披上我的外套。" },
-      { text: "体育课测试跑步，你跑完后气喘吁吁。", choices: ["去他旁边休息", "自己走开"], reply: "【朴成淏】刚刚跑步的样子很可爱。不过下次别那么拼，我会心疼的。" },
-      { text: "他在看台上听歌。", choices: ["拿走他一只耳机", "不打扰他"], reply: "【朴成淏】分你一只耳机。这首歌的歌词，挺像我们现在的。" }
+      { text: "体育课测试跑步，你跑完后气喘吁吁。", choices: ["去他旁边休息", "自己走开"], reply: "【朴成淏】刚刚跑步的样子很可爱。不过下次别那么拼，我会心疼的，现在别人都在看我。" },
+      { text: "他在看台上听歌。", choices: ["拿走他一只耳机", "不打扰他"], reply: "【朴成淏】分你一只耳机。这首歌的歌词，挺像我们现在的。" },
+      { text: "云鹤在操场踢球，看到你疯狂挥手。", choices: ["走过去跟他打招呼", "假装没看见"], reply: "【金云鹤】学妹！快来！成淏哥在那边看台坐着，你快去找他吧，我这边不用管！" },
+      { text: "晚上看台一个人都没有。成淏突然坐到了你身边。", choices: ["问他怎么来了", "靠在他肩上"], reply: "【朴成淏】我看到你一个人在这。怕你觉得孤单，所以就来了。" }
     ]
   },
   { 
     id: "p9", name: "图书馆三楼", x: 35, y: 65, clickCount: 0,
     events: [
-      { text: "你复习到很晚，困得不行。", choices: ["趴在桌上睡", "去洗把脸"], reply: "【朴成淏】看你趴着睡着了，帮你把灯挡上了。醒了记得看消息，别着凉。" },
-      { text: "你在借阅台遇到他。", choices: ["帮他拿书", "自己借书"], reply: "【朴成淏】刚刚你帮我拿书的时候，手指碰到了。心跳有点快。" },
-      { text: "期末周，他给你带了一堆零食。", choices: ["收下并且道谢", "拒绝他"], reply: "【朴成淏】别拒绝，好好复习。等你考完，我带你去吃好吃的。" }
+      { text: "你复习到很晚，困得不行。", choices: ["趴在桌上睡", "去洗把脸"], reply: "【朴成淏】看你趴着睡着了，帮你把灯挡上了。刚刚看着你睡颜，我好想时间停在这一刻。" },
+      { text: "你在借阅台遇到他。", choices: ["帮他拿书", "自己借书"], reply: "【朴成淏】刚刚你帮我拿书的时候，手指碰到了。我心跳有点快，你感觉到了吗？" },
+      { text: "期末周，他给你带了一堆零食。", choices: ["收下并且道谢", "拒绝他"], reply: "【朴成淏】别拒绝，好好复习。等你考完，我带你去吃好吃的，就我们两个人。" },
+      { text: "遇到桐儇，他指了指角落里的空位。", choices: ["坐过去", "自己找位置"], reply: "【金桐儇】那个位置成淏天天坐，给你留的。他刚去吃饭了，你在这等他吧。" },
+      { text: "你和常赫在电梯里遇到。", choices: ["问他舞蹈社的事", "默默站着"], reply: "【李常赫】其实成淏每天晚上都在练舞，说下次聚餐要在你面前跳。他最近很奇怪。" }
     ]
   },
   { 
     id: "p10", name: "校门口夜市", x: 85, y: 40, clickCount: 0,
     events: [
-      { text: "夜市上人很多，你差点被挤散。", choices: ["抓住他的衣角", "自己走开"], reply: "【朴成淏】刚刚你抓着我衣角，我真的好想直接牵你的手。下次别躲开。" },
-      { text: "他在买糖葫芦。", choices: ["凑过去看", "站在旁边等"], reply: "【朴成淏】给你买了一串。刚刚你盯着看的样子，像只馋猫。" },
-      { text: "准备回学校了。", choices: ["让他送你回宿舍", "自己回去"], reply: "【朴成淏】我送你回去吧。这么晚了，我不放心。刚刚你走在我身边，希望这条路再长一点。" }
+      { text: "夜市上人很多，你差点被挤散。", choices: ["抓住他的衣角", "自己走开"], reply: "【朴成淏】刚刚你抓着我衣角，我真的好想直接牵你的手。下次……不要躲开了，好吗？" },
+      { text: "他在买糖葫芦。", choices: ["凑过去看", "站在旁边等"], reply: "【朴成淏】给你买了一串。刚刚你盯着看的样子，像只馋猫。真想把最好的都给你。" },
+      { text: "准备回学校了。", choices: ["让他送你回宿舍", "自己回去"], reply: "【朴成淏】我送你回去吧。这么晚了，我不放心。刚刚你走在我身边，希望这条路再长一点。" },
+      { text: "遇到宰铉一个人在夜市逛。", choices: ["叫他一起玩", "不打扰他"], reply: "【明宰铉】你们俩约会呢？算我一个算我一个！……开玩笑的，我先溜了，不打扰你们！" },
+      { text: "成淏给你买了个小玩偶。", choices: ["开心收下", "说自己不是小孩"], reply: "【朴成淏】收下吧。以后我不在你身边的时候，让它替我陪你。" }
     ]
   }
 ];
-
-var currentChat = null;
-var currentMemo = null;
-var gameState = { memoUnlocked: false, likedSunghoPost: false };
-
-function updateClock() {
-  var now = new Date();
-  var timeStr = now.getHours().toString().padStart(2, "0") + ":" + now.getMinutes().toString().padStart(2, "0");
-  if(document.getElementById("clock")) document.getElementById("clock").textContent = timeStr;
-}
-setInterval(updateClock, 1000); updateClock();
-
-function renderApps() {
-  var grid = document.getElementById("app-grid"); 
-  if (!grid) return;
-  grid.innerHTML = "";
-  
-  var dockApps = ["phone", "map", "kakao", "instagram"];
-  var mainApps = APPS.filter(function(app) { return !dockApps.includes(app.id); });
-  
-  var createIconHTML = function(app) {
-    if (app.id === "x") return '<div class="icon-box icon-x">X</div>';
-    return '<div class="icon-box ' + app.iconClass + '"></div>';
-  };
-
-  mainApps.forEach(function(app) {
-    var el = document.createElement("div"); el.className = "app-icon";
-    el.innerHTML = createIconHTML(app) + '<span class="icon-label">' + app.name + '</span>';
-    el.onclick = function(e) { e.stopPropagation(); openApp(app.id, app.name); };
-    grid.appendChild(el);
-  });
-  
-  var dock = document.getElementById("dock"); 
-  if(dock) {
-    dock.innerHTML = "";
-    dockApps.forEach(function(id) {
-      var app = APPS.find(function(a) { return a.id === id; });
-      if (!app) app = { id: "phone", name: "电话", iconClass: "icon-phone" };
-      
-      var el = document.createElement("div"); el.className = "app-icon";
-      el.innerHTML = createIconHTML(app);
-      el.onclick = function(e) { e.stopPropagation(); openApp(app.id, app.name); };
-      dock.appendChild(el);
-    });
-  }
-}
-
-function openApp(id, name) {
-  document.getElementById("home").classList.remove("active");
-  document.getElementById("app-view").classList.add("active");
-  document.getElementById("app-title").textContent = name;
-  var dock = document.querySelector(".dock");
-  if(dock) dock.classList.add("hidden-dock");
-  
-  var c = document.getElementById("app-content");
-  c.classList.remove("no-padding");
-  c.innerHTML = "<div style='text-align:center;padding:80px 20px;color:#8e8e93;font-size:16px;'>功能开发中...</div>";
-  
-  if (id === "kakao") {
-    renderKakao(c);
-  } else if (id === "map") {
-    renderMap(c);
-  } else if (id === "memo") {
-    renderMemo(c);
-  } else if (id === "instagram") {
-    renderInstagram(c);
-  }
-  c.scrollTop = 0;
-}
-
-function goHome() {
-  document.getElementById("app-view").classList.remove("active");
-  document.getElementById("home").classList.add("active");
-  var dock = document.querySelector(".dock");
-  if(dock) dock.classList.remove("hidden-dock");
-  currentChat = null;
-  currentMemo = null;
-}
-
-function goBack() { 
-  if (currentChat) {
-    currentChat = null;
-    openApp("kakao", "KakaoTalk");
-  } else if (currentMemo) {
-    currentMemo = null;
-    openApp("memo", "备忘录");
-  } else {
-    goHome(); 
-  }
-}
-
-function renderKakao(c) {
-  c.classList.add("no-padding");
-  c.style.backgroundColor = "#fff";
-  document.getElementById("app-title").textContent = "KakaoTalk";
-  
-  if (currentChat) {
-    var chat = CHATS[currentChat];
-    document.getElementById("app-title").textContent = chat.name;
-    
-    c.innerHTML = 
-      '<div class="chat-room-wrapper">' +
-        '<div class="chat-room" id="kkt-room"></div>' +
-        '<div class="kkt-input-bar">' +
-          '<div class="kkt-plus">+</div>' +
-          '<input type="text" id="kkt-input" class="kkt-input-box" placeholder="发送消息...">' +
-          '<button class="kkt-send-btn" id="kkt-send">发送</button>' +
-        '</div>' +
-      '</div>';
-
-    var room = document.getElementById("kkt-room");
-    
-    chat.history.forEach(function(m) {
-      if (m.type === "time") {
-        room.innerHTML += '<div class="time-divider"><span>' + m.text + '</span></div>';
-        return;
-      }
-      
-      var row = document.createElement("div");
-      row.className = "msg-row " + m.from;
-      
-      var avatarHTML = "";
-      if (m.from === "them") {
-         var avClass = chat.avatarClass || '';
-         var avColor = chat.color;
-         if (currentChat === 'group') {
-             if (m.sender === "明宰铉") { avClass = "avatar-jh"; avColor = "#ff375f"; }
-             else if (m.sender === "金云鹤") { avClass = "avatar-wh"; avColor = "#bf5af2"; }
-             else if (m.sender === "朴成淏") { avClass = "avatar-sh"; avColor = "#ff9f0a"; }
-             else if (m.sender === "李常赫") { avClass = "avatar-rw"; avColor = "#30d158"; }
-             else if (m.sender === "韩泰山") { avClass = "avatar-ts"; avColor = "#5e5ce6"; }
-             else if (m.sender === "金桐儇") { avClass = "avatar-lh"; avColor = "#64d2ff"; }
-         }
-         avatarHTML = '<div class="msg-avatar ' + avClass + '" style="background-color:' + avColor + '"></div>';
-      }
-
-      var contentHTML = '<div class="msg-content">';
-      if (m.sender) {
-         contentHTML += '<div class="msg-sender">' + m.sender + '</div>';
-      }
-      contentHTML += '<div class="bubble">' + m.text + '</div></div>';
-      
-      row.innerHTML = avatarHTML + contentHTML;
-      room.appendChild(row);
-    });
-
-    setTimeout(function() { room.scrollTop = room.scrollHeight; }, 10);
-
-    var inputEl = document.getElementById("kkt-input");
-    var sendBtn = document.getElementById("kkt-send");
-    var isTyping = false; 
-
-    inputEl.onclick = function(e) {
-      e.preventDefault();
-      if (isTyping) return; 
-      
-      if (chat.story && chat.story.length > 0) {
-        inputEl.blur();
-        var choice = prompt(chat.story[0].me + "\n\n(点击确定自动填入)");
-        if (choice !== null) {
-          inputEl.value = chat.story[0].me;
-        }
-      } else {
-        inputEl.focus(); 
-      }
-    };
-
-    sendBtn.onclick = function() {
-      if (isTyping) return;
-      var text = inputEl.value.trim();
-      if (!text) return;
-      
-      chat.history.push({ from: "me", text: text });
-      chat.preview = text;
-      inputEl.value = "";
-      
-      var row = document.createElement("div");
-      row.className = "msg-row me";
-      row.innerHTML = '<div class="msg-content"><div class="bubble">' + text + '</div></div>';
-      room.appendChild(row);
-      room.scrollTop = room.scrollHeight;
-
-      if (chat.story && chat.story.length > 0 && chat.story[0].me === text) {
-        var currentStory = chat.story.shift();
-        isTyping = true;
-        inputEl.placeholder = "对方正在输入...";
-        
-        setTimeout(function() {
-          chat.history.push({ from: "them", text: currentStory.them });
-          chat.preview = currentStory.them;
-          
-          var replyRow = document.createElement("div");
-          replyRow.className = "msg-row them";
-          replyRow.innerHTML = '<div class="msg-avatar ' + (chat.avatarClass||'') + '" style="background-color:' + chat.color + '"></div><div class="msg-content"><div class="bubble">' + currentStory.them + '</div></div>';
-          room.appendChild(replyRow);
-          room.scrollTop = room.scrollHeight;
-          
-          isTyping = false;
-          inputEl.placeholder = "发送消息...";
-        }, 1200);
-      }
-    };
-    return;
-  }
-
-  c.innerHTML = '<div class="kkt-list-bg" id="kkt-list"></div>';
-  var list = document.getElementById("kkt-list");
-  
-  Object.keys(CHATS).forEach(function(key) {
-    var chat = CHATS[key];
-    var item = document.createElement("div"); item.className = "chat-list-item";
-    
-    var lastMsg = chat.history[chat.history.length - 1];
-    var previewText = lastMsg.text;
-    if (lastMsg.sender) previewText = lastMsg.sender + "：" + lastMsg.text;
-
-    item.innerHTML = 
-      '<div class="chat-avatar ' + (chat.avatarClass || '') + '" style="background-color:' + chat.color + '"></div>' +
-      '<div class="chat-info">' +
-        '<div class="chat-header-row">' +
-          '<div class="chat-name">' + chat.name + '</div>' +
-          '<div class="chat-time">刚刚</div>' +
-        '</div>' +
-        '<div class="chat-preview">' + previewText + '</div>' +
-      '</div>';
-    item.onclick = function() { 
-      currentChat = key; 
-      openApp("kakao", "KakaoTalk"); 
-    };
-    list.appendChild(item);
-  });
-}
-
-function renderMap(c) {
-  c.innerHTML = 
-    '<div class="map-container" id="map-container">' +
-      '<div id="map-pins"></div>' +
-      '<div id="map-choice-modal" class="map-choice-modal">' +
-        '<div class="map-choice-box">' +
-          '<div class="map-choice-title" id="map-event-text">事件描述</div>' +
-          '<div id="map-choice-options"></div>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
-  
-  var pinsCont = document.getElementById("map-pins");
-  var choiceModal = document.getElementById("map-choice-modal");
-  var eventText = document.getElementById("map-event-text");
-  var choiceOptions = document.getElementById("map-choice-options");
-
-  MAP_PLACES.forEach(function(p) {
-    var pin = document.createElement("div");
-    pin.className = "map-pin";
-    pin.style.left = p.x + "%";
-    pin.style.top = p.y + "%";
-    pin.innerHTML = '<div class="pin-icon"></div><div class="pin-label">' + p.name + '</div>';
-    
-    pin.onclick = function(e) {
-      e.stopPropagation();
-      var currentEvent = p.events[p.clickCount % 3];
-      eventText.innerText = currentEvent.text;
-      choiceOptions.innerHTML = "";
-      
-      currentEvent.choices.forEach(function(choice, index) {
-        var btn = document.createElement("div");
-        btn.className = "map-choice-btn";
-        btn.innerText = choice;
-        btn.onclick = function() {
-          choiceModal.classList.remove("show");
-          if (index === 1) {
-             p.clickCount++; 
-             return;
-          }
-          if (currentEvent.reply) {
-             var speaker = "朴成淏";
-             var replyText = currentEvent.reply;
-             if (replyText.indexOf("】") > -1) {
-                 speaker = replyText.substring(1, replyText.indexOf("】"));
-                 replyText = replyText.substring(replyText.indexOf("】") + 1);
-             }
-
-             CHATS.sungho.history.push({ type: "time", text: "刚刚" });
-             CHATS.sungho.history.push({ from: "them", text: replyText });
-             CHATS.sungho.preview = replyText;
-             
-             showNotification(replyText, "sungho", speaker);
-          }
-          p.clickCount++;
-        };
-        choiceOptions.appendChild(btn);
-      });
-      choiceModal.classList.add("show");
-    };
-    pinsCont.appendChild(pin);
-  });
-}
-
-function renderMemo(c) {
-  c.style.backgroundColor = "#fff";
-  document.getElementById("app-title").textContent = "备忘录";
-  
-  if (currentMemo) {
-    var note = MEMOS.find(function(m) { return m.id === currentMemo; });
-    if (note.isLocked && !gameState.memoUnlocked) {
-       c.innerHTML = '<div class="memo-lock-screen"><h3>此备忘录已锁定</h3><p style="color:#888; font-size:13px; margin-top:8px;">请输入四位密码</p><input type="password" id="memo-pass" class="memo-input" maxlength="4" placeholder="****"><br><button onclick="checkMemoPass()" style="margin-top:20px; padding:10px 20px; background:#ffcc00; border:none; border-radius:10px; font-weight:bold;">解锁</button></div>';
-       return;
-    }
-    c.innerHTML = '<div class="memo-detail"><h1>' + note.title + '</h1><p style="color:#888; font-size:12px; margin-bottom:20px;">' + note.date + '</p><p>' + note.content + '</p></div>';
-    return;
-  }
-
-  c.innerHTML = '<div style="padding:16px; font-size:24px; font-weight:bold; border-bottom:1px solid #eee;">文件夹: 我的备忘录</div>';
-  MEMOS.forEach(function(m) {
-    var el = document.createElement("div");
-    el.className = "memo-list-item";
-    el.innerHTML = '<div class="memo-list-title">' + m.title + '</div><div class="memo-list-date">' + m.date + '</div>';
-    el.onclick = function() { currentMemo = m.id; openApp("memo", "备忘录"); };
-    c.appendChild(el);
-  });
-}
-
-function checkMemoPass() {
-  var val = document.getElementById("memo-pass").value;
-  if (val === "0904") { gameState.memoUnlocked = true; openApp("memo", "备忘录"); } 
-  else { alert("密码错误"); }
-}
-
-function renderInstagram(c) {
-  c.style.padding = "0"; c.style.backgroundColor = "#fff";
-  c.innerHTML = 
-    '<div class="ig-header"><div class="ig-logo">Instagram</div><div>❤️ ✉️</div></div>' +
-    '<div id="ig-feed"></div>';
-  
-  var feed = document.getElementById("ig-feed");
-  var post = { id: "post_2", user: "sungho_", avatar: "成", img: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600", caption: "coffee." };
-  
-  var postEl = document.createElement("div");
-  postEl.className = "ig-feed-post";
-  postEl.innerHTML = 
-    '<div class="ig-feed-header"><div class="chat-avatar" style="width:32px;height:32px;font-size:12px;background:#ff9f0a;">' + post.avatar + '</div><strong>' + post.user + '</strong></div>' +
-    '<div class="ig-feed-img" style="background-image:url(\'' + post.img + '\');"></div>' +
-    '<div class="ig-feed-actions">' +
-      '<span class="ig-heart" id="heart_' + post.id + '" onclick="likePost(\'' + post.id + '\')">🤍</span> ' +
-      '<span>💬</span> ' +
-      '<span>✈️</span>' +
-    '</div>' +
-    '<div class="ig-feed-caption"><strong>' + post.user + '</strong> ' + post.caption + '</div>';
-  feed.appendChild(postEl);
-}
-
-function likePost(postId) {
-  var heart = document.getElementById('heart_' + postId);
-  if (heart.classList.contains('liked')) return; 
-  heart.classList.add('liked');
-  heart.innerText = "❤️";
-  if (postId === "post_2" && !gameState.likedSunghoPost) {
-    gameState.likedSunghoPost = true;
-    CHATS.sungho.history.push({ type: "time", text: "刚刚" });
-    CHATS.sungho.history.push({ from: "them", text: "你看到我发的动态啦？明天要一起去吗？" });
-    CHATS.sungho.preview = "你看到我发的动态啦？明天要一起去吗？";
-    showNotification("你看到我发的动态啦？明天要一起去吗？", "sungho", "朴成淏");
-  }
-}
-
-var notifTimeout = null;
-function showNotification(text, chatId, speakerName) {
-  var notif = document.getElementById("ios-notification");
-  var body = document.getElementById("notif-body-text");
-  body.innerText = (speakerName || "朴成淏") + "：" + text;
-  
-  notif.classList.add("show");
-  notif.setAttribute("data-chatid", chatId); 
-  
-  if (notifTimeout) clearTimeout(notifTimeout);
-  notifTimeout = setTimeout(function() {
-    notif.classList.remove("show");
-  }, 3000);
-}
-
-function goToChat() {
-  var notif = document.getElementById("ios-notification");
-  var chatId = notif.getAttribute("data-chatid");
-  notif.classList.remove("show");
-  if (chatId) {
-    currentChat = chatId;
-    openApp("kakao", "KakaoTalk");
-  }
-}
-
-renderApps();
