@@ -1,170 +1,273 @@
-* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-html, body {
-  height: 100%; width: 100%; overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
-  background: #000;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",sans-serif;
 }
-
-/* 浅粉色波点壁纸 */
-#phone {
-  position: relative; width: 100%; height: 100%;
-  background-color: #fdf2f5;
-  background-image: radial-gradient(#f7cbd6 2px, transparent 2px);
-  background-size: 25px 25px;
-  display: flex; flex-direction: column; overflow: hidden;
+body{
+  background:#222;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  padding:10px;
 }
-
-@media (min-width: 600px) {
-  body { display: flex; align-items: center; justify-content: center; background: #1c1c1e; }
-  #phone {
-    width: 390px; height: 844px; border-radius: 54px;
-    border: 12px solid #1a1a1a; box-shadow: 0 30px 80px rgba(0,0,0,.8);
-  }
+.iphone{
+  width:390px;
+  height:844px;
+  background:#000;
+  border-radius:48px;
+  padding:12px;
+  position:relative;
+  overflow:hidden;
+  border:4px solid #111;
+  flex-shrink:0;
 }
-
-/* 锁屏 */
-#lock-screen {
-  position: absolute; inset: 0; z-index: 100;
-  display: flex; flex-direction: column; align-items: center;
-  color: #333; transition: transform .4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity .4s;
-  padding-top: 100px;
-  background-color: #fdf2f5;
-  background-image: radial-gradient(#f7cbd6 2px, transparent 2px);
-  background-size: 25px 25px;
+.screen{
+  width:100%;
+  height:100%;
+  background:#fcf0f4;
+  background-image: radial-gradient(#f8d9e2 10%, transparent 11%),radial-gradient(#f8d9e2 10%, transparent 11%);
+  background-size:32px 32px;
+  background-position:0 0,16px 16px;
+  border-radius:36px;
+  overflow:hidden;
+  position:relative;
 }
-#lock-screen.hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
-.lock-time { font-size: 80px; font-weight: 300; letter-spacing: -2px; color: #1c1c1e; }
-.lock-date { font-size: 20px; font-weight: 500; margin-top: 5px; color: #1c1c1e; }
-
-.lock-bottom { position: absolute; bottom: 50px; width: 100%; display: flex; flex-direction: column; align-items: center; }
-#lock-prompt { font-size: 15px; font-weight: 600; animation: pulse 1.5s infinite; cursor: pointer; padding: 20px; color: #1c1c1e; }
-@keyframes pulse { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
-
-/* 密码键盘 */
-#lock-keypad { display: none; flex-direction: column; align-items: center; width: 100%; }
-#lock-keypad.active { display: flex; }
-.dots { display: flex; gap: 20px; margin-bottom: 30px; }
-.dots span { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #333; }
-.dots span.filled { background: #333; }
-.keys { display: grid; grid-template-columns: repeat(3, 75px); gap: 15px; justify-content: center; }
-.keys button {
-  width: 75px; height: 75px; border-radius: 50%; border: none;
-  background: rgba(255,255,255,.5); backdrop-filter: blur(10px);
-  color: #1c1c1e; font-size: 32px; font-weight: 400; cursor: pointer;
+.statusbar{
+  height:48px;
+  padding:0 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:14px;
+  font-weight:500;
+  color:#000;
 }
-.keys button:active { background: rgba(255,255,255,.8); }
-.keys button.empty { background: transparent; pointer-events: none; }
-
-/* 主界面 */
-#main-ui { position: absolute; inset: 0; display: flex; flex-direction: column; transition: opacity .3s; }
-#main-ui.hidden { opacity: 0; pointer-events: none; }
-
-#statusbar {
-  height: 48px; padding: 0 24px; display: flex; align-items: center;
-  justify-content: space-between; color: #1c1c1e; font-size: 14px; font-weight: 600;
-  background: transparent; flex-shrink: 0; padding-top: env(safe-area-inset-top); z-index: 50;
+.status-right{
+  display:flex;
+  gap:4px;
+  align-items:center;
 }
-#island { width: 110px; height: 30px; background: #000; border-radius: 20px; position: absolute; left: 50%; transform: translateX(-50%); top: 8px; }
-#status-icons { font-size: 12px; letter-spacing: 1px; color: #1c1c1e; }
-
-#screen { flex: 1; position: relative; background: transparent; overflow: hidden; }
-.page { position: absolute; inset: 0; overflow-y: auto; display: none; -webkit-overflow-scrolling: touch; }
-.page.active { display: block; }
-
-/* 桌面布局 */
-#home { padding: 10px 16px 100px; display: flex; flex-direction: column; }
-
-/* 顶部小组件 (Widget) */
-.widget-row { display: flex; gap: 15px; margin-bottom: 25px; }
-.widget {
-  flex: 1; border-radius: 22px; padding: 15px; color: #fff;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1); backdrop-filter: blur(10px);
-  display: flex; flex-direction: column; justify-content: space-between;
+.notify-popup{
+  position:absolute;
+  top:52px;
+  left:12px;
+  right:12px;
+  background:rgba(255,255,255,0.94);
+  backdrop-filter:blur(14px);
+  border-radius:14px;
+  padding:10px 12px;
+  z-index:999;
+  box-shadow:0 4px 14px rgba(0,0,0,0.18);
+  display:none;
+  align-items:center;
+  gap:10px;
 }
-.widget-weather { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); color: #1c1c1e;}
-.widget-weather .temp { font-size: 38px; font-weight: 300; }
-.widget-weather .city { font-size: 14px; font-weight: 600; }
-.widget-weather .desc { font-size: 12px; }
-.widget-photo { background: url('https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?q=80&w=400&auto=format&fit=crop') center/cover; position: relative;}
-.widget-photo .date { position: absolute; bottom: 10px; left: 15px; font-size: 14px; font-weight: 600; text-shadow: 0 1px 3px rgba(0,0,0,0.8); color: #fff;}
+.notify-popup.show{display:flex;}
+.notify-avatar{width:36px;height:36px;border-radius:50%;background:#ddd;flex-shrink:0; overflow:hidden;}
+.notify-avatar img{width:100%;height:100%;object-fit:cover;}
+.notify-name{font-weight:600;font-size:13px;color:#111;}
+.notify-text{font-size:14px;margin-top:2px;color:#333;}
 
-/* 应用网格 */
-.app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 12px; }
-.app-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
-.app-icon .glyph {
-  width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
-  font-size: 28px; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,.1); transition: transform .1s;
-  background-size: cover; background-position: center;
+.home-grid{
+  padding:12px 20px;
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:16px 8px;
 }
-.app-icon:active .glyph { transform: scale(.9); opacity: 0.8; }
-.app-icon .label { font-size: 11px; color: #1c1c1e; text-align: center; font-weight: 500; }
-
-/* 底部 Dock 栏 */
-.dock {
-  position: absolute; bottom: 20px; left: 12px; right: 12px; height: 85px;
-  background: rgba(255,255,255,0.4); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-  border-radius: 35px; display: flex; justify-content: space-around; align-items: center;
-  padding: 0 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); z-index: 10;
+.icon-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  cursor:pointer;
 }
-.dock .app-icon .label { display: none; }
-.dock .app-icon .glyph { width: 58px; height: 58px; box-shadow: none; }
-
-/* 搜索框 */
-.search-bar {
-  background: rgba(255,255,255,0.6); backdrop-filter: blur(10px);
-  border-radius: 20px; padding: 6px 15px; margin: 20px auto 0;
-  color: #1c1c1e; font-size: 13px; display: flex; align-items: center; justify-content: center;
-  width: max-content; font-weight: 500;
+.icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow:0 8px 18px rgba(0,0,0,0.22),inset 0 1px 0 rgba(255,255,255,0.25);
 }
-
-/* 应用内页 */
-#app-view { background: #f2f2f7; }
-.app-topbar {
-  position: sticky; top: 0; z-index: 10; height: 44px; padding: 0 12px;
-  display: flex; align-items: center; justify-content: space-between;
-  background: rgba(249,249,249,.94); backdrop-filter: blur(20px);
-  border-bottom: .5px solid #d1d1d6; font-size: 16px; font-weight: 600; color: #1c1c1e;
-}
-#back-btn { border: none; background: none; color: #007aff; font-size: 16px; cursor: pointer; padding: 4px 0; }
-#app-content { padding: 12px 16px 40px; }
-
-/* 通用UI */
-.chat-list-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: .5px solid #e5e5ea; cursor: pointer; }
-.chat-avatar { width: 50px; height: 50px; border-radius: 18px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 18px; flex-shrink: 0; }
-.chat-info { flex: 1; min-width: 0; }
-.chat-name { font-size: 16px; font-weight: 500; color: #1c1c1e; }
-.chat-preview { font-size: 14px; color: #8e8e93; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
-
-.chat-room { display: flex; flex-direction: column; gap: 12px; padding-bottom: 20px; }
-.msg-row { display: flex; }
-.msg-row.me { justify-content: flex-end; }
-.bubble { max-width: 75%; padding: 10px 14px; border-radius: 18px; font-size: 15px; line-height: 1.4; word-break: break-word; }
-.msg-row.them .bubble { background: #fff; color: #1c1c1e; border-bottom-left-radius: 4px; }
-.msg-row.me .bubble { background: #fee500; color: #1c1c1e; border-bottom-right-radius: 4px; }
-.msg-sender { font-size: 12px; color: #8e8e93; margin-bottom: 4px; padding-left: 4px; }
-
-.ig-profile { text-align: center; padding: 8px 0 16px; }
-.ig-avatar { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 28px; }
-.ig-name { font-size: 16px; font-weight: 600; }
-.ig-bio { font-size: 13px; color: #8e8e93; margin-top: 4px; white-space: pre-line; }
-.ig-post { margin-bottom: 18px; border: .5px solid #e5e5ea; border-radius: 12px; overflow: hidden; background: #fff;}
-.ig-post-img { height: 180px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; font-weight: 600; }
-.ig-post-body { padding: 10px 12px; }
-.ig-post-cap { font-size: 14px; line-height: 1.45; color: #1c1c1e; }
-
-.list-item { padding: 14px 0; border-bottom: .5px solid #e5e5ea; font-size: 15px; color: #1c1c1e; display: flex; justify-content: space-between; gap: 10px; }
-.list-item .sub { color: #8e8e93; font-size: 13px; }
-.placeholder { text-align: center; color: #8e8e93; font-size: 15px; padding: 60px 20px; line-height: 1.6; }
-
-/* 底部横条永远在最底下 */
-#home-indicator { 
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 34px; display: flex; align-items: center; justify-content: center; 
-  flex-shrink: 0; padding-bottom: env(safe-area-inset-bottom); z-index: 100; 
+.icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 55%);
   pointer-events: none;
 }
-#home-indicator::after { 
-  content: ""; width: 134px; height: 5px; border-radius: 3px; 
-  background: #1c1c1e; opacity: 0.8;
+.icon-label {
+  font-size: 11px;
+  color: #222;
+  margin-top: 4px;
+  text-align:center;
 }
+.icon-calendar {background:#fff;flex-direction:column;justify-content:flex-start;padding:4px 6px;}
+.icon-calendar .calendar-month{font-size:10px;font-weight:800;color:#ff3b30;letter-spacing:0.5px;line-height:1.2;}
+.icon-calendar .calendar-day{font-size:24px;font-weight:600;color:#000;line-height:1;margin-top:1px;}
+.icon-clock{background:#000;}
+.icon-clock .clock-face{width:40px;height:40px;border-radius:50%;background:#fff;position:relative;}
+.icon-clock .clock-hand{position:absolute;left:50%;top:50%;transform-origin:0 0;background:#000;border-radius:2px;}
+.icon-clock .hour{width:2px;height:10px;transform:translate(-50%,-100%) rotate(35deg);}
+.icon-clock .minute{width:2px;height:14px;transform:translate(-50%,-100%) rotate(120deg);}
+.icon-clock .clock-center{position:absolute;left:50%;top:50%;width:4px;height:4px;background:#000;border-radius:50%;transform:translate(-50%,-50%);}
+.icon-photos{background:#fff;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:3px;padding:4px;}
+.icon-photos .photo{border-radius:2px;}
+.icon-photos .photo-1{background:#ff9500;}
+.icon-photos .photo-2{background:#ff2d55;}
+.icon-photos .photo-3{background:#5856d6;}
+.icon-photos .photo-4{background:#34c759;}
+.icon-maps{background:linear-gradient(180deg,#d7f0ff 0%,#9ad7ff 100%);}
+.icon-maps .map-layer{width:100%;height:100%;position:relative;background-image:linear-gradient(rgba(255,255,255,0.5)1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5)1px,transparent 1px);background-size:11px 11px;}
+.icon-maps .map-pin{position:absolute;top:50%;left:50%;width:14px;height:14px;background:#ff3b30;border-radius:50% 50% 50% 0;transform:translate(-50%,-70%) rotate(-45deg);z-index:2;}
+.icon-maps .map-pin::after{content:"";position:absolute;inset:3px;background:#fff;border-radius:50%;}
+.icon-weather{background:linear-gradient(180deg,#7ad7ff 0%,#2f80d1 100%);}
+.icon-weather .weather-sun{position:absolute;top:9px;right:9px;width:17px;height:17px;background:#ffd60a;border-radius:50%;box-shadow:0 0 10px #ffe066;}
+.icon-weather .weather-cloud{width:30px;height:12px;background:#fff;border-radius:20px;position:relative;z-index:2;}
+.icon-weather .weather-cloud::before,.icon-weather .weather-cloud::after{content:"";position:absolute;background:#fff;border-radius:50%;}
+.icon-weather .weather-cloud::before{width:14px;height:14px;top:-7px;left:5px;}
+.icon-weather .weather-cloud::after{width:10px;height:10px;top:-4px;right:5px;}
+.icon-notes{background:#fffbe8;}
+.icon-notes .note-paper{width:72%;height:74%;background:#fff;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,0.12);padding:7px;display:flex;flex-direction:column;gap:5px;}
+.icon-notes .note-line{height:2px;background:#ffe37a;border-radius:2px;}
+.icon-notes .note-line:nth-child(1){width:90%;}
+.icon-notes .note-line:nth-child(2){width:72%;}
+.icon-notes .note-line:nth-child(3){width:82%;}
+.icon-kakao{background:#ffeb00;}
+.icon-kakao .kakao-face{width:34px;height:34px;background:#3c1e1f;border-radius:50%;position:relative;}
+.icon-kakao .kakao-face::before,.icon-kakao .kakao-face::after{content:"";position:absolute;top:11px;width:6px;height:6px;background:#ffeb00;border-radius:50%;}
+.icon-kakao .kakao-face::before{left:7px;}
+.icon-kakao .kakao-face::after{right:7px;}
+.icon-instagram{background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);}
+.icon-instagram .camera-outline{width:32px;height:32px;border:3px solid #fff;border-radius:10px;position:relative;}
+.icon-instagram .camera-outline::before{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:10px;height:10px;border:2px solid #fff;border-radius:50%;}
+.icon-settings{background:#8e8e93;}
+.icon-settings .gear{width:34px;height:34px;background:#d1d1d6;border-radius:50%;position:relative;}
+.icon-settings .gear::before{content:"";position:absolute;inset:-5px;background:conic-gradient(#d1d1d6 0 10deg,transparent 10deg 35deg,#d1d1d6 35deg 45deg,transparent 45deg 70deg,#d1d1d6 70deg 80deg,transparent 80deg 105deg,#d1d1d6 105deg 115deg,transparent 115deg 140deg,#d1d1d6 140deg 150deg,transparent 150deg 175deg,#d1d1d6 175deg 185deg,transparent 185deg 210deg,#d1d1d6 210deg 220deg,transparent 220deg 245deg,#d1d1d6 245deg 255deg,transparent 255deg 280deg,#d1d1d6 280deg 290deg,transparent 290deg 315deg,#d1d1d6 315deg 325deg,transparent 325deg 350deg,#d1d1d6 350deg 360deg);border-radius:50%;mask:radial-gradient(circle,transparent 10px,#000 10px);-webkit-mask:radial-gradient(circle,transparent 10px,#000 10px);}
+.icon-phone{background:linear-gradient(180deg,#5ef764 0%,#29b847 100%);}
+.icon-phone .phone-receiver{width:24px;height:14px;border:3px solid #fff;border-radius:3px;transform:rotate(135deg);position:relative;}
+.icon-phone .phone-receiver::before,.icon-phone .phone-receiver::after{content:"";position:absolute;width:7px;height:7px;border:3px solid #fff;border-radius:50%;background:transparent;}
+.icon-phone .phone-receiver::before{left:-6px;top:1px;}
+.icon-phone .phone-receiver::after{right:-6px;top:1px;}
+.icon-messages{background:linear-gradient(180deg,#5ef764 0%,#29b847 100%);}
+.icon-messages .bubble-icon{width:30px;height:24px;background:#fff;border-radius:16px;position:relative;}
+.icon-messages .bubble-icon::after{content:"";position:absolute;left:7px;bottom:-4px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid #fff;}
+.icon-safari{background:linear-gradient(180deg,#7ac7ff 0%,#1e88e5 100%);}
+.icon-safari .compass-icon{width:40px;height:40px;background:#fff;border-radius:50%;position:relative;overflow:hidden;}
+.icon-safari .compass-icon::before{content:"";position:absolute;inset:0;background:linear-gradient(45deg,#1e88e5 25%,transparent 25%),linear-gradient(-45deg,#1e88e5 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#fff 75%),linear-gradient(-45deg,transparent 75%,#fff 75%);background-size:10px 10px;background-position:0 0,0 5px,5px -5px,-5px 0;opacity:0.35;}
+.icon-safari .needle-red,.icon-safari .needle-white{position:absolute;left:50%;top:50%;width:2px;height:15px;transform-origin:50% 0;z-index:2;}
+.icon-safari .needle-red{background:#ff3b30;transform:translate(-50%,0) rotate(50deg);}
+.icon-safari .needle-white{background:#fff;transform:translate(-50%,0) rotate(-130deg);}
+.dock{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:320px;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);border-radius:24px;padding:10px 14px;display:flex;justify-content:space-around;}
+.dock .icon{width:46px;height:46px;}
+.dock .icon-calendar .calendar-day{font-size:22px;}
+.dock .icon-clock .clock-face{width:36px;height:36px;}
+.dock .icon-messages .bubble-icon{width:28px;height:22px;}
+.dock .icon-safari .compass-icon{width:36px;height:36px;}
+
+.home-indicator{
+  position:absolute;
+  bottom:6px;
+  left:50%;
+  transform:translateX(-50%);
+  width:120px;
+  height:5px;
+  background:#000;
+  border-radius:999px;
+  cursor:pointer;
+  z-index:99;
+}
+
+.page{
+  display:none;
+  width:100%;
+  height:calc(100% - 48px);
+  background:#fff;
+  overflow:hidden;
+}
+.page.active{display:block;}
+.chat-header{height:44px;background:#f7f7f7;display:flex;align-items:center;justify-content:center;font-weight:600;border-bottom:1px solid #ddd;position:sticky;top:0;z-index:9;}
+
+/* 中文版KakaoTalk UI */
+.kkt-nav{height:44px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid #eee;}
+.kkt-nav-title{font-size:17px;font-weight:600;}
+.kkt-nav-right{color:#555;gap:16px;display:flex;font-size:18px;}
+.kkt-tab{height:48px;background:#fff;display:flex;border-top:1px solid #eee;}
+.kkt-tab-item{flex:1;display:flex;align-items:center;justify-content:center;font-size:13px;color:#999;}
+.kkt-tab-item.active{color:#333;font-weight:500;}
+.kkt-tab-content{display:none;height:calc(100% - 92px);overflow-y:auto;background:#fff;}
+.kkt-tab-content.active{display:block;}
+.kkt-empty{text-align:center;padding:40px;color:#aaa;}
+.kkt-myprofile{display:flex;align-items:center;gap:12px;padding:14px;border-bottom:8px solid #f3f3f3;}
+.kkt-avatar{width:44px;height:44px;border-radius:50%;background:#dddddd;flex-shrink:0; overflow:hidden;}
+.kkt-avatar img{width:100%;height:100%;object-fit:cover;}
+.my-avatar{background:#b9b9b9;}
+.kkt-name{font-size:15px;font-weight:500;color:#111;}
+.kkt-status{font-size:12px;color:#888;margin-top:2px;}
+.kkt-friend-title{padding:10px 14px;font-size:12px;color:#888;background:#f3f3f3;}
+.kkt-friend-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid #f1f1f1;cursor:pointer;}
+.kkt-chat-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid #f1f1f1;cursor:pointer;}
+.kkt-chat-info{flex:1;min-width:0;}
+.kkt-lastmsg{font-size:12px;color:#888;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.kkt-time{font-size:11px;color:#aaa;align-self:flex-start;margin-top:4px;}
+.kkt-chatroom{display:none;flex-direction:column;width:100%;height:calc(100% - 48px);background:#fff;position:absolute;top:48px;left:0;z-index:20;}
+.kkt-chat-header{height:44px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid #eee;}
+.kkt-back{font-size:16px;color:#007aff;cursor:pointer;}
+.kkt-chat-name{font-weight:500;}
+.kkt-chat-area{flex:1;padding:12px;overflow-y:auto;background:#f9f9f9;}
+.kkt-bubble{max-width:72%;padding:9px 12px;border-radius:14px;font-size:15px;margin:6px 0;word-break:break-all;}
+.kkt-bubble.other{background:#ffffff;align-self:flex-start;border-bottom-left-radius:4px;}
+.kkt-bubble.me{background:#FEE500;margin-left:auto;border-bottom-right-radius:4px;}
+.kkt-input-bar{display:flex;align-items:center;gap:8px;padding:8px 10px;border-top:1px solid #eee;background:#fff;}
+.kkt-plus{width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:#888;font-size:20px;}
+.kkt-input{flex:1;background:#f0f0f0;border:none;border-radius:20px;padding:9px 14px;font-size:15px;outline:none;}
+.kkt-send{padding:8px 12px;border:none;border-radius:18px;background:#FEE500;color:#222;font-weight:500;}
+.kkt-send:disabled{background:#f4f4f4;color:#bbb;}
+.reply-option-box{display:none;padding:8px 12px;background:#fff;border-top:1px solid #eee;}
+.reply-option{padding:10px 12px;background:#f4f4f4;border-radius:10px;text-align:center;font-size:15px;cursor:pointer;color:#222;}
+
+/* 仿Instagram完整样式 */
+.insta-header{
+  height:44px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 14px;
+  border-bottom:1px solid #eee;
+  font-size:17px;
+  font-weight:600;
+}
+.insta-header-icon{font-size:18px;gap:14px;display:flex;}
+.insta-stories{
+  display:flex;
+  gap:12px;
+  padding:12px 14px;
+  overflow-x:auto;
+  border-bottom:1px solid #eee;
+}
+.story-item{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;}
+.story-avatar{
+  width:62px;height:62px;
+  border-radius:50%;
+  padding:2px;
+  background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+}
+.story-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid white;}
+.story-name{font-size:11px;}
+.insta-feed{overflow-y:auto;height:calc(100% - 110px);}
+.insta-post{border-bottom:12px solid #eee;}
+.post-header{display:flex;align-items:center;padding:10px 12px;gap:10px;}
+.post-avatar{width:34px;height:34px;border-radius:50%;overflow:hidden;}
+.post-avatar img{width:100%;height:100%;object-fit:cover;}
+.post-name{font-weight:600;font-size:14px;flex:1;}
+.post-more{font-size:18px;}
+.post-img img{width:100%;display:block;}
+.post-action{display:flex;padding:10px 12px;font-size:24px;gap:16px;}
+.post-action .save{margin-left:auto;}
+.post-like{padding:0 12px 6px;font-size:14px;font-weight:600;}
+.post-caption{padding:0 12px 6px;font-size:14px;line-height:1.4;}
+.post-time{padding:0 12px 12px;font-size:11px;color:#777;}
