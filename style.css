@@ -38,18 +38,42 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .dock .icon-label { display: none; }
 .dock .icon-box { width: 58px; height: 58px; box-shadow: none; }
 
-/* --- 你的图片图标配置区 --- */
-.icon-kakao { background-image: url('kakao.png'); }
-.icon-ig { background-image: url('instagram.png'); }
-.icon-photos { background-image: url('photos.png'); }
-.icon-calendar { background-image: url('calendar.png'); }
-.icon-notes { background-image: url('memo.png'); }
-.icon-maps { background-image: url('map.png'); }
-.icon-clock { background-image: url('clock.png'); }
-.icon-weather { background-image: url('weather.png'); }
-.icon-settings { background-image: url('settings.png'); }
-.icon-phone { background-image: url('phone.png'); }
-.icon-x { background: #000; color: #fff; font-family: sans-serif; font-size: 34px; font-weight: bold; }
+/* ==========================================
+   🚨 核心修改区：请把下面所有的 "images/" 
+   改成你实际存放照片的文件夹名字！
+   （如果你的文件夹叫 icons，就改成 url('icons/xxx.png')）
+   ========================================== */
+
+/* 我的相册 */
+.icon-photos { background-image: url('png/photos.png'); }
+
+/* 日历 */
+.icon-calendar { background-image: url('png/calendar.png'); }
+
+/* 备忘录 */
+.icon-notes { background-image: url('png/memo.png'); }
+
+/* 地图 */
+.icon-maps { background-image: url('png/map.png'); }
+
+/* 时钟 */
+.icon-clock { background-image: url('png/clock.png'); }
+
+/* 天气 */
+.icon-weather { background-image: url('png/weather.png'); }
+
+/* 设置 */
+.icon-settings { background-image: url('png/settings.png'); }
+
+/* 电话（默认在底栏） */
+.icon-phone { background-image: url('png/phone.png'); }
+
+/* 如果你也替换了 KakaoTalk 和 Instagram 的图片 */
+.icon-kakao { background-image: url('png/kakao.png'); background-color: #fee500; }
+.icon-ig { background-image: url('png/instagram.png'); background-color: #fff; }
+
+/* X（保留纯代码绘制，如果你也有图片可以替换掉下面这行） */
+.icon-x { background: #000; color: #fff; font-family: sans-serif; font-size: 34px; font-weight: bold; display: flex; align-items: center; justify-content: center; line-height: 1; }
 
 /* App 页面 */
 #app-view { background: #f2f2f7; }
