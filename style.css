@@ -26,7 +26,7 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .page { position: absolute; inset: 0; overflow-y: auto; display: none; -webkit-overflow-scrolling: touch; }
 .page.active { display: block; }
 
-/* 桌面图标 (使用真实图片链接) */
+/* 桌面 */
 #home { padding: 10px 16px 100px; display: flex; flex-direction: column; }
 .widget-row { display: flex; gap: 15px; margin-bottom: 25px; }
 .widget { flex: 1; border-radius: 22px; padding: 15px; color: #fff; display: flex; flex-direction: column; justify-content: space-between; }
@@ -49,7 +49,7 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 #app-view { background: #f2f2f7; }
 .app-topbar { position: sticky; top: 0; z-index: 10; height: 44px; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; background: rgba(249,249,249,.94); backdrop-filter: blur(20px); border-bottom: .5px solid #d1d1d6; font-size: 16px; font-weight: 600; color: #1c1c1e; }
 #back-btn { border: none; background: none; color: #007aff; font-size: 16px; cursor: pointer; }
-#app-content { padding: 12px 16px 40px; height: calc(100% - 44px); overflow-y: auto; }
+#app-content { padding: 12px 16px 40px; height: calc(100% - 44px); overflow-y: auto; position: relative; }
 #app-content.no-padding { padding: 0; overflow: hidden; }
 
 /* 聊天室列表 */
@@ -60,7 +60,7 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .chat-preview { font-size: 14px; color: #8e8e93; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
 
 /* 聊天室内部 */
-.chat-room-wrapper { display: flex; flex-direction: column; height: 100%; width: 100%; background: #b2c7d9; }
+.chat-room-wrapper { display: flex; flex-direction: column; height: 100%; width: 100%; background: #b2c7d9; position: absolute; inset: 0; }
 .chat-room { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
 .msg-row { display: flex; }
 .msg-row.me { justify-content: flex-end; }
@@ -70,6 +70,12 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .msg-sender { font-size: 12px; color: #8e8e93; margin-bottom: 4px; padding-left: 4px; }
 .time-divider { text-align: center; margin: 10px 0; }
 .time-divider span { background: rgba(0,0,0,0.1); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 12px; }
+
+/* KakaoTalk 选择框 UI */
+.reply-modal { position: absolute; bottom: 0; left: 0; right: 0; background: #fff; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); transform: translateY(100%); transition: transform 0.3s; z-index: 20; padding: 15px; }
+.reply-modal.show { transform: translateY(0); }
+.reply-option { padding: 12px; background: #f1f1f1; border-radius: 10px; margin-bottom: 8px; font-size: 14px; color: #1c1c1e; cursor: pointer; text-align: center; font-weight: 500; }
+.reply-option:active { background: #e5e5ea; }
 
 /* iOS 弹窗 */
 #ios-notification { position: absolute; top: -100px; left: 10px; right: 10px; z-index: 200; background: rgba(255,255,255,0.95); backdrop-filter: blur(25px); border-radius: 20px; padding: 12px; display: flex; gap: 12px; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); cursor: pointer; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -97,6 +103,5 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .ig-heart.liked { color: #ed4956; transform: scale(1.1); }
 .ig-feed-caption { padding: 0 10px 10px; font-size: 14px; }
 
-/* 底部横条 */
 #home-indicator { position: absolute; bottom: 0; left: 0; right: 0; height: 34px; display: flex; align-items: center; justify-content: center; z-index: 100; pointer-events: none; }
 #home-indicator::after { content: ""; width: 134px; height: 5px; border-radius: 3px; background: #1c1c1e; opacity: 0.8; }

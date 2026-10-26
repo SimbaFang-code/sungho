@@ -14,7 +14,7 @@ if (lockScreen) {
   lockScreen.onclick = function() {
     this.classList.add("hidden");
     document.getElementById("main-ui").classList.remove("hidden");
-    setTimeout(() => showNotification("KakaoTalk", "朴成淏：你好，请问是来参加迎新的新生吗？", "kakao", "sungho"), 1000);
+    setTimeout(() => showNotification("KakaoTalk", "朴成淏：今天大家聚餐，你没喝多吧？", "kakao", "sungho"), 1000);
   };
 }
 
@@ -93,7 +93,7 @@ function renderAppContent(id) {
   else c.innerHTML = "<div style='text-align:center;padding:50px;color:#999;'>功能接入中</div>";
 }
 
-// ================= KakaoTalk =================
+// ================= KakaoTalk (带选项弹窗) =================
 function renderKakao(c) {
   if (currentChat) {
     const chat = CHATS[currentChat];
@@ -102,9 +102,18 @@ function renderKakao(c) {
     c.innerHTML = `
       <div class="chat-room-wrapper">
         <div id="chat-room-container" class="chat-room"></div>
+        
+        <!-- 底部输入框 -->
         <div style="display:flex; gap:8px; padding:10px; background:#fff; border-top:1px solid #ddd; flex-shrink:0;">
           <input id="kakao-input" type="text" placeholder="发送消息..." style="flex:1; padding:10px 15px; border:none; background:#f1f1f1; border-radius:20px; font-size:14px; outline:none;">
           <button id="kakao-send-btn" style="padding:0 15px; background:#fee500; color:#3c1e1e; border:none; border-radius:20px; font-weight:bold; cursor:pointer;">发送</button>
+        </div>
+
+        <!-- 选项弹窗 -->
+        <div id="reply-modal" class="reply-modal">
+          <div style="font-size:12px; color:#8e8e93; margin-bottom:10px; text-align:center;">请选择要发送的内容</div>
+          <div id="reply-options-container"></div>
+          <div style="text-align:center; margin-top:10px;"><span onclick="closeReplyModal()" style="color:#007aff; font-size:14px; cursor:pointer;">取消</span></div>
         </div>
       </div>
     `;
@@ -112,6 +121,8 @@ function renderKakao(c) {
     const room = document.getElementById("chat-room-container");
     const inputEl = document.getElementById("kakao-input");
     const sendBtn = document.getElementById("kakao-send-btn");
+    const modal = document.getElementById("reply-modal");
+    const optionsContainer = document.getElementById("reply-options-container");
 
     const renderMessages = () => {
       room.innerHTML = "";
@@ -127,13 +138,34 @@ function renderKakao(c) {
     };
     renderMessages();
 
-    inputEl.onclick = () => {
+    // 点输入框，弹出选项
+    inputEl.onclick = (e) => {
+      e.preventDefault(); // 防止键盘弹出
       if (chat.replies && chat.replies.length > 0) {
-        const nextReply = chat.replies[0];
-        if (nextReply.require && !gameState[nextReply.require]) return;
-        inputEl.value = nextReply.text;
+        optionsContainer.innerHTML = "";
+        chat.replies.forEach((r, index) => {
+          if (r.require && !gameState[r.require]) return; // 未满足条件不显示
+          const btn = document.createElement("div");
+          btn.className = "reply-option";
+          btn.innerText = r.text;
+          btn.onclick = () => {
+            inputEl.value = r.text;
+            closeReplyModal();
+          };
+          optionsContainer.appendChild(btn);
+        });
+        
+        if (optionsContainer.children.length > 0) {
+           modal.classList.add("show");
+        } else {
+           inputEl.blur(); // 没有选项就允许自由输入
+        }
+      } else {
+        inputEl.blur(); // 没有预设回复，正常打字
       }
     };
+
+    window.closeReplyModal = () => { modal.classList.remove("show"); };
 
     sendBtn.onclick = () => {
       const text = inputEl.value.trim();
@@ -149,15 +181,6 @@ function renderKakao(c) {
       if (usedReplyIndex !== -1) {
         const usedReply = chat.replies.splice(usedReplyIndex, 1)[0];
         if (usedReply.isGroupDone) gameState.groupDone = true;
-        if (usedReply.isRestaurantDone) gameState.restaurantDone = true;
-        
-        // 答应约会
-        if (text === "好呀，明天见") {
-           gameState.dateAccepted = true;
-           // 解锁后续的地图打卡
-           MAP_PLACES.push({ id: "cafe_date", name: "音乐楼旁咖啡店", desc: "点击去赴约" });
-        }
-
         if (usedReply.next) usedReply.next.forEach(nextMsg => chat.messages.push(nextMsg));
       }
       renderMessages();
@@ -181,7 +204,7 @@ function renderKakao(c) {
   });
 }
 
-// ================= 地图打卡与线下触发 =================
+// ================= 地图打卡 =================
 function renderMap(c) {
   c.innerHTML = `<div style="padding:16px;">
     <h3 style="margin-bottom:12px; font-size:18px;">校园周边</h3>
@@ -195,15 +218,6 @@ function renderMap(c) {
     el.onclick = () => {
       if (p.id === "restaurant" && !gameState.restaurantDone) {
         alert("已到达老地方烤肉店。聚餐正在进行中...");
-        CHATS.sungho.replies.unshift({
-          text: "学长我回宿舍啦", isRestaurantDone: true, next: [
-            { type: "time", text: "晚上 22:00" },
-            { from: "them", text: "今天聚餐开心吗？" },
-            { from: "me", text: "超级开心！大家都好照顾我" },
-            { from: "them", text: "那就好。其实...我有点吃醋，云鹤那小子一直给你夹菜。" }
-          ]
-        });
-        showNotification("KakaoTalk", "朴成淏：聚餐结束啦，安全到宿舍了吗？", "kakao", "sungho");
       } else if (p.id === "cafe_date") {
         alert("已到达咖啡店。成淏学长已经在靠窗的位置等你了...");
         showNotification("KakaoTalk", "朴成淏：我看到你了，进来吧。", "kakao", "sungho");
@@ -268,15 +282,13 @@ function renderInstagram(c) {
   });
 }
 
-// IG 点赞联动剧情
 window.likePost = function(postId) {
   const heart = document.getElementById(`heart_${postId}`);
-  if (heart.classList.contains('liked')) return; // 只能点一次
+  if (heart.classList.contains('liked')) return; 
   
   heart.classList.add('liked');
   heart.innerText = "❤️";
 
-  // 如果点赞了成淏的咖啡动态
   if (postId === "post_2" && !gameState.likedSunghoPost) {
     gameState.likedSunghoPost = true;
     setTimeout(() => {
