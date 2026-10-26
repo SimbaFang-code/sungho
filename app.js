@@ -557,4 +557,51 @@ function renderInstagram(c) {
     '<div class="ig-feed-header"><div class="chat-avatar" style="width:32px;height:32px;font-size:12px;background:#ff9f0a;">' + post.avatar + '</div><strong>' + post.user + '</strong></div>' +
     '<div class="ig-feed-img" style="background-image:url(\'' + post.img + '\');"></div>' +
     '<div class="ig-feed-actions">' +
-      '<span class="ig-heart" id="heart
+      '<span class="ig-heart" id="heart_' + post.id + '" onclick="likePost(\'' + post.id + '\')">🤍</span> ' +
+      '<span>💬</span> ' +
+      '<span>✈️</span>' +
+    '</div>' +
+    '<div class="ig-feed-caption"><strong>' + post.user + '</strong> ' + post.caption + '</div>';
+  feed.appendChild(postEl);
+}
+
+function likePost(postId) {
+  var heart = document.getElementById('heart_' + postId);
+  if (heart.classList.contains('liked')) return; 
+  heart.classList.add('liked');
+  heart.innerText = "❤️";
+  if (postId === "post_2" && !gameState.likedSunghoPost) {
+    gameState.likedSunghoPost = true;
+    CHATS.sungho.history.push({ type: "time", text: "刚刚" });
+    CHATS.sungho.history.push({ from: "them", text: "你看到我发的动态啦？明天要一起去吗？" });
+    CHATS.sungho.preview = "你看到我发的动态啦？明天要一起去吗？";
+    showNotification("你看到我发的动态啦？明天要一起去吗？", "sungho", "朴成淏");
+  }
+}
+
+var notifTimeout = null;
+function showNotification(text, chatId, speakerName) {
+  var notif = document.getElementById("ios-notification");
+  var body = document.getElementById("notif-body-text");
+  body.innerText = (speakerName || "朴成淏") + "：" + text;
+  
+  notif.classList.add("show");
+  notif.setAttribute("data-chatid", chatId); 
+  
+  if (notifTimeout) clearTimeout(notifTimeout);
+  notifTimeout = setTimeout(function() {
+    notif.classList.remove("show");
+  }, 3000);
+}
+
+function goToChat() {
+  var notif = document.getElementById("ios-notification");
+  var chatId = notif.getAttribute("data-chatid");
+  notif.classList.remove("show");
+  if (chatId) {
+    currentChat = chatId;
+    openApp("kakao", "KakaoTalk");
+  }
+}
+
+renderApps();
