@@ -392,9 +392,7 @@ function renderMap(c) {
              CHATS.sungho.history.push({ type: "time", text: "刚刚" });
              CHATS.sungho.history.push({ from: "them", text: replyText });
              CHATS.sungho.preview = replyText;
-             setTimeout(function() {
-               alert("KakaoTalk新消息 - 朴成淏：" + replyText);
-             }, 300);
+             showNotification(replyText, "sungho");
           }
           p.clickCount++;
         };
@@ -404,6 +402,31 @@ function renderMap(c) {
     };
     pinsCont.appendChild(pin);
   });
+}
+
+var notifTimeout = null;
+function showNotification(text, chatId) {
+  var notif = document.getElementById("ios-notification");
+  var body = document.getElementById("notif-body-text");
+  body.innerText = "朴成淏：" + text;
+  
+  notif.classList.add("show");
+  notif.setAttribute("data-chatid", chatId); 
+  
+  if (notifTimeout) clearTimeout(notifTimeout);
+  notifTimeout = setTimeout(function() {
+    notif.classList.remove("show");
+  }, 3000);
+}
+
+function goToChat() {
+  var notif = document.getElementById("ios-notification");
+  var chatId = notif.getAttribute("data-chatid");
+  notif.classList.remove("show");
+  if (chatId) {
+    currentChat = chatId;
+    openApp("kakao", "KakaoTalk");
+  }
 }
 
 renderApps();
