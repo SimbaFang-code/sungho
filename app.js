@@ -19,84 +19,69 @@ var MEMOS = [
 var gameState = { activeEvent: 0, memoUnlocked: false, likedSunghoPost: false };
 
 var MAP_PLACES = [
-  // --- 小事件（日常互怼/搞笑风） ---
-  { 
-    id: "s1", name: "老地方烤肉店", x: 50, y: 45, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s1", name: "老地方烤肉店", x: 50, y: 45, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
       { text: "六人聚餐，大家刚坐下。", choices: ["坐在成淏旁边", "坐在云鹤旁边"], reply: "【朴成淏】刚刚聚餐，云鹤一直给你夹肉，你是没长手吗？下次只能吃我夹的，不然我全吃光。" },
       { text: "聚餐进行到一半，大家在玩游戏。", choices: ["帮成淏挡酒", "自己喝掉"], reply: "【朴成淏】你替我挡什么酒？就你那点酒量，刚喝一口脸就红得跟猴屁股一样，等会儿还得我背你回去。" }
     ]
   },
-  { 
-    id: "s2", name: "中央图书馆", x: 25, y: 30, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s2", name: "中央图书馆", x: 25, y: 30, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
       { text: "你在书架旁遇到成淏，他正踮脚找高处的书。", choices: ["帮他拿下来", "假装没看见"], reply: "【朴成淏】刚刚看到你踮脚的样子，像只小兔子。书拿到了，不过下次这种事，我帮你做就好。" },
       { text: "成淏趴在桌上睡着了，口水流了一桌子。", choices: ["偷拍他", "给他擦桌子"], reply: "【朴成淏】你是不是偷拍我了？我警告你，把照片删了！不然我就把你上次上课睡着打呼噜的照片发群里。" }
     ]
   },
-  { 
-    id: "s3", name: "篮球场", x: 75, y: 20, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s3", name: "篮球场", x: 75, y: 20, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
       { text: "成淏刚打完比赛，满头大汗。", choices: ["跑过去给他送水", "站在远处看"], reply: "【朴成淏】刚刚的水，谢谢。我投进三分球的时候，余光看到你在欢呼，就那一瞬间，我特别想跑过去抱你。" },
       { text: "篮球滚到了你脚边，成淏跑过来捡。", choices: ["把球扔回给他", "抱在怀里逗他"], reply: "【朴成淏】干嘛抱着我的球不撒手？你想学打球直说，不用在这用美色吸引我注意力。" }
     ]
   },
-  { 
-    id: "s4", name: "音乐楼", x: 80, y: 65, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s4", name: "音乐楼", x: 80, y: 65, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
       { text: "经过琴房，听到成淏在弹吉他。", choices: ["推门进去听", "在门外安静听完"], reply: "【朴成淏】刚刚门外是你吧？这首曲子刚写好，想第一个弹给你听。想不想坐近一点？" },
       { text: "成淏在弹吉他，结果弦断了。", choices: ["嘲笑他", "问有没有备用弦"], reply: "【朴成淏】别笑了！赶紧帮我找找有没有备用弦，不然等会儿社团演出，我就得上去给大家表演清唱了。" }
     ]
   },
-  { 
-    id: "s5", name: "食堂", x: 40, y: 80, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s5", name: "食堂", x: 40, y: 80, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
       { text: "食堂人很多，只有他旁边有空位。", choices: ["坐过去", "去外面吃"], reply: "【朴成淏】怎么去外面了？下次直接坐我旁边，我帮你占座。" },
       { text: "你端着汤不小心洒在了他衣服上。", choices: ["赶紧道歉", "假装不是我"], reply: "【朴成淏】别装了，我都看到了。行吧，这件外套算你欠我的，下次请我喝一杯热奶茶，要加双倍珍珠的那种。" }
     ]
   },
-  { 
-    id: "s6", name: "操场看台", x: 15, y: 25, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s6", name: "操场看台", x: 15, y: 25, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
       { text: "晚上操场很安静，你来看星星。", choices: ["给成淏发消息", "一个人坐着"], reply: "【朴成淏】看到消息我就跑下来了。你一个人坐在这，也不怕冷。披上我的外套。" },
       { text: "操场上有人在唱歌，巨难听。", choices: ["捂着耳朵", "跟着吐槽"], reply: "【朴成淏】虽然我也觉得难听，但你吐槽得也太大声了吧？人家都往这边看了，赶紧溜，别被逮到。" }
     ]
   },
-  { 
-    id: "s7", name: "校门口夜市", x: 85, y: 40, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s7", name: "校门口夜市", x: 85, y: 40, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
       { text: "夜市上人很多，你差点被挤散。", choices: ["抓住他的衣角", "自己走开"], reply: "【朴成淏】刚刚你抓着我衣角，我真的好想直接牵你的手。" },
       { text: "你买了一份臭豆腐，非要喂给他吃。", choices: ["强行喂他", "自己吃掉"], reply: "【朴成淏】拿走拿走！我愿称之为生化武器。你要是再逼我吃，我明天就去食堂点一份他不喜欢的东西恶心他。" }
     ]
   },
-  
-  // --- 大事件（按顺序解锁，保持极度暧昧风） ---
-  { 
-    id: "p11", name: "校园咖啡店", x: 15, y: 35, clickCount: 0, isBigEvent: true, unlockCondition: 1,
+  { id: "p11", name: "校园咖啡店", x: 15, y: 35, clickCount: 0, isBigEvent: true, unlockCondition: 1,
     events: [
       { text: "你带着课本约成淏在咖啡店请教问题。他讲得很认真。", choices: ["夸他讲得好", "假装在听"], reply: "【朴成淏】刚刚看你盯着我看，书都拿倒了。其实你一直看我的话，我完全讲不下去的。" }
     ]
   },
-  { 
-    id: "p12", name: "校外智多寺", x: 10, y: 15, clickCount: 0, isBigEvent: true, unlockCondition: 2,
+  { id: "p12", name: "校外智多寺", x: 10, y: 15, clickCount: 0, isBigEvent: true, unlockCondition: 2,
     events: [
       { text: "你们七个人一起去爬山烧香。你爬不动了。", choices: ["让成淏拉你一把", "自己慢慢爬"], reply: "【朴成淏】手给我。刚刚你抓着我手的时候，突然觉得这山也不算陡了。" }
     ]
   },
-  { 
-    id: "p13", name: "教学楼", x: 65, y: 30, clickCount: 0, isBigEvent: true, unlockCondition: 3,
+  { id: "p13", name: "教学楼", x: 65, y: 30, clickCount: 0, isBigEvent: true, unlockCondition: 3,
     events: [
       { text: "大降温，你穿着单衣在教室冻得发抖。成淏脱下大衣给你。", choices: ["乖乖让他披上", "拒绝"], reply: "【朴成淏】不许拒绝。大衣很暖和，还带着我的体温。你要是感冒了，我会心疼的。" }
     ]
   },
-  { 
-    id: "p14", name: "操场跑道", x: 45, y: 25, clickCount: 0, isBigEvent: true, unlockCondition: 4,
+  { id: "p14", name: "操场跑道", x: 45, y: 25, clickCount: 0, isBigEvent: true, unlockCondition: 4,
     events: [
       { text: "体测800米，你跑完虚脱了。成淏冲过来一把扶住你。", choices: ["靠在他怀里", "推开他"], reply: "【朴成淏】别动，靠着我。刚刚看你跑完脸都白了，我差点冲进跑道去拉你。" }
     ]
   },
-  { 
-    id: "p15", name: "体育馆", x: 30, y: 60, clickCount: 0, isBigEvent: true, unlockCondition: 5,
+  { id: "p15", name: "体育馆", x: 30, y: 60, clickCount: 0, isBigEvent: true, unlockCondition: 5,
     events: [
       { text: "服装设计大赛，你和成淏搭档走秀。", choices: ["夸他西装好看", "害羞低头"], reply: "【朴成淏】很好看吧？刚刚在台上，我只盯着你一个人看。" }
     ]
@@ -123,12 +108,7 @@ var CHATS = {
   },
   riwoo: { 
     name: "李常赫", avatarClass: "avatar-rw", color: "#30d158", time: "昨天", preview: "舞蹈社的日常。",
-    history: [
-      { type: "time", text: "9月10日" },
-      { from: "them", text: "我是李常赫。如果觉得经营学无聊，可以来舞蹈社看看。" },
-      { from: "me", text: "常赫学长好！听说学长跳舞特别厉害。" },
-      { from: "them", text: "还行。过来看练习的话，我可以教你几个基础动作。" }
-    ],
+    history: [ { type: "time", text: "9月10日" }, { from: "them", text: "我是李常赫。如果觉得经营学无聊，可以来舞蹈社看看。" } ],
     story: [
       { me: "常赫学长，明天舞蹈社有活动吗？", them: "有。不过成淏也会来，他最近练得很勤。" },
       { me: "诶？他练什么？", them: "不知道。不过他老是偷看你，我都看到了。" },
@@ -138,12 +118,7 @@ var CHATS = {
   },
   jaehyun: { 
     name: "明宰铉", avatarClass: "avatar-jh", color: "#ff375f", time: "昨天", preview: "聚餐定啦！",
-    history: [
-      { type: "time", text: "9月12日" },
-      { from: "them", text: "学妹好呀！我是传媒系的明宰铉！" },
-      { from: "me", text: "宰铉学长好！迎新那天多亏了成淏学长。" },
-      { from: "them", text: "那家伙居然会带学妹，稀奇。以后有事也可以找我，传媒系认识的人多。" }
-    ],
+    history: [ { type: "time", text: "9月12日" }, { from: "them", text: "学妹好呀！我是明宰铉！" } ],
     story: [
       { me: "宰铉学长，聚餐会有什么活动吗？", them: "有啊！玩游戏！到时候我要抽签分组，你猜你会和谁一组？" },
       { me: "不知道诶。", them: "我赌一百块，绝对是成淏。他刚才还在问我怎么作弊呢哈哈哈。" },
@@ -153,12 +128,7 @@ var CHATS = {
   },
   taesan: { 
     name: "韩泰山", avatarClass: "avatar-ts", color: "#5e5ce6", time: "昨天", preview: "新歌demo。",
-    history: [
-      { type: "time", text: "9月20日" },
-      { from: "them", text: "我是韩泰山。刚写好一首新歌。" },
-      { from: "me", text: "哇，我可以听吗？" },
-      { from: "them", text: "在整理demo，弄好发你。" }
-    ],
+    history: [ { type: "time", text: "9月20日" }, { from: "them", text: "我是韩泰山。" } ],
     story: [
       { me: "泰山学长，新歌很好听！", them: "谢谢。其实副歌那段旋律，是看着你和成淏打闹的时候写的。" },
       { me: "啊？我们的打闹？", them: "嗯，很有生命力。别告诉成淏，他会脸红的。" },
@@ -168,12 +138,7 @@ var CHATS = {
   },
   leehan: { 
     name: "金桐儇", avatarClass: "avatar-lh", color: "#64d2ff", time: "昨天", preview: "图书馆见。",
-    history: [
-      { type: "time", text: "10月1日" },
-      { from: "them", text: "你好，我是金桐儇。" },
-      { from: "me", text: "桐儇学长好！" },
-      { from: "them", text: "三楼靠窗的位置很好，安静，光线也够。推荐给你。" }
-    ],
+    history: [ { type: "time", text: "10月1日" }, { from: "them", text: "我是金桐儇。" } ],
     story: [
       { me: "桐儇学长，你在图书馆吗？", them: "在。成淏也在，他占了个双人座，说在等人。" },
       { me: "等人？等谁？", them: "你觉得呢？他已经在往门口看了十分钟了。" },
@@ -183,12 +148,7 @@ var CHATS = {
   },
   woonhak: { 
     name: "金云鹤", avatarClass: "avatar-wh", color: "#bf5af2", time: "昨天", preview: "学妹好！",
-    history: [
-      { type: "time", text: "9月5日" },
-      { from: "them", text: "学妹好！我是云鹤！" },
-      { from: "me", text: "云鹤学长好！" },
-      { from: "them", text: "以后有活动我都拉上你！成淏哥太闷了，得靠我们活跃气氛！" }
-    ],
+    history: [ { type: "time", text: "9月5日" }, { from: "them", text: "我是云鹤！" } ],
     story: [
       { me: "云鹤学长，最近有什么好玩的事吗？", them: "有！我听说成淏哥手机壁纸换成你的照片了！他没告诉你吗？" },
       { me: "真的假的？", them: "真的！那天他手机亮了，我刚好看到了。不过你别告诉他是我说的！" },
@@ -215,6 +175,50 @@ var CHATS = {
 
 var currentChat = null;
 var currentMemo = null;
+
+var savedData = localStorage.getItem("koz_game_save");
+if (savedData) {
+  var confirmLoad = confirm("检测到上次的游戏进度，是否继续上次的游戏？\n(点击【取消】将重新开始)");
+  if (confirmLoad) {
+    try {
+      var parsed = JSON.parse(savedData);
+      gameState.activeEvent = parsed.activeEvent || 0;
+      gameState.memoUnlocked = parsed.memoUnlocked || false;
+      gameState.likedSunghoPost = parsed.likedSunghoPost || false;
+      if (parsed.chats) {
+        for (var key in parsed.chats) {
+          if (CHATS[key]) {
+            CHATS[key].history = parsed.chats[key].history;
+            CHATS[key].story = parsed.chats[key].story;
+            CHATS[key].preview = parsed.chats[key].preview;
+          }
+        }
+      }
+      if (parsed.mapClicks) {
+        MAP_PLACES.forEach(function(p) {
+          if (parsed.mapClicks[p.id] !== undefined) {
+            p.clickCount = parsed.mapClicks[p.id];
+          }
+        });
+      }
+    } catch(e) { console.log("存档读取失败", e); }
+  } else {
+    localStorage.removeItem("koz_game_save");
+  }
+}
+
+function saveGame() {
+  var mapClicks = {};
+  MAP_PLACES.forEach(function(p) { mapClicks[p.id] = p.clickCount; });
+  var saveObj = {
+    activeEvent: gameState.activeEvent,
+    memoUnlocked: gameState.memoUnlocked,
+    likedSunghoPost: gameState.likedSunghoPost,
+    chats: CHATS,
+    mapClicks: mapClicks
+  };
+  localStorage.setItem("koz_game_save", JSON.stringify(saveObj));
+}
 
 function updateClock() {
   var now = new Date();
@@ -325,6 +329,7 @@ function renderKakao(c) {
     sendBtn.onclick = function() {
       if (isTyping) return; var text = inputEl.value.trim(); if (!text) return;
       chat.history.push({ from: "me", text: text }); chat.preview = text; inputEl.value = "";
+      saveGame();
       var row = document.createElement("div"); row.className = "msg-row me";
       row.innerHTML = '<div class="msg-content"><div class="bubble">' + text + '</div></div>';
       room.appendChild(row); room.scrollTop = room.scrollHeight;
@@ -333,6 +338,7 @@ function renderKakao(c) {
         setTimeout(function() {
           chat.history.push({ from: "them", text: currentStory.them, sender: currentStory.sender });
           chat.preview = currentStory.them;
+          saveGame();
           var replyRow = document.createElement("div"); replyRow.className = "msg-row them";
           var rAvClass = chat.avatarClass; var rAvColor = chat.color;
           if (currentStory.sender) {
@@ -387,6 +393,7 @@ function renderMap(c) {
              }
              CHATS[chatId].history.push({ type: "time", text: "刚刚" }); CHATS[chatId].history.push({ from: "them", text: replyText }); CHATS[chatId].preview = replyText;
              if (p.isBigEvent) gameState.activeEvent++;
+             saveGame();
              showNotification(replyText, chatId, speaker);
           }
           p.clickCount++;
@@ -421,7 +428,7 @@ function renderMemo(c) {
 
 function checkMemoPass() {
   var val = document.getElementById("memo-pass").value;
-  if (val === "0904") { gameState.memoUnlocked = true; openApp("memo", "备忘录"); } else alert("密码错误");
+  if (val === "0904") { gameState.memoUnlocked = true; saveGame(); openApp("memo", "备忘录"); } else alert("密码错误");
 }
 
 function renderInstagram(c) {
@@ -440,6 +447,7 @@ function likePost(postId) {
   if (postId === "post_2" && !gameState.likedSunghoPost) {
     gameState.likedSunghoPost = true; CHATS.sungho.history.push({ type: "time", text: "刚刚" });
     CHATS.sungho.history.push({ from: "them", text: "你看到我发的动态啦？明天要一起去吗？" }); CHATS.sungho.preview = "你看到我发的动态啦？明天要一起去吗？";
+    saveGame();
     showNotification("你看到我发的动态啦？明天要一起去吗？", "sungho", "朴成淏");
   }
 }
