@@ -2,9 +2,20 @@ let currentChat = null;
 let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
-
-// 锁屏密码逻辑
 let enteredPin = "";
+
+// 锁屏交互
+document.addEventListener("DOMContentLoaded", () => {
+  const promptEl = document.getElementById("lock-prompt");
+  if (promptEl) {
+    promptEl.onclick = function() {
+      this.style.display = "none";
+      const keypad = document.getElementById("lock-keypad");
+      if(keypad) keypad.classList.add("active");
+    };
+  }
+});
+
 function enterPin(num) {
   if (enteredPin.length >= 4) return;
   enteredPin += num;
@@ -16,7 +27,7 @@ function enterPin(num) {
         document.getElementById("main-ui").classList.remove("hidden");
         setTimeout(() => showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho"), 1000);
       } else {
-        alert("密码错误，请重试。");
+        alert("密码错误，请重试 (提示:0904)");
         enteredPin = "";
         updateDots();
       }
@@ -30,11 +41,6 @@ function updateDots() {
     else dot.classList.remove("filled");
   });
 }
-
-document.getElementById("lock-prompt").onclick = function() {
-  this.style.display = "none";
-  document.getElementById("lock-keypad").classList.add("active");
-};
 
 function updateClock() {
   const now = new Date();
