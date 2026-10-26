@@ -2,7 +2,6 @@ let currentChat = null;
 let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
-let pinOptions = [];
 
 // 锁屏密码逻辑
 let enteredPin = "";
@@ -31,6 +30,7 @@ function updateDots() {
     else dot.classList.remove("filled");
   });
 }
+
 document.getElementById("lock-prompt").onclick = function() {
   this.style.display = "none";
   document.getElementById("lock-keypad").classList.add("active");
@@ -243,7 +243,6 @@ function renderKakao(c) {
   });
 }
 
-// ================= 地图与橙光选项 =================
 function renderMap(c) {
   c.innerHTML = `
     <div class="map-container">
@@ -253,7 +252,6 @@ function renderMap(c) {
         <p id="map-desc" style="font-size:14px; color:#666;">地点描述</p>
         <button class="map-btn" id="map-action-btn">确认前往该地点</button>
       </div>
-      <!-- 橙光选项弹窗 -->
       <div class="map-choice-modal" id="map-choice-modal">
         <div class="map-choice-box">
           <div class="map-choice-title" id="map-choice-title">触发剧情：你要怎么做？</div>
@@ -302,7 +300,6 @@ function renderMap(c) {
     if (!activePinId || btn.disabled) return;
     const place = MAP_PLACES.find(p => p.id === activePinId);
     
-    // 弹出橙光选项
     choiceOptions.innerHTML = "";
     place.choices.forEach((choice, index) => {
       const choiceBtn = document.createElement("div");
@@ -318,7 +315,6 @@ function renderMap(c) {
         btn.style.background = "#ccc";
         btn.disabled = true;
 
-        // 触发成淏私信
         if (place.id === "p2") {
            setTimeout(() => {
              showNotification("KakaoTalk", "朴成淏：刚刚的水，谢谢。", "kakao", "sungho");
