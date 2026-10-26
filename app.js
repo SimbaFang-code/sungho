@@ -30,7 +30,6 @@ var CHATS = {
       { type: "time", text: "今天 下午 16:00" },
       { from: "them", text: "宰铉在群里说周五聚餐，你看到了吗？" }
     ],
-    // 橙光剧情树
     story: [
       { me: "看到啦，我一定会去的！", them: "嗯，去吧，大家都很想见你。" },
       { me: "学长会去吗？", them: "当然。我不去的话，谁替你挡酒？" },
@@ -130,57 +129,81 @@ var MAP_PLACES = [
   { 
     id: "p1", name: "中央图书馆", x: 25, y: 30, clickCount: 0,
     events: [
-      { text: "你在书架旁遇到成淏，他正踮脚找一本高处的书。", choices: ["帮他拿下来", "假装没看见"], reply: "成淏接过书看着你：谢谢，你长得不高，但很可靠。" },
-      { text: "成淏趴在桌上睡着了，旁边还有没写完的报告。", choices: ["给他披件外套", "叫醒他"], reply: "他醒来看到外套，眼神温柔：是你啊...陪我待会儿？" },
-      { text: "你忘带笔记本了，正发愁。", choices: ["向他借", "去外面买"], reply: "成淏直接把本子推给你：用我的吧，我记了双份。" }
+      { text: "你在书架旁遇到成淏，他正踮脚找一本高处的书。", choices: ["帮他拿下来", "假装没看见"], reply: "【朴成淏】刚刚看到你踮脚的样子，像只小兔子。谢谢啦，书拿到了，下次请你喝奶茶。" },
+      { text: "成淏趴在桌上睡着了，旁边还有没写完的报告。", choices: ["给他披件外套", "叫醒他"], reply: "【朴成淏】醒来看到你的外套了。我睡得有点沉，没压坏你的衣服吧？为了感谢你，晚上请你吃饭。" },
+      { text: "你忘带笔记本了，正发愁。", choices: ["向他借", "去外面买"], reply: "【朴成淏】用我的吧，我记了双份。不过……你拿什么还我？" }
     ]
   },
   { 
     id: "p2", name: "篮球场", x: 75, y: 20, clickCount: 0,
     events: [
-      { text: "成淏刚打完一场比赛，满头大汗地坐在场边休息。", choices: ["跑过去给他送水", "站在远处看"], reply: "刚刚的水，谢谢。下次换我请你喝东西。" },
-      { text: "篮球滚到了你脚边，成淏跑过来捡。", choices: ["把球扔回给他", "抱在怀里逗他"], reply: "刚才故意不给我球是吧？下次见面我要捏你的脸。" },
-      { text: "比赛结束了，他正被一群女生围着。", choices: ["转身走开", "在操场门口等他"], reply: "刚才去哪了？我一转眼你就不见了，害我找了半天。" }
+      { text: "成淏刚打完一场比赛，满头大汗地坐在场边。", choices: ["跑过去给他送水", "站在远处看"], reply: "【朴成淏】刚刚的水，谢谢。我刚才投进三分球的时候，余光看到你好像在欢呼？" },
+      { text: "篮球滚到了你脚边，成淏跑过来捡。", choices: ["把球扔回给他", "抱在怀里逗他"], reply: "【朴成淏】刚才故意不给我球是吧？下次见面我要捏你的脸。" },
+      { text: "比赛结束，他正被一群女生围着。", choices: ["转身走开", "在操场门口等他"], reply: "【朴成淏】刚才去哪了？我一转眼你就不见了。那群女生只是来送水的，我都没接。" }
     ]
   },
   { 
     id: "p3", name: "音乐楼", x: 80, y: 65, clickCount: 0,
     events: [
-      { text: "经过琴房，听到里面传出好听的吉他声，是成淏在弹。", choices: ["推门进去听", "在门外安静听完"], reply: "刚刚门外是你吧？进来啊，这首曲子刚写好。" },
-      { text: "成淏正在调试设备，看起来有点烦躁。", choices: ["递给他一瓶水", "找泰山来帮忙"], reply: "谢谢你的水，不过找泰山就算了，那家伙只会笑我。" },
-      { text: "社团招新，成淏坐在那里发传单。", choices: ["帮他一起发", "给他买杯咖啡"], reply: "咖啡很好喝。不过其实你站在旁边，比一百张传单都有用。" }
+      { text: "经过琴房，听到里面传出好听的吉他声，是成淏在弹。", choices: ["推门进去听", "在门外安静听完"], reply: "【朴成淏】刚刚门外是你吧？进来啊，这首曲子刚写好，想第一个弹给你听。" },
+      { text: "成淏正在调试设备，看起来有点烦躁。", choices: ["递给他一瓶水", "找泰山来帮忙"], reply: "【朴成淏】谢谢你的水。不过找泰山就算了，那家伙只会笑我。有你在旁边陪着，我心情好多了。" },
+      { text: "社团招新，成淏坐在那里发传单。", choices: ["帮他一起发", "给他买杯咖啡"], reply: "【朴成淏】咖啡很好喝。不过其实你站在旁边，比一百张传单都有用，好多男生都在看你，我有点后悔让你来了。" }
     ]
   },
   { 
-    id: "p4", name: "学生会馆", x: 50, y: 45, clickCount: 0,
+    id: "p4", name: "老地方烤肉店", x: 50, y: 45, clickCount: 0,
     events: [
-      { text: "成淏在开会，你路过刚好和他对上视线。", choices: ["笑着打招呼", "装作没看见走开"], reply: "刚刚看到我装没看到是吧？开完会去找你，等着。" },
-      { text: "他在整理一堆厚重的文件，看起来很累。", choices: ["上去帮忙", "去买两杯热可可"], reply: "热可可很暖。不过最暖的是，你刚才一直在偷看我。" },
-      { text: "走廊上人很多，你差点被撞倒。", choices: ["抓住他的手臂", "自己站稳"], reply: "下次走路看着点。要是我不在，你摔倒了怎么办？" }
+      { text: "六人聚餐，大家刚坐下。", choices: ["坐在成淏旁边", "坐在云鹤旁边"], reply: "【朴成淏】刚刚聚餐，看到云鹤一直给你夹肉，你吃得还挺开心？我有点不舒服，下次我给你夹。" },
+      { text: "聚餐进行到一半，大家在玩游戏。", choices: ["帮成淏挡酒", "自己喝掉"], reply: "【朴成淏】你干嘛替我喝酒？你酒量不好不知道吗？刚刚你脸红的样子……我看了好久。" },
+      { text: "聚餐结束，大家在门口告别。", choices: ["等成淏一起走", "跟闺蜜先走"], reply: "【朴成淏】刚刚没看到你，还以为你丢下我先走了。还好你还在，走吧，我送你回宿舍。" }
     ]
   },
   { 
     id: "p5", name: "食堂", x: 40, y: 80, clickCount: 0,
     events: [
-      { text: "你在排队，前面刚好是成淏。", choices: ["拍他肩膀", "默默排着"], reply: "刚才拍我肩膀的时候，有没有觉得我背很宽？" },
-      { text: "只有他旁边有空位。", choices: ["坐过去", "去外面吃"], reply: "怎么去外面了？下次直接坐我旁边，我帮你占座。" },
-      { text: "你没带饭卡。", choices: ["找他借", "饿着肚子"], reply: "下次没带饭卡直接找我。你要是饿瘦了，我怎么跟叔叔阿姨交代？" }
+      { text: "你在排队，前面刚好是成淏。", choices: ["拍他肩膀", "默默排着"], reply: "【朴成淏】刚才拍我肩膀的时候，我其实吓一跳，但回头看到是你，又觉得挺开心。" },
+      { text: "食堂人很多，只有他旁边有空位。", choices: ["坐过去", "去外面吃"], reply: "【朴成淏】怎么去外面了？下次直接坐我旁边，我帮你占座，我每天都在这吃。" },
+      { text: "你没带饭卡。", choices: ["找他借", "饿着肚子"], reply: "【朴成淏】下次没带饭卡直接找我。你要是饿瘦了，我怎么跟叔叔阿姨交代？刚刚刷我的卡，怎么还脸红了？" }
     ]
   },
   { 
-    id: "p6", name: "咖啡店", x: 20, y: 60, clickCount: 0,
+    id: "p6", name: "校园咖啡店", x: 20, y: 60, clickCount: 0,
     events: [
-      { text: "成淏一个人在喝咖啡，看起来在发呆。", choices: ["坐过去", "给他发消息"], reply: "刚看到你了。过来啊，我想和你一起喝。" },
-      { text: "你在点单，他站在你后面。", choices: ["帮他买单", "AA制"], reply: "怎么偷偷帮我买单了？下次必须让我请回来。" },
-      { text: "下雨了，他站在店门口没带伞。", choices: ["走过去共伞", "把伞留给他"], reply: "你把伞给我了，自己淋湿了怎么办？" }
+      { text: "成淏一个人在喝咖啡，看起来在发呆。", choices: ["坐过去", "给他发消息"], reply: "【朴成淏】刚看到你了。怎么不坐过来？我想和你一起喝，顺便……聊聊。" },
+      { text: "你在点单，他站在你后面。", choices: ["帮他买单", "AA制"], reply: "【朴成淏】怎么偷偷帮我买单了？下次必须让我请回来，可以点你最喜欢的那杯。" },
+      { text: "下雨了，他站在店门口没带伞。", choices: ["走过去共伞", "把伞留给他"], reply: "【朴成淏】你把伞给我了，自己淋湿了怎么办？刚刚我们在伞下，距离好像有点太近了。" }
     ]
   },
   { 
     id: "p7", name: "银杏大道", x: 65, y: 80, clickCount: 0,
     events: [
-      { text: "银杏叶落满一地，他在拍照。", choices: ["偷偷走进他镜头", "在旁边静静看"], reply: "刚才那张照片，拍到了你的背影。很好看。" },
-      { text: "他在长椅上看书。", choices: ["坐旁边", "扔个叶子逗他"], reply: "刚才用叶子砸我是不是？不乖啊。" },
-      { text: "冷风吹过，你打了一个喷嚏。", choices: ["抱怨天气", "缩缩脖子"], reply: "天冷了，下次出门记得多穿点。不然我会心疼。" }
+      { text: "银杏叶落满一地，他在拍照。", choices: ["偷偷走进他镜头", "在旁边静静看"], reply: "【朴成淏】刚才那张照片，拍到了你的背影。很好看，我已经设成屏保了。" },
+      { text: "他在长椅上看书。", choices: ["坐旁边", "扔个叶子逗他"], reply: "【朴成淏】刚才用叶子砸我是不是？不乖啊，下次我要抓着你胳膊了。" },
+      { text: "冷风吹过，你打了一个喷嚏。", choices: ["抱怨天气", "缩缩脖子"], reply: "【朴成淏】天冷了，下次出门记得多穿点。刚刚看你发抖，好想把你抱进怀里。" }
+    ]
+  },
+  { 
+    id: "p8", name: "操场看台", x: 15, y: 25, clickCount: 0,
+    events: [
+      { text: "晚上操场很安静，你来看星星。", choices: ["给成淏发消息", "一个人坐着"], reply: "【朴成淏】看到消息我就跑下来了。你一个人坐在这，也不怕冷。披上我的外套。" },
+      { text: "体育课测试跑步，你跑完后气喘吁吁。", choices: ["去他旁边休息", "自己走开"], reply: "【朴成淏】刚刚跑步的样子很可爱。不过下次别那么拼，我会心疼的。" },
+      { text: "他在看台上听歌。", choices: ["拿走他一只耳机", "不打扰他"], reply: "【朴成淏】分你一只耳机。这首歌的歌词，挺像我们现在的。" }
+    ]
+  },
+  { 
+    id: "p9", name: "图书馆三楼", x: 35, y: 65, clickCount: 0,
+    events: [
+      { text: "你复习到很晚，困得不行。", choices: ["趴在桌上睡", "去洗把脸"], reply: "【朴成淏】看你趴着睡着了，帮你把灯挡上了。醒了记得看消息，别着凉。" },
+      { text: "你在借阅台遇到他。", choices: ["帮他拿书", "自己借书"], reply: "【朴成淏】刚刚你帮我拿书的时候，手指碰到了。心跳有点快。" },
+      { text: "期末周，他给你带了一堆零食。", choices: ["收下并且道谢", "拒绝他"], reply: "【朴成淏】别拒绝，好好复习。等你考完，我带你去吃好吃的。" }
+    ]
+  },
+  { 
+    id: "p10", name: "校门口夜市", x: 85, y: 40, clickCount: 0,
+    events: [
+      { text: "夜市上人很多，你差点被挤散。", choices: ["抓住他的衣角", "自己走开"], reply: "【朴成淏】刚刚你抓着我衣角，我真的好想直接牵你的手。下次别躲开。" },
+      { text: "他在买糖葫芦。", choices: ["凑过去看", "站在旁边等"], reply: "【朴成淏】给你买了一串。刚刚你盯着看的样子，像只馋猫。" },
+      { text: "准备回学校了。", choices: ["让他送你回宿舍", "自己回去"], reply: "【朴成淏】我送你回去吧。这么晚了，我不放心。刚刚你走在我身边，希望这条路再长一点。" }
     ]
   }
 ];
@@ -320,13 +343,12 @@ function renderKakao(c) {
       room.appendChild(row);
     });
 
-setTimeout(function() { room.scrollTop = room.scrollHeight; }, 10);
+    setTimeout(function() { room.scrollTop = room.scrollHeight; }, 10);
 
     var inputEl = document.getElementById("kkt-input");
     var sendBtn = document.getElementById("kkt-send");
     var isTyping = false; 
 
-    // 点击输入框：如果有剧情就弹选项，没有就自由打字
     inputEl.onclick = function(e) {
       e.preventDefault();
       if (isTyping) return; 
@@ -342,13 +364,11 @@ setTimeout(function() { room.scrollTop = room.scrollHeight; }, 10);
       }
     };
 
-    // 发送逻辑
     sendBtn.onclick = function() {
       if (isTyping) return;
       var text = inputEl.value.trim();
       if (!text) return;
       
-      // 1. 玩家发送
       chat.history.push({ from: "me", text: text });
       chat.preview = text;
       inputEl.value = "";
@@ -359,7 +379,6 @@ setTimeout(function() { room.scrollTop = room.scrollHeight; }, 10);
       room.appendChild(row);
       room.scrollTop = room.scrollHeight;
 
-      // 2. 判断是否触发了橙光剧情
       if (chat.story && chat.story.length > 0 && chat.story[0].me === text) {
         var currentStory = chat.story.shift();
         isTyping = true;
@@ -452,11 +471,18 @@ function renderMap(c) {
              return;
           }
           if (currentEvent.reply) {
+             var speaker = "朴成淏";
              var replyText = currentEvent.reply;
+             if (replyText.indexOf("】") > -1) {
+                 speaker = replyText.substring(1, replyText.indexOf("】"));
+                 replyText = replyText.substring(replyText.indexOf("】") + 1);
+             }
+
              CHATS.sungho.history.push({ type: "time", text: "刚刚" });
              CHATS.sungho.history.push({ from: "them", text: replyText });
              CHATS.sungho.preview = replyText;
-             showNotification(replyText, "sungho");
+             
+             showNotification(replyText, "sungho", speaker);
           }
           p.clickCount++;
         };
@@ -469,10 +495,10 @@ function renderMap(c) {
 }
 
 var notifTimeout = null;
-function showNotification(text, chatId) {
+function showNotification(text, chatId, speakerName) {
   var notif = document.getElementById("ios-notification");
   var body = document.getElementById("notif-body-text");
-  body.innerText = "朴成淏：" + text;
+  body.innerText = (speakerName || "朴成淏") + "：" + text;
   
   notif.classList.add("show");
   notif.setAttribute("data-chatid", chatId); 
