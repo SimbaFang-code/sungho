@@ -10,28 +10,21 @@
 </head>
 <body>
 <div id="phone">
-  <!-- 锁屏界面 -->
-  <div id="lock-screen" class="active">
-    <div class="lock-time" id="lock-clock">00:00</div>
-    <div class="lock-date" id="lock-date">10月26日 周一</div>
-    
-    <div class="lock-bottom">
-      <div id="lock-prompt">上滑解锁</div>
-      <div id="lock-keypad" class="hidden">
-        <div class="dots">
-          <span></span><span></span><span></span><span></span>
-        </div>
-        <div class="keys">
-          <button onclick="enterPin(1)">1</button><button onclick="enterPin(2)">2</button><button onclick="enterPin(3)">3</button>
-          <button onclick="enterPin(4)">4</button><button onclick="enterPin(5)">5</button><button onclick="enterPin(6)">6</button>
-          <button onclick="enterPin(7)">7</button><button onclick="enterPin(8)">8</button><button onclick="enterPin(9)">9</button>
-          <button class="empty"></button><button onclick="enterPin(0)">0</button><button class="empty"></button>
-        </div>
-      </div>
+  <!-- iOS 通知弹窗 -->
+  <div id="ios-notification">
+    <div class="app-icon-small">💬</div>
+    <div class="notif-content">
+      <div class="notif-title"><span id="notif-title-text">KakaoTalk</span><span style="font-size:12px;color:#8e8e93;">现在</span></div>
+      <div class="notif-body" id="notif-body-text">新消息</div>
     </div>
   </div>
 
-  <!-- 手机主界面 -->
+  <div id="lock-screen" class="active">
+    <div class="lock-time" id="lock-clock">00:00</div>
+    <div class="lock-date" id="lock-date">10月26日 周一</div>
+    <div class="lock-bottom"><div id="lock-prompt">点击解锁</div></div>
+  </div>
+
   <div id="main-ui" class="hidden">
     <div id="statusbar">
       <span id="clock">9:41</span>
@@ -41,25 +34,16 @@
 
     <div id="screen">
       <div id="home" class="page active">
-        <!-- 顶部小组件 -->
         <div class="widget-row">
           <div class="widget widget-weather">
             <div class="city">西凛大学 📍</div>
             <div class="temp">18°</div>
-            <div class="desc">☀️ 多云转晴<br>H:21° L:12°</div>
+            <div class="desc">☀️ 多云转晴</div>
           </div>
-          <div class="widget widget-photo">
-            <div class="date">10月26日</div>
-          </div>
+          <div class="widget widget-photo"><div class="date">10月26日</div></div>
         </div>
-
-        <!-- 应用网格 -->
         <div class="app-grid" id="app-grid"></div>
-        
-        <!-- 底部搜索框 -->
         <div class="search-bar">🔍 搜索</div>
-
-        <!-- Dock 栏 -->
         <div class="dock" id="dock"></div>
       </div>
 
@@ -73,11 +57,8 @@
       </div>
     </div>
   </div>
-  
-  <!-- 全局底部小横条 -->
   <div id="home-indicator"></div>
 </div>
-
 <script src="data.js"></script>
 <script src="app.js"></script>
 </body>

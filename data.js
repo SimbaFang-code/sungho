@@ -15,12 +15,7 @@ const APPS = [
 
 const CHATS = {
   sungho: {
-    name: "朴成淏",
-    avatar: "成",
-    color: "#ff9f0a",
-    preview: "你好，请问是来参加迎新的新生吗？",
-    // locked 为 true 表示需要先完成其他前置任务才能解锁新回复
-    locked: false, 
+    name: "朴成淏", avatar: "成", color: "#ff9f0a", preview: "你好，请问是来参加迎新的新生吗？",
     messages: [
       { type: "time", text: "上午 09:30" },
       { from: "them", text: "你好，请问是来参加迎新的新生吗？" },
@@ -38,18 +33,30 @@ const CHATS = {
         { from: "them", text: "嗯，那聚餐见。别紧张，有我在。" },
         { type: "time", text: "晚上 20:15" },
         { from: "them", text: "聚餐结束啦，你安全到宿舍了吗？" },
-        { from: "me", text: "刚到！今天谢谢学长一直照顾我" },
+        { from: "me", text: "刚到！今天谢谢学长一直照顾我，帮我挡酒还给我夹菜" },
         { from: "them", text: "应该的。那个……其实今天一直想和你多说话，但人太多了。" },
-        { from: "them", text: "早点休息，明天见。" }
+        { type: "time", text: "周三 14:00" },
+        { from: "them", text: "今天在图书馆看你好久没回消息，是不是在赶作业？" },
+        { from: "me", text: "对呀，好多全英教材，有点头疼" },
+        { from: "them", text: "下次遇到不懂的经营学知识点可以发消息问我。对了，今晚降温，回去路上记得多穿点。" },
+        { from: "me", text: "好，谢谢学长" },
+        { type: "time", text: "周五 21:30" },
+        { from: "them", text: "这几天和你聊天很开心。" },
+        { from: "them", text: "其实从迎新那天看到你在银杏树下东张西望，我就觉得你很像一只迷路的小鹿。" },
+        { from: "them", text: "我本来想在见面的时候说的，但现在隔着屏幕，我怕自己没勇气。" },
+        { from: "them", text: "可以做我女朋友吗？" }
+      ]},
+      { text: "可以，我也喜欢成淏学长", next: [
+        { from: "them", text: "真的吗？我现在心跳好快。" },
+        { from: "them", text: "我现在就在你宿舍楼下，你能下来一下吗？" },
+        { from: "me", text: "诶？我马上下来！" },
+        { from: "them", text: "（十分钟后）" },
+        { from: "them", text: "以后，你就是我的小鹿了。" }
       ]}
     ]
   },
   jaehyun: {
-    name: "明宰铉",
-    avatar: "宰",
-    color: "#ff375f",
-    preview: "学妹好呀！欢迎加入我们！",
-    locked: false,
+    name: "明宰铉", avatar: "宰", color: "#ff375f", preview: "学妹好呀！欢迎加入我们！",
     messages: [
       { type: "time", text: "下午 14:00" },
       { from: "them", text: "学妹好呀！我是传媒系的明宰铉" },
@@ -62,11 +69,7 @@ const CHATS = {
     ]
   },
   group: {
-    name: "延世街六人组",
-    avatar: "群",
-    color: "#8e8e93",
-    preview: "宰铉：周五聚餐定啦，老地方！",
-    locked: false,
+    name: "延世街六人组", avatar: "群", color: "#8e8e93", preview: "宰铉：周五聚餐定啦，老地方！",
     messages: [
       { type: "time", text: "下午 14:30" },
       { from: "them", sender: "明宰铉", text: "各位！周五晚上迎新结束，老地方聚餐，都给我空出时间！" },
@@ -83,9 +86,9 @@ const CHATS = {
       ]}
     ]
   },
-  // 其他工具人，暂时不推进剧情
   riwoo: { name: "李常赫", avatar: "常", color: "#30d158", preview: "舞蹈社欢迎你", messages: [{ type: "time", text: "昨天" }, { from: "them", text: "舞蹈社这周有开放练习。" }], replies: [] },
-  taesan: { name: "韩泰山", avatar: "泰", color: "#5e5ce6", preview: "新歌写好了", messages: [{ type: "time", text: "昨天" }, { from: "them", text: "新歌 demo 发你了，有空听。" }], replies: [] }
+  taesan: { name: "韩泰山", avatar: "泰", color: "#5e5ce6", preview: "新歌写好了", messages: [{ type: "time", text: "昨天" }, { from: "them", text: "新歌 demo 发你了，有空听。" }], replies: [] },
+  yujin: { name: "崔裕真", avatar: "裕", color: "#ff9500", preview: "明天一起去上课吧", messages: [{ type: "time", text: "昨天" }, { from: "them", text: "明天一起去上课吧！" }], replies: [] }
 };
 
 const INSTAGRAM = { sungho: { name: "朴成淏", handle: "@sungho_", avatar: "成", color: "#ff9f0a", bio: "经营学 3학년", posts: [{ img: "#ff9f0a", caption: "迎新。", meta: "刚刚" }] } };
