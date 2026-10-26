@@ -18,61 +18,35 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .page { position: absolute; inset: 0; overflow-y: auto; display: none; -webkit-overflow-scrolling: touch; }
 .page.active { display: block; }
 
-#home { padding: 10px 16px 100px; display: flex; flex-direction: column; }
-.widget-row { display: flex; gap: 15px; margin-bottom: 25px; }
-.widget { flex: 1; border-radius: 22px; padding: 15px; color: #fff; display: flex; flex-direction: column; justify-content: space-between; }
-.widget-weather { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); color: #1c1c1e; }
-.widget-weather .temp { font-size: 38px; font-weight: 300; }
-.widget-photo { background: url('https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?q=80&w=400&auto=format&fit=crop') center/cover; position: relative; }
-.widget-photo .date { position: absolute; bottom: 10px; left: 15px; color: #fff; text-shadow: 0 1px 3px #000; }
+/* 桌面布局：去掉了小组件，图标从顶部开始排列 */
+#home { padding: 20px 16px 100px; display: flex; flex-direction: column; }
 
-.app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 12px; }
-.app-icon { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; transition: transform 0.15s; }
+.app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px 16px; }
+.app-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; transition: transform 0.15s; }
 .app-icon:active { transform: scale(0.92); }
 .icon-box { width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.25); background: #fff; background-size: cover; background-position: center; }
 .icon-label { font-size: 11px; color: #1c1c1e; font-weight: 500; }
-.search-bar { background: rgba(255,255,255,0.6); border-radius: 20px; padding: 6px 15px; margin: 20px auto 0; font-size: 13px; font-weight: 500; }
+.search-bar { background: rgba(255,255,255,0.6); border-radius: 20px; padding: 6px 15px; margin: 30px auto 0; font-size: 13px; font-weight: 500; }
 
+/* 底部 Dock 栏 */
 .dock { position: absolute; bottom: 20px; left: 12px; right: 12px; height: 85px; background: rgba(255,255,255,0.4); backdrop-filter: blur(25px); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; transition: opacity 0.3s; }
 .dock.hidden-dock { opacity: 0; pointer-events: none; }
 .dock .icon-label { display: none; }
 .dock .icon-box { width: 58px; height: 58px; box-shadow: none; }
 
 /* ==========================================
-   🚨 核心修改区：请把下面所有的 "images/" 
-   改成你实际存放照片的文件夹名字！
-   （如果你的文件夹叫 icons，就改成 url('icons/xxx.png')）
+   🚨 你的图片配置区，保持不动
    ========================================== */
-
-/* 我的相册 */
 .icon-photos { background-image: url('png/photos.png'); }
-
-/* 日历 */
 .icon-calendar { background-image: url('png/calendar.png'); }
-
-/* 备忘录 */
 .icon-notes { background-image: url('png/memo.png'); }
-
-/* 地图 */
 .icon-maps { background-image: url('png/map.png'); }
-
-/* 时钟 */
 .icon-clock { background-image: url('png/clock.png'); }
-
-/* 天气 */
 .icon-weather { background-image: url('png/weather.png'); }
-
-/* 设置 */
 .icon-settings { background-image: url('png/settings.png'); }
-
-/* 电话（默认在底栏） */
 .icon-phone { background-image: url('png/phone.png'); }
-
-/* 如果你也替换了 KakaoTalk 和 Instagram 的图片 */
 .icon-kakao { background-image: url('png/kakao.png'); background-color: #fee500; }
 .icon-ig { background-image: url('png/instagram.png'); background-color: #fff; }
-
-/* X（保留纯代码绘制，如果你也有图片可以替换掉下面这行） */
 .icon-x { background-image: url('png/x.png'); background-color: #000000; }
 
 /* App 页面 */
