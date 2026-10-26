@@ -3,30 +3,36 @@ let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
 
-// 初始化：绝对不报错的加载顺序
-window.onload = function() {
-  updateClock();
-  setInterval(updateClock, 1000);
-  renderApps();
-
-  // 锁屏点击直接进桌面
+// 1. 最直接的解锁逻辑：直接点文字就解锁
+function unlockPhone() {
   const lockScreen = document.getElementById("lock-screen");
-  if (lockScreen) {
-    lockScreen.onclick = function() {
-      this.classList.add("hidden");
-      document.getElementById("main-ui").classList.remove("hidden");
-      setTimeout(() => showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho"), 1000);
-    };
+  const mainUI = document.getElementById("main-ui");
+  if (lockScreen && mainUI) {
+    lockScreen.classList.add("hidden");
+    mainUI.classList.remove("hidden");
+    // 延迟1秒弹出成淏的消息
+    setTimeout(() => showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho"), 1000);
   }
-};
+}
 
+// 绑定点击事件（确保页面加载后执行）
+window.addEventListener("DOMContentLoaded", () => {
+  const prompt = document.getElementById("lock-prompt");
+  if (prompt) {
+    prompt.onclick = unlockPhone;
+  }
+});
+
+// 2. 时间更新
 function updateClock() {
   const now = new Date();
   const timeStr = now.getHours().toString().padStart(2, "0") + ":" + now.getMinutes().toString().padStart(2, "0");
   if(document.getElementById("clock")) document.getElementById("clock").textContent = timeStr;
   if(document.getElementById("lock-clock")) document.getElementById("lock-clock").textContent = timeStr;
 }
+setInterval(updateClock, 1000); updateClock();
 
+// 3. 通知弹窗
 function showNotification(title, body, appId, chatId) {
   const notif = document.getElementById("ios-notification");
   notif.querySelector("#notif-title-text").innerText = title;
@@ -45,8 +51,12 @@ function showNotification(title, body, appId, chatId) {
   setTimeout(() => { notif.classList.remove("show"); }, 5000);
 }
 
+// 4. 渲染桌面（绝对不白屏）
 function renderApps() {
-  const grid = document.getElementById("app-grid"); grid.innerHTML = "";
+  const grid = document.getElementById("app-grid"); 
+  if (!grid) return; // 防止报错
+  
+  grid.innerHTML = "";
   const dockApps = ["phone", "map", "kakao", "instagram"];
   const mainApps = APPS.filter(app => !dockApps.includes(app.id));
   
@@ -71,26 +81,33 @@ function renderApps() {
     grid.appendChild(el);
   });
   
-  const dock = document.getElementById("dock"); dock.innerHTML = "";
-  dockApps.forEach(id => {
-    const app = APPS.find(a => a.id === id); if (!app) return;
-    const el = document.createElement("div"); el.className = "app-icon";
-    el.innerHTML = createIconHTML(app);
-    el.onclick = (e) => { e.stopPropagation(); openApp(app.id, app.name); };
-    dock.appendChild(el);
-  });
+  const dock = document.getElementById("dock"); 
+  if(dock) {
+    dock.innerHTML = "";
+    dockApps.forEach(id => {
+      const app = APPS.find(a => a.id === id); if (!app) return;
+      const el = document.createElement("div"); el.className = "app-icon";
+      el.innerHTML = createIconHTML(app);
+      el.onclick = (e) => { e.stopPropagation(); openApp(app.id, app.name); };
+      dock.appendChild(el);
+    });
+  }
 }
 
+// 5. 打开 App
 function openApp(id, name) {
   document.getElementById("home").classList.remove("active");
   document.getElementById("app-view").classList.add("active");
   document.getElementById("app-title").textContent = name;
-  document.querySelector(".dock").classList.add("hidden-dock");
+  
+  const dock = document.querySelector(".dock");
+  if(dock) dock.classList.add("hidden-dock");
   
   const c = document.getElementById("app-content");
   c.classList.remove("no-padding");
   if (id === "kakao" && currentChat) c.classList.add("no-padding");
   if (id === "map") c.classList.add("no-padding");
+  
   renderAppContent(id);
   c.scrollTop = 0;
 }
@@ -98,7 +115,8 @@ function openApp(id, name) {
 function goHome() {
   document.getElementById("app-view").classList.remove("active");
   document.getElementById("home").classList.add("active");
-  document.querySelector(".dock").classList.remove("hidden-dock");
+  const dock = document.querySelector(".dock");
+  if(dock) dock.classList.remove("hidden-dock");
 }
 
 document.getElementById("back-btn").onclick = () => {
@@ -121,6 +139,7 @@ function renderAppContent(id) {
   else c.innerHTML = "<div style='text-align:center;padding:50px;color:#999;'>功能接入中</div>";
 }
 
+// ================= KKT 逐句聊天 =================
 function renderKakao(c) {
   if (currentChat) {
     const chat = CHATS[currentChat];
@@ -226,6 +245,7 @@ function renderKakao(c) {
   });
 }
 
+// ================= 地图打卡与橙光选项 =================
 function renderMap(c) {
   c.innerHTML = `
     <div class="map-container">
@@ -317,6 +337,7 @@ function renderMap(c) {
   };
 }
 
+// ================= 备忘录 =================
 function renderMemo(c) {
   c.style.backgroundColor = "#fff";
   if (currentMemo) {
@@ -346,6 +367,7 @@ window.checkMemoPass = function() {
   else { alert("密码错误"); }
 }
 
+// ================= Instagram =================
 function renderInstagram(c) {
   c.style.padding = "0"; c.style.backgroundColor = "#fff";
   c.innerHTML = `
@@ -382,3 +404,6 @@ window.likePost = function(postId) {
     }, 1500);
   }
 }
+
+// 最后启动
+renderApps();
