@@ -117,5 +117,5 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .map-choice-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #1c1c1e; }
 .map-choice-btn { padding: 12px; background: #f2f2f7; border-radius: 12px; margin-bottom: 10px; font-size: 15px; font-weight: 500; cursor: pointer; border: 1px solid #e5e5ea; }
 
-#home-indicator { position: absolute; bottom: 0; left: 0; right: 0; height: 34px; display: flex; align-items: center; justify-content: center; z-index: 100; cursor: pointer; }
+#home-indicator { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 15px; display: flex; align-items: flex-end; justify-content: center; z-index: 100; cursor: pointer; padding-bottom: 5px; }
 #home-indicator::after { content: ""; width: 134px; height: 5px; border-radius: 3px; background: #1c1c1e; opacity: 0.8; }
