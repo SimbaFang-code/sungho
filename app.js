@@ -21,16 +21,21 @@ var CHATS = {
       { from: "them", text: "你现在在哪栋楼附近？" },
       { from: "me", text: "好像在一棵很大的银杏树旁边" },
       { from: "them", text: "那我知道了，你往左手边那条路走，看到学生会馆就到了。" },
+      { from: "me", text: "找到了！谢谢学长！" },
       { type: "time", text: "9月15日 晚上" },
       { from: "them", text: "今天在图书馆看到你了，在啃全英教材吗？" },
       { from: "me", text: "对啊，经营学好难……学长你也在图书馆吗？" },
       { from: "them", text: "嗯。如果有不懂的，随时拍下来发给我。" },
-      { type: "time", text: "昨天 晚上 23:15" },
-      { from: "them", text: "今天社团开会累不累？" },
-      { from: "me", text: "有点，不过学长你今天怎么也这么晚？" },
-      { from: "them", text: "在看点资料。早点休息吧，晚安。" },
+      { from: "me", text: "好！那以后就麻烦学长啦~" },
       { type: "time", text: "今天 下午 16:00" },
       { from: "them", text: "宰铉在群里说周五聚餐，你看到了吗？" }
+    ],
+    // 橙光剧情树
+    story: [
+      { me: "看到啦，我一定会去的！", them: "嗯，去吧，大家都很想见你。" },
+      { me: "学长会去吗？", them: "当然。我不去的话，谁替你挡酒？" },
+      { me: "嘿嘿，那太好了", them: "对了，周五那天穿得好看点。" },
+      { me: "诶？为什么？", them: "因为……我想和你多拍几张照片。" }
     ]
   },
   riwoo: { 
@@ -38,24 +43,29 @@ var CHATS = {
     history: [
       { type: "time", text: "9月10日" },
       { from: "them", text: "我是李常赫。听说成淏带你来舞蹈室了。" },
-      { from: "me", text: "啊，是的常赫学长！" },
-      { from: "them", text: "嗯，如果觉得经营学无聊，可以来舞蹈社看看。会让你放松很多。" },
+      { from: "me", text: "啊，是的常赫学长！学长跳舞超帅的！" },
+      { from: "them", text: "谢谢。如果觉得经营学无聊，可以来舞蹈社看看。会让你放松很多。" },
+      { from: "me", text: "好呀好呀，有空一定去！" },
       { type: "time", text: "昨天" },
       { from: "them", text: "舞蹈社这周有开放练习。" },
-      { from: "me", text: "好！那到时候见。" }
-    ]
+      { from: "me", text: "收到！这周末见！" }
+    ],
+    story: []
   },
   jaehyun: { 
     name: "明宰铉", avatarClass: "avatar-jh", color: "#ff375f", time: "昨天", preview: "成淏可是难得带人来！",
     history: [
       { type: "time", text: "9月12日" },
       { from: "them", text: "学妹好呀！我是传媒系的明宰铉！" },
+      { from: "me", text: "宰铉学长好！" },
       { from: "them", text: "成淏那个闷葫芦居然会主动带学妹，太阳打西边出来了！" },
-      { from: "me", text: "哈哈，宰铉学长好，迎新那天多亏了他。" },
+      { from: "me", text: "哈哈，迎新那天多亏了他。" },
       { type: "time", text: "昨天" },
       { from: "them", text: "学妹！周五聚餐一定要来啊！" },
+      { from: "me", text: "一定一定！" },
       { from: "them", text: "成淏可是难得带人来，我们得好好把把关！" }
-    ]
+    ],
+    story: []
   },
   taesan: { 
     name: "韩泰山", avatarClass: "avatar-ts", color: "#5e5ce6", time: "昨天", preview: "新歌发了。",
@@ -64,44 +74,55 @@ var CHATS = {
       { from: "them", text: "我是韩泰山。" },
       { from: "me", text: "泰山学长好！听说你写歌很厉害。" },
       { from: "them", text: "还行。有灵感的话，可以来音乐楼找我。" },
+      { from: "me", text: "好！我很期待！" },
       { type: "time", text: "昨天" },
-      { from: "them", text: "新歌发了。" }
-    ]
+      { from: "them", text: "新歌发了。" },
+      { from: "me", text: "马上去听！" }
+    ],
+    story: []
   },
   leehan: { 
     name: "金桐儇", avatarClass: "avatar-lh", color: "#64d2ff", time: "昨天", preview: "图书馆见。",
     history: [
       { type: "time", text: "10月1日" },
       { from: "them", text: "你好，我是金桐儇。" },
+      { from: "me", text: "桐儇学长好！" },
       { from: "them", text: "刚才看到你在一楼找不到书，其实三楼靠窗的位置更安静，书也更全。" },
-      { from: "me", text: "谢谢桐儇学长！我明天去看看。" },
+      { from: "me", text: "哇，谢谢学长！我明天去看看。" },
       { type: "time", text: "昨天" },
-      { from: "them", text: "图书馆见。" }
-    ]
+      { from: "them", text: "图书馆见。" },
+      { from: "me", text: "嗯嗯，待会见！" }
+    ],
+    story: []
   },
   woonhak: { 
     name: "金云鹤", avatarClass: "avatar-wh", color: "#bf5af2", time: "昨天", preview: "学妹好！",
     history: [
       { type: "time", text: "9月5日" },
       { from: "them", text: "学妹好！我是云鹤！" },
+      { from: "me", text: "云鹤学长好！" },
       { from: "them", text: "听说食堂今天的炸猪排超级好吃！你去了吗！" },
       { from: "me", text: "还没呢，正准备去。" },
       { from: "them", text: "快去吧！记得叫上成淏哥，他老不按时吃饭。" },
       { type: "time", text: "昨天" },
-      { from: "them", text: "学妹！有新开的甜品店，下次一起去啊！" }
-    ]
+      { from: "them", text: "学妹！有新开的甜品店，下次一起去啊！" },
+      { from: "me", text: "好呀，说定了！" }
+    ],
+    story: []
   },
   group: {
     name: "6+1小分队", avatarClass: "avatar-group", color: "#8e8e93", time: "下午 14:30", preview: "朴成淏：我带学妹来。",
     history: [
       { type: "time", text: "今天 14:30" },
       { from: "them", sender: "明宰铉", text: "各位！这周五晚上聚餐，老地方！" },
+      { from: "me", text: "收到！" },
       { from: "them", sender: "金云鹤", text: "好耶！我最近发现了一家超好吃的店！" },
       { from: "them", sender: "李常赫", text: "你上周不是才去过吗？" },
       { from: "them", sender: "金云鹤", text: "那不一样！" },
       { from: "them", sender: "朴成淏", text: "我带学妹来。" },
       { from: "them", sender: "明宰铉", text: "？！成淏你居然会主动带人！" }
-    ]
+    ],
+    story: []
   }
 };
 
@@ -299,13 +320,35 @@ function renderKakao(c) {
       room.appendChild(row);
     });
 
-    setTimeout(function() { room.scrollTop = room.scrollHeight; }, 10);
+setTimeout(function() { room.scrollTop = room.scrollHeight; }, 10);
 
-    document.getElementById("kkt-send").onclick = function() {
-      var inputEl = document.getElementById("kkt-input");
+    var inputEl = document.getElementById("kkt-input");
+    var sendBtn = document.getElementById("kkt-send");
+    var isTyping = false; 
+
+    // 点击输入框：如果有剧情就弹选项，没有就自由打字
+    inputEl.onclick = function(e) {
+      e.preventDefault();
+      if (isTyping) return; 
+      
+      if (chat.story && chat.story.length > 0) {
+        inputEl.blur();
+        var choice = prompt(chat.story[0].me + "\n\n(点击确定自动填入)");
+        if (choice !== null) {
+          inputEl.value = chat.story[0].me;
+        }
+      } else {
+        inputEl.focus(); 
+      }
+    };
+
+    // 发送逻辑
+    sendBtn.onclick = function() {
+      if (isTyping) return;
       var text = inputEl.value.trim();
       if (!text) return;
       
+      // 1. 玩家发送
       chat.history.push({ from: "me", text: text });
       chat.preview = text;
       inputEl.value = "";
@@ -315,6 +358,27 @@ function renderKakao(c) {
       row.innerHTML = '<div class="msg-content"><div class="bubble">' + text + '</div></div>';
       room.appendChild(row);
       room.scrollTop = room.scrollHeight;
+
+      // 2. 判断是否触发了橙光剧情
+      if (chat.story && chat.story.length > 0 && chat.story[0].me === text) {
+        var currentStory = chat.story.shift();
+        isTyping = true;
+        inputEl.placeholder = "对方正在输入...";
+        
+        setTimeout(function() {
+          chat.history.push({ from: "them", text: currentStory.them });
+          chat.preview = currentStory.them;
+          
+          var replyRow = document.createElement("div");
+          replyRow.className = "msg-row them";
+          replyRow.innerHTML = '<div class="msg-avatar ' + (chat.avatarClass||'') + '" style="background-color:' + chat.color + '"></div><div class="msg-content"><div class="bubble">' + currentStory.them + '</div></div>';
+          room.appendChild(replyRow);
+          room.scrollTop = room.scrollHeight;
+          
+          isTyping = false;
+          inputEl.placeholder = "发送消息...";
+        }, 1200);
+      }
     };
     return;
   }
