@@ -3,8 +3,13 @@ let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
 
-// 刚打开网页，点击屏幕就直接解锁进桌面
-document.addEventListener("DOMContentLoaded", () => {
+// 初始化：绝对不报错的加载顺序
+window.onload = function() {
+  updateClock();
+  setInterval(updateClock, 1000);
+  renderApps();
+
+  // 锁屏点击直接进桌面
   const lockScreen = document.getElementById("lock-screen");
   if (lockScreen) {
     lockScreen.onclick = function() {
@@ -13,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho"), 1000);
     };
   }
-});
+};
 
 function updateClock() {
   const now = new Date();
@@ -21,7 +26,6 @@ function updateClock() {
   if(document.getElementById("clock")) document.getElementById("clock").textContent = timeStr;
   if(document.getElementById("lock-clock")) document.getElementById("lock-clock").textContent = timeStr;
 }
-setInterval(updateClock, 1000); updateClock();
 
 function showNotification(title, body, appId, chatId) {
   const notif = document.getElementById("ios-notification");
@@ -378,5 +382,3 @@ window.likePost = function(postId) {
     }, 1500);
   }
 }
-
-renderApps();

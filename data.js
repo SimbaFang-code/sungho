@@ -16,7 +16,6 @@ const MEMOS = [
   { id: "m2", title: "绝密剧情提示", date: "现在", isLocked: true, content: "【剧本杀防卡关指南】\n\n1. 熟悉阶段：多去【地图】和成淏打卡约会，累计10次线下约会后才能解锁后续心动剧情。\n2. 发现线索：如果有不懂的，去看看成淏的 IG 动态。" }
 ];
 
-// 地图打卡地点（包含橙光选项逻辑）
 const MAP_PLACES = [
   { 
     id: "p1", name: "中央图书馆", x: 30, y: 40, dateNum: 1, 
