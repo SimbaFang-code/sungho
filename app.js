@@ -3,115 +3,23 @@ let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
 
-// 1. 解锁函数（由 HTML 直接调用）
-window.unlockPhone = function() {
-  document.getElementById("lock-screen").classList.add("hidden");
-  document.getElementById("main-ui").classList.remove("hidden");
-  // 延迟弹出第一条通知
-  setTimeout(() => {
-    showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho");
-  }, 1000);
-}
-
-// 2. 时间更新
 function updateClock() {
   const now = new Date();
   const timeStr = now.getHours().toString().padStart(2, "0") + ":" + now.getMinutes().toString().padStart(2, "0");
   if(document.getElementById("clock")) document.getElementById("clock").textContent = timeStr;
+  if(document.getElementById("lock-clock")) document.getElementById("lock-clock").textContent = timeStr;
 }
 setInterval(updateClock, 1000); updateClock();
 
-// 3. 渲染桌面图标
-function renderApps() {
-  const grid = document.getElementById("app-grid"); 
-  if (!grid) return; 
-  
-  grid.innerHTML = "";
-  const dockApps = ["phone", "map", "kakao", "instagram"];
-  const mainApps = APPS.filter(app => !dockApps.includes(app.id));
-  
-  const createIconHTML = (app) => {
-    if (app.customClass) {
-      if (app.id === "calendar") return `<div class="icon-box icon-calendar"><div class="m">OCT</div><div class="d">26</div></div>`;
-      if (app.id === "clock") return `<div class="icon-box icon-clock"></div>`;
-      if (app.id === "memo") return `<div class="icon-box icon-notes"></div>`;
-      if (app.id === "photos") return `<div class="icon-box icon-photos"><div style="background:#ff9500"></div><div style="background:#ff2d55"></div><div style="background:#5856d6"></div><div style="background:#34c759"></div></div>`;
-      if (app.id === "map") return `<div class="icon-box icon-maps"><div></div></div>`;
-      if (app.id === "weather") return `<div class="icon-box icon-weather"><div></div></div>`;
-      if (app.id === "settings") return `<div class="icon-box icon-settings"></div>`;
-      if (app.id === "phone") return `<div class="icon-box icon-phone"></div>`;
-      if (app.id === "kakao") return `<div class="icon-box icon-kakao"></div>`;
-      if (app.id === "instagram") return `<div class="icon-box icon-ig"></div>`;
-    }
-    return `<div class="icon-box"></div>`;
+const lockScreen = document.getElementById("lock-screen");
+if (lockScreen) {
+  lockScreen.onclick = function() {
+    this.classList.add("hidden");
+    document.getElementById("main-ui").classList.remove("hidden");
+    setTimeout(() => showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho"), 1000);
   };
-
-  mainApps.forEach(app => {
-    const el = document.createElement("div"); el.className = "app-icon";
-    el.innerHTML = `${createIconHTML(app)}<span class="icon-label">${app.name}</span>`;
-    el.onclick = (e) => { e.stopPropagation(); openApp(app.id, app.name); };
-    grid.appendChild(el);
-  });
-  
-  const dock = document.getElementById("dock"); 
-  if(dock) {
-    dock.innerHTML = "";
-    dockApps.forEach(id => {
-      const app = APPS.find(a => a.id === id); if (!app) return;
-      const el = document.createElement("div"); el.className = "app-icon";
-      el.innerHTML = createIconHTML(app);
-      el.onclick = (e) => { e.stopPropagation(); openApp(app.id, app.name); };
-      dock.appendChild(el);
-    });
-  }
 }
 
-// 4. App 切换逻辑
-function openApp(id, name) {
-  document.getElementById("home").classList.remove("active");
-  document.getElementById("app-view").classList.add("active");
-  document.getElementById("app-title").textContent = name;
-  
-  const dock = document.querySelector(".dock");
-  if(dock) dock.classList.add("hidden-dock");
-  
-  const c = document.getElementById("app-content");
-  c.classList.remove("no-padding");
-  if (id === "kakao" && currentChat) c.classList.add("no-padding");
-  if (id === "map") c.classList.add("no-padding");
-  
-  renderAppContent(id);
-  c.scrollTop = 0;
-}
-
-window.goHome = function() {
-  document.getElementById("app-view").classList.remove("active");
-  document.getElementById("home").classList.add("active");
-  const dock = document.querySelector(".dock");
-  if(dock) dock.classList.remove("hidden-dock");
-}
-
-window.goBack = function() {
-  if (currentChat) { 
-    currentChat = null; 
-    document.getElementById("app-content").classList.remove("no-padding");
-    renderAppContent("kakao"); 
-  } else if (currentMemo) {
-    currentMemo = null;
-    renderAppContent("memo");
-  } else { goHome(); }
-}
-
-function renderAppContent(id) {
-  const c = document.getElementById("app-content"); c.innerHTML = "";
-  if (id === "kakao") renderKakao(c);
-  else if (id === "instagram") renderInstagram(c);
-  else if (id === "memo") renderMemo(c);
-  else if (id === "map") renderMap(c);
-  else c.innerHTML = "<div style='text-align:center;padding:50px;color:#999;'>功能接入中</div>";
-}
-
-// 5. 弹窗通知
 function showNotification(title, body, appId, chatId) {
   const notif = document.getElementById("ios-notification");
   notif.querySelector("#notif-title-text").innerText = title;
@@ -130,12 +38,89 @@ function showNotification(title, body, appId, chatId) {
   setTimeout(() => { notif.classList.remove("show"); }, 5000);
 }
 
-// ================= KKT 聊天 =================
+function renderApps() {
+  const grid = document.getElementById("app-grid"); grid.innerHTML = "";
+  const dockApps = ["phone", "map", "kakao", "instagram"];
+  const mainApps = APPS.filter(app => !dockApps.includes(app.id));
+  
+  const createIconHTML = (app) => {
+    if (app.customClass) {
+      if (app.id === "calendar") return `<div class="icon-box icon-calendar"><div class="m">OCT</div><div class="d">26</div></div>`;
+      if (app.id === "clock") return `<div class="icon-box icon-clock"></div>`;
+      if (app.id === "memo") return `<div class="icon-box icon-notes"></div>`;
+      if (app.id === "photos") return `<div class="icon-box icon-photos"><div style="background:#ff9500"></div><div style="background:#ff2d55"></div><div style="background:#5856d6"></div><div style="background:#34c759"></div></div>`;
+      if (app.id === "map") return `<div class="icon-box icon-maps"><div></div></div>`;
+      if (app.id === "weather") return `<div class="icon-box icon-weather"><div></div></div>`;
+      if (app.id === "settings") return `<div class="icon-box icon-settings"></div>`;
+      if (app.id === "phone") return `<div class="icon-box icon-phone"></div>`;
+    }
+    return `<div class="icon-box" style="background-image:url('${app.icon}'); background-size:cover; background-color:#fff;"></div>`;
+  };
+
+  mainApps.forEach(app => {
+    const el = document.createElement("div"); el.className = "app-icon";
+    el.innerHTML = `${createIconHTML(app)}<span class="icon-label">${app.name}</span>`;
+    el.onclick = (e) => { e.stopPropagation(); openApp(app.id, app.name); };
+    grid.appendChild(el);
+  });
+  
+  const dock = document.getElementById("dock"); dock.innerHTML = "";
+  dockApps.forEach(id => {
+    const app = APPS.find(a => a.id === id); if (!app) return;
+    const el = document.createElement("div"); el.className = "app-icon";
+    el.innerHTML = createIconHTML(app);
+    el.onclick = (e) => { e.stopPropagation(); openApp(app.id, app.name); };
+    dock.appendChild(el);
+  });
+}
+
+function openApp(id, name) {
+  document.getElementById("home").classList.remove("active");
+  document.getElementById("app-view").classList.add("active");
+  document.getElementById("app-title").textContent = name;
+  document.querySelector(".dock").classList.add("hidden-dock");
+  
+  const c = document.getElementById("app-content");
+  c.classList.remove("no-padding");
+  if (id === "kakao" && currentChat) c.classList.add("no-padding");
+  if (id === "map") c.classList.add("no-padding");
+  renderAppContent(id);
+  c.scrollTop = 0;
+}
+
+function goHome() {
+  document.getElementById("app-view").classList.remove("active");
+  document.getElementById("home").classList.add("active");
+  document.querySelector(".dock").classList.remove("hidden-dock");
+}
+
+document.getElementById("back-btn").onclick = () => {
+  if (currentChat) { 
+    currentChat = null; 
+    document.getElementById("app-content").classList.remove("no-padding");
+    renderAppContent("kakao"); 
+  } else if (currentMemo) {
+    currentMemo = null;
+    renderAppContent("memo");
+  } else { goHome(); }
+};
+
+function renderAppContent(id) {
+  const c = document.getElementById("app-content"); c.innerHTML = "";
+  if (id === "kakao") renderKakao(c);
+  else if (id === "instagram") renderInstagram(c);
+  else if (id === "memo") renderMemo(c);
+  else if (id === "map") renderMap(c);
+  else c.innerHTML = "<div style='text-align:center;padding:50px;color:#999;'>功能接入中</div>";
+}
+
+// ================= 橙光式逐句对话 KakaoTalk =================
 function renderKakao(c) {
   if (currentChat) {
     const chat = CHATS[currentChat];
     document.getElementById("app-title").textContent = chat.name;
 
+    // 动态生成 HTML
     c.innerHTML = `
       <div class="chat-room-wrapper">
         <div id="chat-room-container" class="chat-room"></div>
@@ -157,7 +142,7 @@ function renderKakao(c) {
     const modal = document.getElementById("reply-modal");
     const optionsContainer = document.getElementById("reply-options-container");
 
-    let isTyping = false; 
+    let isTyping = false; // 核心：防抖，不能连发
 
     const renderMessages = () => {
       room.innerHTML = "";
@@ -173,6 +158,7 @@ function renderKakao(c) {
     };
     renderMessages();
 
+    // 点输入框：检查是否有剧情选项，且当前不处于"等待对方回复"状态
     inputEl.onclick = (e) => {
       e.preventDefault();
       if (isTyping) return; 
@@ -192,19 +178,22 @@ function renderKakao(c) {
     window.closeReplyModal = () => { modal.classList.remove("show"); };
 
     sendBtn.onclick = () => {
-      if (isTyping) return;
+      if (isTyping) return; // 对方正在回复中，不能发
       const text = inputEl.value.trim();
       if (!text) return;
       
+      // 1. 发送玩家消息
       chat.messages.push({ from: "me", text: text });
       inputEl.value = "";
       renderMessages();
 
+      // 2. 如果有剧情，触发回复
       if (chat.story && chat.story.length > 0 && chat.story[0].me === text) {
         const currentStory = chat.story.shift();
-        isTyping = true; 
+        isTyping = true; // 锁定输入框
         inputEl.placeholder = "对方正在输入...";
 
+        // 延迟 1.5 秒后回复
         setTimeout(() => {
           chat.messages.push({ 
             from: "them", 
@@ -236,7 +225,7 @@ function renderKakao(c) {
   });
 }
 
-// ================= 地图打卡与橙光选项 =================
+// ================= 真实 Apple Map =================
 function renderMap(c) {
   c.innerHTML = `
     <div class="map-container">
@@ -244,13 +233,7 @@ function renderMap(c) {
       <div id="map-card" class="map-bottom-card">
         <h3 id="map-title" style="font-size:18px; margin-bottom:5px;">地点名称</h3>
         <p id="map-desc" style="font-size:14px; color:#666;">地点描述</p>
-        <button class="map-btn" id="map-action-btn">确认前往该地点</button>
-      </div>
-      <div class="map-choice-modal" id="map-choice-modal">
-        <div class="map-choice-box">
-          <div class="map-choice-title" id="map-choice-title">触发剧情：你要怎么做？</div>
-          <div id="map-choice-options"></div>
-        </div>
+        <button class="map-btn" id="map-action-btn">模拟打卡</button>
       </div>
     </div>
   `;
@@ -260,8 +243,6 @@ function renderMap(c) {
   const title = document.getElementById("map-title");
   const desc = document.getElementById("map-desc");
   const btn = document.getElementById("map-action-btn");
-  const choiceModal = document.getElementById("map-choice-modal");
-  const choiceOptions = document.getElementById("map-choice-options");
 
   MAP_PLACES.forEach(p => {
     const pin = document.createElement("div");
@@ -274,16 +255,15 @@ function renderMap(c) {
       e.stopPropagation();
       activePinId = p.id;
       title.innerText = p.name;
-      desc.innerText = "点击下方按钮进入该场景。";
+      desc.innerText = p.triggerMsg;
       
+      // 判断是否已经打卡
       if (gameState[`date_${p.id}`]) {
-         btn.innerText = "已完成该地点的剧情";
+         btn.innerText = "已打卡";
          btn.style.background = "#ccc";
-         btn.disabled = true;
       } else {
-         btn.innerText = "模拟前往该地点";
+         btn.innerText = "确认前往该地点";
          btn.style.background = "#007aff";
-         btn.disabled = false;
       }
       card.classList.add("show");
     };
@@ -291,46 +271,24 @@ function renderMap(c) {
   });
 
   btn.onclick = () => {
-    if (!activePinId || btn.disabled) return;
+    if (!activePinId) return;
     const place = MAP_PLACES.find(p => p.id === activePinId);
-    
-    choiceOptions.innerHTML = "";
-    place.choices.forEach((choice, index) => {
-      const choiceBtn = document.createElement("div");
-      choiceBtn.className = "map-choice-btn";
-      choiceBtn.innerText = choice;
-      choiceBtn.onclick = () => {
-        choiceModal.classList.remove("show");
-        gameState[`date_${place.id}`] = true;
-        gameState.dateCount++;
-        
-        alert(`【剧情触发】\n\n你选择了：${choice}\n\n${place.reply}\n\n（当前攻略进度：${gameState.dateCount}/10）`);
-        btn.innerText = "已完成该地点的剧情";
-        btn.style.background = "#ccc";
-        btn.disabled = true;
+    if (!gameState[`date_${place.id}`]) {
+      gameState[`date_${place.id}`] = true;
+      gameState.dateCount++;
+      
+      // 进游戏弹窗
+      alert(`打卡成功！\n\n${place.triggerMsg}\n\n目前进度：${gameState.dateCount} / 10`);
+      btn.innerText = "已打卡";
+      btn.style.background = "#ccc";
 
-        // 触发成淏私信联动！
-        if (place.id === "p2") {
-           // 在他的聊天记录里直接塞入新消息，这样点开 KKT 就能看到
-           CHATS.sungho.messages.push({ type: "time", text: "刚刚" });
-           CHATS.sungho.messages.push({ from: "them", text: "刚刚的水，谢谢。" });
-           CHATS.sungho.story.unshift({ 
-              me: "学长客气啦，应该的", 
-              them: "明天下午有空吗？我请你喝咖啡，就当回礼。" 
-           });
-           // 弹出顶部通知
-           setTimeout(() => {
-             showNotification("KakaoTalk", "朴成淏：刚刚的水，谢谢。", "kakao", "sungho");
-           }, 1000);
-        } else if (gameState.dateCount === 10) {
-           setTimeout(() => alert("【系统提示】你们已经很熟悉了，去 KakaoTalk 看看吧！"), 1500);
-        }
-      };
-      choiceOptions.appendChild(choiceBtn);
-    });
-    choiceModal.classList.add("show");
+      if (gameState.dateCount === 10) {
+        setTimeout(() => alert("【系统提示】你们已经很熟悉了，去 KakaoTalk 看看吧！"), 1000);
+      }
+    }
   };
 
+  // 点空白处收起卡片
   c.querySelector('.map-container').onclick = () => {
     card.classList.remove("show");
     activePinId = null;
@@ -399,16 +357,10 @@ window.likePost = function(postId) {
   heart.innerText = "❤️";
   if (postId === "post_2" && !gameState.likedSunghoPost) {
     gameState.likedSunghoPost = true;
-    
-    CHATS.sungho.messages.push({ type: "time", text: "刚刚" });
-    CHATS.sungho.messages.push({ from: "them", text: "你看到我发的动态啦？明天要一起去吗？" });
-    
     setTimeout(() => {
       showNotification("KakaoTalk", "朴成淏：你看到我发的动态啦？明天要一起去吗？", "kakao", "sungho");
     }, 1500);
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  renderApps();
-});
+renderApps();

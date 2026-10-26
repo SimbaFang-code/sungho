@@ -1,145 +1,65 @@
-const GAME_DATA = {
-  friends:[
-    {key:"seongho", name:"朴成淏", status:"大三 国文系", avatar:"https://i.imgur.com/placeholder.png"},
-    {key:"unhak", name:"金云鹤", status:"大二 舞蹈系", avatar:"https://i.imgur.com/placeholder.png"},
-    {key:"taesan", name:"韩泰山", status:"大三 美术系", avatar:"https://i.imgur.com/placeholder.png"},
-    {key:"group", name:"瑞林六人小群", status:"群聊", avatar:"https://i.imgur.com/placeholder.png"}
-  ],
-  chats:{
-    seongho:{
-      title:"朴成淏",
-      story:[
-        {
-          others:[
-            {text:"你好，是今天在图书馆掉了书的新生对吧？"},
-            {text:"我是大三的朴成淏，刚刚有没有吓到你？书都捡齐了吗？"}
-          ],
-          playerOption:"是的！太谢谢你了，刚才差点手忙脚乱。",
-          affGain:3
-        },
-        {
-          others:[
-            {text:"下次拿很多书的时候小心一点。"},
-            {text:"之后专业课有看不懂的地方，可以来找我，有空我可以帮你。"}
-          ],
-          playerOption:"太好了，谢谢你！以后有不懂的我会鼓起勇气找你的。",
-          affGain:4
-        },
-        {
-          others:[
-            {text:"来食堂吃午饭吗？今天食堂的菜味道一般。"},
-            {text:"刚刚看到云鹤和你搭话，你们认识吗？"}
-          ],
-          playerOption:"刚刚才认识，只是简单打了个招呼而已。",
-          affGain:4
-        },
-        {
-          others:[
-            {text:"没想到我们分到同一个小组作业，以后直接找我联系就好。"},
-            {text:"整理报告资料很麻烦，有空可以一起泡图书馆。"}
-          ],
-          playerOption:"好呀，一起做的话会轻松很多！",
-          affGain:5
-        },
-        {
-          others:[
-            {text:"我经常来湖边这边，安安静静的，心情会放松很多。"},
-            {text:"最近总是会想起你，不知道为什么会一直留意你。"}
-          ],
-          playerOption:"我也很喜欢这里，和成淏学长待在一起的时候很安心。",
-          affGain:6
-        },
-        {
-          others:[
-            {text:"刚刚聚餐的时候云鹤一直找你说话，我有点在意。"},
-            {text:"说出来有点傻，但是我好像吃醋了，想跟你说实话。"}
-          ],
-          playerOption:"学长不用多想，我在意的人一直是你。",
-          affGain:7
-        },
-        {
-          others:[
-            {text:"雨下好大，要不要一起撑一把伞？"},
-            {text:"其实我喜欢你很久了，要不要和我在一起？"}
-          ],
-          playerOption:"我愿意，我也喜欢学长，我们在一起吧。",
-          affGain:12
-        },
-        {
-          others:[
-            {text:"今天约会想去哪里？"},
-            {text:"和你待在一起的时候，永远都是最开心的。"}
-          ],
-          playerOption:"想去咖啡馆慢慢聊天。",
-          affGain:3
-        }
-      ]
-    },
-    unhak:{
-      title:"金云鹤",
-      story:[
-        {
-          others:[
-            {text:"嗨！你和成淏学长认识吗？"},
-            {text:"我是云鹤，觉得你很可爱，过来打个招呼。"}
-          ],
-          playerOption:"我们刚刚在图书馆认识，你好呀！",
-          affGain:2
-        }
-      ]
-    },
-    taesan:{
-      title:"韩泰山",
-      story:[
-        {
-          others:[
-            {text:"喜欢画画吗？这张湖边风景是我画的。"},
-            {text:"想发给你看看。"}
-          ],
-          playerOption:"好好看！你的画画技术也太棒了。",
-          affGain:2
-        }
-      ]
-    },
-    group:{
-      title:"瑞林六人小群",
-      story:[
-        {
-          others:[
-            {text:"周末大家一起去吃烤肉吗！"},
-            {text:"成淏你也一起来吧？"}
-          ],
-          playerOption:"好呀，我也想一起去！",
-          affGain:1
-        }
-      ]
-    }
+const APPS = [
+  { id: "kakao", name: "KakaoTalk", icon: "https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" },
+  { id: "instagram", name: "Instagram", icon: "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" },
+  { id: "photos", name: "相册", customClass: "icon-photos" },
+  { id: "calendar", name: "日历", customClass: "icon-calendar" },
+  { id: "memo", name: "备忘录", customClass: "icon-notes" },
+  { id: "map", name: "地图", customClass: "icon-maps" },
+  { id: "clock", name: "时钟", customClass: "icon-clock" },
+  { id: "weather", name: "天气", customClass: "icon-weather" },
+  { id: "settings", name: "设置", customClass: "icon-settings" },
+  { id: "phone", name: "电话", customClass: "icon-phone" }
+];
+
+const MEMOS = [
+  { id: "m1", title: "选课笔记", date: "今天 09:00", content: "周一上午有经营学，记得带计算器。\n周三去图书馆借两本全英教材。" },
+  { id: "m2", title: "绝密剧情提示", date: "现在", isLocked: true, content: "【剧本杀防卡关指南】\n\n1. 熟悉阶段：多去【地图】和成淏打卡约会，累计10次线下约会后才能解锁后续心动剧情。\n2. 发现线索：如果有不懂的，去看看成淏的 IG 动态。" }
+];
+
+// 10次线下约会打卡点
+const MAP_PLACES = [
+  { id: "p1", name: "中央图书馆", x: 30, y: 40, dateNum: 1, triggerMsg: "今天在图书馆偶遇了成淏学长，他帮我找了全英教材。" },
+  { id: "p2", name: "学生会馆", x: 60, y: 25, dateNum: 2, triggerMsg: "成淏学长在学生会馆开会，给我带了冰美式。" },
+  { id: "p3", name: "音乐楼", x: 75, y: 60, dateNum: 3, triggerMsg: "陪成淏学长去音乐楼听泰山排练，他偷偷牵了我的手。" },
+  { id: "p4", name: "老地方烤肉店", x: 40, y: 70, dateNum: 4, triggerMsg: "六人聚餐！云鹤一直灌我酒，被成淏学长挡住了。" },
+  { id: "p5", name: "校园咖啡店", x: 55, y: 50, dateNum: 5, triggerMsg: "和成淏学长单独喝咖啡，聊了彼此的过去。" },
+  { id: "p6", name: "银杏大道", x: 20, y: 80, dateNum: 6, triggerMsg: "散落满地的银杏叶，成淏学长给我拍了好多照片。" },
+  { id: "p7", name: "操场看台", x: 80, y: 20, dateNum: 7, triggerMsg: "看常赫打篮球，成淏学长非要拉着我看日落。" },
+  { id: "p8", name: "学生会室", x: 65, y: 35, dateNum: 8, triggerMsg: "帮他整理迎新资料，他盯着我的眼神好温柔。" },
+  { id: "p9", name: "校门口夜市", x: 10, y: 50, dateNum: 9, triggerMsg: "去夜市吃小吃，他帮我擦掉嘴角的酱汁。" },
+  { id: "p10", name: "宿舍楼下", x: 45, y: 85, dateNum: 10, triggerMsg: "他送我回宿舍，在楼下站了好久都没走。" }
+];
+
+const CHATS = {
+  sungho: {
+    name: "朴成淏", avatar: "成", color: "#ff9f0a",
+    messages: [
+      { type: "time", text: "今天 下午 16:00" },
+      { from: "them", text: "宰铉在群里说周五聚餐，你看到了吗？" }
+    ],
+    // 橙光式剧情树（发一句回一句）
+    story: [
+      { me: "看到啦，我一定会去的", them: "嗯，去吧，大家都很想见你。" },
+      { me: "学长最近好像很忙？", them: "有一点，准备迎新晚会的事情。" },
+      { me: "那要注意休息呀", them: "好。对了，今晚云鹤是不是一直找你说话？" },
+      { me: "是呀，他很热情", them: "……早知道不让他加你了，我有点吃醋。" },
+      { me: "学长怎么连这种醋都吃", them: "因为，我好像有点太在意你了。" }
+    ]
   },
-  // ===================== IG帖子在这里添加、修改，直接替换img链接为BOYNEXTDOOR照片 =====================
-  instaPosts:[
-    {
-      username:"seongho_bdnd",
-      avatar:"https://i.imgur.com/placeholder.png",
-      img:"https://i.imgur.com/placeholder.png",
-      likecount:"2341",
-      caption:"傍晚的校园湖边，风很舒服✨",
-      time:"2小时前"
-    },
-    {
-      username:"unhak_bdnd",
-      avatar:"https://i.imgur.com/placeholder.png",
-      img:"https://i.imgur.com/placeholder.png",
-      likecount:"3122",
-      caption:"舞蹈练习结束，好累但是很开心🩰",
-      time:"5小时前"
-    },
-    {
-      username:"taesan_bdnd",
-      avatar:"https://i.imgur.com/placeholder.png",
-      img:"https://i.imgur.com/placeholder.png",
-      likecount:"1876",
-      caption:"新画的速写｜湖边日落",
-      time:"昨天"
-    }
-  ]
-}
+  group: {
+    name: "延世街六人组", avatar: "群", color: "#8e8e93",
+    messages: [{ type: "time", text: "今天 14:30" }, { from: "them", sender: "明宰铉", text: "周五聚餐！" }, { from: "them", sender: "朴成淏", text: "我带学妹来。" }],
+    story: [
+      { me: "好呀，谢谢大家！", them: "宰铉：欢迎欢迎！", sender: "明宰铉" },
+      { me: "我会准时到的", them: "云鹤：太好啦！", sender: "金云鹤" }
+    ]
+  },
+  riwoo: { name: "李常赫", avatar: "常", color: "#30d158", messages: [], story: [] },
+  taesan: { name: "韩泰山", avatar: "泰", color: "#5e5ce6", messages: [], story: [] },
+  leehan: { name: "金桐儇", avatar: "桐", color: "#64d2ff", messages: [], story: [] },
+  woonhak: { name: "金云鹤", avatar: "云", color: "#bf5af2", messages: [], story: [] }
+};
+
+const INSTAGRAM_FEED = [
+  { id: "post_2", user: "sungho_", avatar: "成", img: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600", caption: "coffee." }
+];
