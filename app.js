@@ -359,5 +359,5 @@ function likePost(postId) {
   }
 }
 
-// 开始渲染
+// 立即渲染，无需等待任何事件
 renderApps();
