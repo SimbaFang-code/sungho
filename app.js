@@ -3,15 +3,16 @@ let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
 
-// 终极解锁：监听整个屏幕
-document.addEventListener("click", function(e) {
+// 最顶级的解锁函数，HTML 直接调用，无视任何浏览器拦截
+window.unlockPhone = function() {
   const lockScreen = document.getElementById("lock-screen");
-  if (lockScreen && !lockScreen.classList.contains("hidden")) {
+  const mainUI = document.getElementById("main-ui");
+  if (lockScreen && mainUI) {
     lockScreen.classList.add("hidden");
-    document.getElementById("main-ui").classList.remove("hidden");
+    mainUI.classList.remove("hidden");
     setTimeout(() => showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho"), 1000);
   }
-});
+}
 
 function updateClock() {
   const now = new Date();
@@ -154,18 +155,13 @@ function renderKakao(c) {
 
     let isTyping = false; 
 
-    // 【修复了这里的报错】
     const renderMessages = () => {
       room.innerHTML = "";
       chat.messages.forEach(m => {
         if (m.type === "time") { room.innerHTML += `<div class="time-divider"><span>${m.text}</span></div>`; return; }
         const row = document.createElement("div"); row.className = "msg-row " + m.from;
         if (m.sender) {
-          row.innerHTML = `
-            <div style="display:flex; flex-direction:column; align-items:flex-start;">
-              <div class="msg-sender">${m.sender}</div>
-              <div class="bubble">${m.text}</div>
-            </div>`;
+          row.innerHTML = `<div style="display:flex; flex-direction:column; align-items:flex-start;"><div class="msg-sender">${m.sender}</div><div class="bubble">${m.text}</div></div>`;
         } else {
           row.innerHTML = `<div class="bubble">${m.text}</div>`;
         }
@@ -188,7 +184,7 @@ function renderKakao(c) {
         optionsContainer.appendChild(btn);
         modal.classList.add("show");
       } else {
-        inputEl.focus(); // 没剧情了，允许自由打字
+        inputEl.focus(); 
       }
     };
 
