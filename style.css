@@ -1,5 +1,5 @@
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; background: #000; }
+html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", "PingFang SC", sans-serif; background: #000; }
 #phone { position: relative; width: 100%; height: 100%; background-color: #fdf2f5; background-image: radial-gradient(#f7cbd6 2px, transparent 2px); background-size: 25px 25px; display: flex; flex-direction: column; overflow: hidden; }
 @media (min-width: 600px) { body { display: flex; align-items: center; justify-content: center; background: #1c1c1e; } #phone { width: 390px; height: 844px; border-radius: 54px; border: 12px solid #1a1a1a; box-shadow: 0 30px 80px rgba(0,0,0,.8); } }
 
@@ -30,7 +30,7 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .dock .icon-label { display: none; }
 .dock .icon-box { width: 58px; height: 58px; box-shadow: none; }
 
-/* 你的图片配置区 */
+/* ================= 你的图片配置区，绝对没动 ================= */
 .icon-photos { background-image: url('png/photos.png'); }
 .icon-calendar { background-image: url('png/calendar.png'); }
 .icon-notes { background-image: url('png/memo.png'); }
@@ -46,33 +46,44 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 /* App 页面 */
 #app-view { background: #f2f2f7; }
 .app-topbar { position: sticky; top: 0; z-index: 10; height: 44px; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; background: rgba(249,249,249,.94); backdrop-filter: blur(20px); border-bottom: .5px solid #d1d1d6; font-size: 16px; font-weight: 600; color: #1c1c1e; }
-#back-btn { border: none; background: none; color: #007aff; font-size: 16px; cursor: pointer; }
+#back-btn { border: none; background: none; color: #007aff; font-size: 16px; cursor: pointer; padding: 0; display: flex; align-items: center; }
 #app-content { padding: 12px 16px 40px; height: calc(100% - 44px); overflow-y: auto; position: relative; }
 #app-content.no-padding { padding: 0; overflow: hidden; }
 
-/* ================= KKT 界面样式 ================= */
-.chat-list-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: .5px solid #e5e5ea; cursor: pointer; background: #fff; }
+/* ================= 修复后的 KakaoTalk 样式 ================= */
+.kkt-list-bg { background: #fff; height: 100%; }
+.chat-list-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f0f0f0; cursor: pointer; background: #fff; }
 .chat-avatar { width: 50px; height: 50px; border-radius: 18px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 18px; flex-shrink: 0; }
-.chat-info { flex: 1; min-width: 0; }
-.chat-name { font-size: 16px; font-weight: 500; color: #1c1c1e; }
-.chat-preview { font-size: 14px; color: #8e8e93; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.chat-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.chat-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;}
+.chat-name { font-size: 15px; font-weight: 600; color: #1c1c1e; }
+.chat-time { font-size: 11px; color: #8e8e93; }
+.chat-preview { font-size: 13px; color: #8e8e93; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* 聊天室内页，完美对齐修正 */
 .chat-room-wrapper { display: flex; flex-direction: column; height: 100%; width: 100%; background: #b2c7d9; position: absolute; inset: 0; }
-.chat-room { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
-.msg-row { display: flex; }
+.chat-room { flex: 1; overflow-y: auto; padding: 15px 12px; display: flex; flex-direction: column; gap: 12px; }
+.msg-row { display: flex; align-items: flex-start; gap: 8px; }
 .msg-row.me { justify-content: flex-end; }
-.bubble { max-width: 75%; padding: 10px 14px; border-radius: 18px; font-size: 15px; line-height: 1.4; word-break: break-word; display: inline-block; width: fit-content; }
-.msg-row.them .bubble { background: #fff; color: #1c1c1e; border-bottom-left-radius: 4px; }
-.msg-row.me .bubble { background: #fee500; color: #1c1c1e; border-bottom-right-radius: 4px; }
-.msg-sender { font-size: 12px; color: #8e8e93; margin-bottom: 4px; padding-left: 4px; }
-.time-divider { text-align: center; margin: 10px 0; }
-.time-divider span { background: rgba(0,0,0,0.1); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 12px; }
+.msg-avatar { width: 38px; height: 38px; border-radius: 14px; background: #ccc; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; flex-shrink: 0;}
+.msg-content { display: flex; flex-direction: column; max-width: 70%; }
+.msg-row.them .msg-content { align-items: flex-start; }
+.msg-row.me .msg-content { align-items: flex-end; }
+.msg-sender { font-size: 12px; color: #555; margin-bottom: 4px; padding-left: 2px;}
+.bubble { padding: 9px 14px; border-radius: 14px; font-size: 15px; line-height: 1.45; word-break: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.06);}
+.msg-row.them .bubble { background: #fff; color: #1c1c1e; border-top-left-radius: 4px; }
+.msg-row.me .bubble { background: #fee500; color: #1c1c1e; border-top-right-radius: 4px; }
 
-/* 橙光弹窗 */
-.reply-modal { position: absolute; bottom: 0; left: 0; right: 0; background: #fff; border-top-left-radius: 20px; border-top-right-radius: 20px; transform: translateY(100%); transition: transform 0.3s; z-index: 20; padding: 15px; }
-.reply-modal.show { transform: translateY(0); }
-.reply-option { padding: 12px; background: #f1f1f1; border-radius: 10px; margin-bottom: 8px; font-size: 14px; cursor: pointer; text-align: center; font-weight: 500; }
+.time-divider { text-align: center; margin: 15px 0; }
+.time-divider span { background: rgba(0,0,0,0.08); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 12px; }
 
-/* 备忘录 */
+/* KKT 底部输入栏 */
+.kkt-input-bar { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #fff; border-top: 1px solid #ddd; flex-shrink: 0; padding-bottom: calc(8px + env(safe-area-inset-bottom));}
+.kkt-plus { font-size: 24px; color: #8e8e93; padding: 0 4px; cursor: pointer; font-weight: 300;}
+.kkt-input-box { flex: 1; padding: 8px 12px; background: #f1f1f1; border-radius: 18px; font-size: 14px; border: none; outline: none; color: #1c1c1e; }
+.kkt-send-btn { padding: 0 10px; background: transparent; color: #3c1e1e; border: none; font-weight: 600; font-size: 14px; cursor: pointer; }
+
+/* 其他 App 占位，保持不变 */
 .memo-list-item { padding: 15px 20px; background: #fff; border-bottom: 1px solid #e5e5ea; cursor: pointer; display: flex; justify-content: space-between; align-items: center;}
 .memo-list-title { font-size: 16px; font-weight: 600; color: #1c1c1e;}
 .memo-list-date { font-size: 13px; color: #8e8e93;}
@@ -82,7 +93,6 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .memo-lock-screen { text-align: center; padding: 80px 20px; background: #fff; height: 100%;}
 .memo-input { padding: 12px; font-size: 18px; text-align: center; border: 1px solid #ccc; border-radius: 10px; width: 160px; margin-top: 20px; outline:none;}
 
-/* IG */
 .ig-header { display: flex; justify-content: space-between; padding: 10px 16px; background: #fff; border-bottom: 1px solid #dbdbdb; }
 .ig-logo { font-family: 'Billabong', cursive, sans-serif; font-size: 26px; font-weight: bold; }
 .ig-feed-post { background: #fff; margin-bottom: 10px; border-bottom: 1px solid #dbdbdb; }
@@ -93,7 +103,6 @@ html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-sy
 .ig-heart.liked { color: #ed4956; transform: scale(1.1); }
 .ig-feed-caption { padding: 0 10px 10px; font-size: 14px; }
 
-/* 地图 */
 .map-container { width: 100%; height: 100%; background-color: #f0f4f8; background-image: linear-gradient(#d0d7e0 1px, transparent 1px), linear-gradient(90deg, #d0d7e0 1px, transparent 1px); background-size: 40px 40px; position: relative; overflow: hidden; }
 .map-pin { position: absolute; transform: translate(-50%, -100%); cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s;}
 .map-pin:active { transform: translate(-50%, -100%) scale(1.1); }
