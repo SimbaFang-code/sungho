@@ -2,45 +2,18 @@ let currentChat = null;
 let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
-let enteredPin = "";
 
-// 锁屏交互
+// 刚打开网页，点击屏幕就直接解锁进桌面
 document.addEventListener("DOMContentLoaded", () => {
-  const promptEl = document.getElementById("lock-prompt");
-  if (promptEl) {
-    promptEl.onclick = function() {
-      this.style.display = "none";
-      const keypad = document.getElementById("lock-keypad");
-      if(keypad) keypad.classList.add("active");
+  const lockScreen = document.getElementById("lock-screen");
+  if (lockScreen) {
+    lockScreen.onclick = function() {
+      this.classList.add("hidden");
+      document.getElementById("main-ui").classList.remove("hidden");
+      setTimeout(() => showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho"), 1000);
     };
   }
 });
-
-function enterPin(num) {
-  if (enteredPin.length >= 4) return;
-  enteredPin += num;
-  updateDots();
-  if (enteredPin.length === 4) {
-    setTimeout(() => {
-      if (enteredPin === "0904") {
-        document.getElementById("lock-screen").classList.add("hidden");
-        document.getElementById("main-ui").classList.remove("hidden");
-        setTimeout(() => showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho"), 1000);
-      } else {
-        alert("密码错误，请重试 (提示:0904)");
-        enteredPin = "";
-        updateDots();
-      }
-    }, 200);
-  }
-}
-function updateDots() {
-  const dots = document.querySelectorAll(".dots span");
-  dots.forEach((dot, index) => {
-    if (index < enteredPin.length) dot.classList.add("filled");
-    else dot.classList.remove("filled");
-  });
-}
 
 function updateClock() {
   const now = new Date();

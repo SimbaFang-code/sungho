@@ -10,7 +10,7 @@
 </head>
 <body>
 <div id="phone">
-  <!-- iOS 通知弹窗 -->
+  <!-- 顶部通知 -->
   <div id="ios-notification">
     <div class="app-icon-small" style="background:url('https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg') center/cover #fee500;"></div>
     <div class="notif-content">
@@ -19,11 +19,26 @@
     </div>
   </div>
 
-  <!-- 锁屏 -->
+  <!-- 锁屏界面 -->
   <div id="lock-screen" class="active">
     <div class="lock-time" id="lock-clock">00:00</div>
     <div class="lock-date" id="lock-date">10月26日 周一</div>
-    <div class="lock-bottom"><div id="lock-prompt">点击解锁</div></div>
+    <div class="lock-bottom">
+      <div id="lock-prompt">点击解锁</div>
+      
+      <!-- iOS 密码键盘骨架（直接放在这，保证能显示） -->
+      <div id="lock-keypad">
+        <div class="dots">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="keys">
+          <button onclick="enterPin(1)">1</button><button onclick="enterPin(2)">2</button><button onclick="enterPin(3)">3</button>
+          <button onclick="enterPin(4)">4</button><button onclick="enterPin(5)">5</button><button onclick="enterPin(6)">6</button>
+          <button onclick="enterPin(7)">7</button><button onclick="enterPin(8)">8</button><button onclick="enterPin(9)">9</button>
+          <button class="empty"></button><button onclick="enterPin(0)">0</button><button class="empty"></button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- 主界面 -->
@@ -38,7 +53,6 @@
     </div>
 
     <div id="screen">
-      <!-- 桌面 -->
       <div id="home" class="page active">
         <div class="widget-row">
           <div class="widget widget-weather">
@@ -53,7 +67,6 @@
         <div class="dock" id="dock"></div>
       </div>
 
-      <!-- App 容器 -->
       <div id="app-view" class="page">
         <div class="app-topbar">
           <button id="back-btn">‹ 返回</button>
