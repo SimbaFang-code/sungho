@@ -1,265 +1,69 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
+/* ================= 全局基础、手机外壳、仿iOS状态栏、Dock 基础 ================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
-
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
-  background: #222;
+body{
+  background:#222;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  padding:10px;
 }
-
-/* 手机外壳 */
-.phone-frame {
-  width: 100vw;
-  height: 100vh;
-  max-width: 430px;
-  max-height: 932px;
-  margin: 0 auto;
-  background: #000;
-  border-radius: 44px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+.iphone{
+  width:390px;
+  height:844px;
+  background:#000;
+  border-radius:48px;
+  padding:12px;
+  position:relative;
+  overflow:hidden;
+  border:4px solid #111;
 }
-
-.iphone-screen {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
+.screen{
+  width:100%;
+  height:100%;
+  background:#fcf0f4;
+  background-image: radial-gradient(#f8d9e2 10%, transparent 11%),radial-gradient(#f8d9e2 10%, transparent 11%);
+  background-size:32px 32px;
+  background-position:0 0,16px 16px;
+  border-radius:36px;
+  overflow:hidden;
+  position:relative;
 }
-
-/* 状态栏 */
-.status-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 44px;
-  padding: 0 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: #fff;
-  z-index: 50;
-  pointer-events: none;
+/* 顶部状态栏 */
+.statusbar{
+  height:48px;
+  padding:0 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:14px;
+  font-weight:500;
+  color:#000;
 }
-
-.status-right {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.status-right{
+  display:flex;
+  gap:4px;
+  align-items:center;
 }
-
-.signal-icon {
-  width: 16px;
-  height: 12px;
-  position: relative;
-}
-
-.signal-icon span {
-  position: absolute;
-  bottom: 0;
-  width: 3px;
-  background: #fff;
-  border-radius: 1px;
-}
-
-.signal-icon span:nth-child(1) { left: 0; height: 3px; }
-.signal-icon span:nth-child(2) { left: 4px; height: 5px; }
-.signal-icon span:nth-child(3) { left: 8px; height: 8px; }
-.signal-icon span:nth-child(4) { left: 12px; height: 11px; }
-
-.wifi-icon {
-  width: 14px;
-  height: 11px;
-  background:
-    radial-gradient(circle at center bottom, #fff 2px, transparent 2.5px),
-    radial-gradient(circle at center bottom, transparent 4px, #fff 4.5px, #fff 6px, transparent 6.5px),
-    radial-gradient(circle at center bottom, transparent 7px, #fff 7.5px, #fff 9px, transparent 9.5px);
-}
-
-.battery-icon {
-  width: 26px;
-  height: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 3px;
-  padding: 1px;
-  position: relative;
-}
-
-.battery-icon::after {
-  content: "";
-  position: absolute;
-  right: -4px;
-  top: 4px;
-  width: 3px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 0 1px 1px 0;
-}
-
-.battery-level {
-  width: 80%;
-  height: 100%;
-  background: #fff;
-  border-radius: 1px;
-}
-
-/* 壁纸：浅粉韩系波点 */
-.lock-wallpaper,
-.home-wallpaper {
-  position: absolute;
-  inset: 0;
-  background-color: #fdeef4;
-  background-image:
-    radial-gradient(#f9c6dc 22%, transparent 23%),
-    radial-gradient(#f7a5c8 18%, transparent 19%),
-    radial-gradient(#fbcde0 14%, transparent 15%);
-  background-size: 90px 90px, 56px 56px, 34px 34px;
-  background-position: 0 0, 20px 12px, 45px 30px;
-  z-index: 0;
-}
-
-/* 锁屏 */
-.app-view {
-  position: absolute;
-  inset: 0;
-  display: none;
-  z-index: 10;
-}
-
-.app-view.active {
-  display: block;
-}
-
-.lock-content {
-  position: absolute;
-  top: 110px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  color: #222;
-  z-index: 5;
-}
-
-.lock-time {
-  font-size: 72px;
-  font-weight: 200;
-  letter-spacing: -2px;
-}
-
-.lock-date {
-  font-size: 16px;
-  margin-top: 6px;
-}
-
-.lock-hint {
-  margin-top: 400px;
-  font-size: 14px;
-  opacity: 0.7;
-}
-
-/* 密码键盘 */
-.passcode-panel {
-  position: absolute;
-  bottom: 40px;
-  left: 0;
-  right: 0;
-  z-index: 20;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 20px;
-  border-radius: 24px 24px 0 0;
-}
-
-.passcode-title {
-  text-align: center;
-  font-size: 15px;
-  color: #333;
-  margin-bottom: 16px;
-}
-
-.passcode-dots {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  margin-bottom: 20px;
-}
-
-.passcode-dots span {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #d8d8d8;
-  transition: background 0.2s;
-}
-
-.passcode-dots span.filled {
-  background: #ff2d55;
-}
-
-.passcode-keypad {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-.key {
-  height: 54px;
-  border: none;
-  border-radius: 50%;
-  background: #f2f2f7;
-  font-size: 22px;
-  font-weight: 500;
-  color: #000;
-  cursor: pointer;
-}
-
-.key:active {
-  background: #d1d1d6;
-}
-
-.key-empty {
-  background: transparent;
-}
-
-.key-backspace {
-  background: #e5e5ea;
-}
-
-.hidden {
-  display: none !important;
-}
-
-/* 主屏幕 */
-.app-grid {
-  position: absolute;
-  top: 60px;
-  left: 0;
-  right: 0;
-  padding: 0 22px;
-  display: grid;
+/* 桌面图标网格 */
+.home-grid{
+  padding:12px 20px;
+  display:grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 18px 10px;
-  z-index: 5;
+  gap:16px 8px;
 }
-
-.app-icon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
+.icon-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  cursor:pointer;
 }
-
+/* 统一 iOS 图标基础样式 */
 .icon {
   width: 54px;
   height: 54px;
@@ -269,204 +73,201 @@ html, body {
   justify-content: center;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
-
+.icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 55%);
+  pointer-events: none;
+}
 .icon-label {
   font-size: 11px;
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  color: #222;
+  margin-top: 4px;
+  text-align:center;
 }
-
-/* 图标 */
+/* ================= 各个APP图标单独样式 ================= */
 .icon-calendar {
-  background: #fff;
+  background: #ffffff;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 4px;
+  padding: 4px 6px;
 }
-
-.calendar-month {
+.icon-calendar .calendar-month {
   font-size: 10px;
+  font-weight: 800;
   color: #ff3b30;
-  font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
 }
-
-.calendar-day {
+.icon-calendar .calendar-day {
   font-size: 24px;
-  color: #000;
   font-weight: 600;
+  color: #000000;
   line-height: 1;
-  margin-top: 2px;
+  margin-top: 1px;
 }
-
 .icon-clock {
-  background: #000;
+  background: #000000;
 }
-
-.clock-face {
+.icon-clock .clock-face {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #fff;
+  background: #ffffff;
   position: relative;
 }
-
-.clock-hand {
+.icon-clock .clock-hand {
   position: absolute;
   left: 50%;
   top: 50%;
   transform-origin: 0 0;
-  background: #000;
+  background: #000000;
   border-radius: 2px;
 }
-
-.clock-hand.hour {
+.icon-clock .hour {
   width: 2px;
   height: 10px;
-  transform: translate(-50%, -100%) rotate(30deg);
+  transform: translate(-50%, -100%) rotate(35deg);
 }
-
-.clock-hand.minute {
+.icon-clock .minute {
   width: 2px;
   height: 14px;
-  transform: translate(-50%, -100%) rotate(90deg);
+  transform: translate(-50%, -100%) rotate(120deg);
 }
-
-.clock-center {
+.icon-clock .clock-center {
   position: absolute;
   left: 50%;
   top: 50%;
   width: 4px;
   height: 4px;
-  background: #000;
+  background: #000000;
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
-
 .icon-photos {
-  background: #fff;
+  background: #ffffff;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 2px;
-  padding: 3px;
+  gap: 3px;
+  padding: 4px;
 }
-
-.photo {
+.icon-photos .photo {
   border-radius: 2px;
 }
-
-.photo-1 { background: #ff9500; }
-.photo-2 { background: #ff2d55; }
-.photo-3 { background: #5856d6; }
-.photo-4 { background: #34c759; }
-
+.icon-photos .photo-1 { background: #ff9500; }
+.icon-photos .photo-2 { background: #ff2d55; }
+.icon-photos .photo-3 { background: #5856d6; }
+.icon-photos .photo-4 { background: #34c759; }
 .icon-maps {
-  background: linear-gradient(180deg, #dff6ff, #9ad7ff);
+  background: linear-gradient(180deg, #d7f0ff 0%, #9ad7ff 100%);
 }
-
-.map-dot {
+.icon-maps .map-layer {
   width: 100%;
   height: 100%;
+  position: relative;
   background-image:
-    linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px);
-  background-size: 12px 12px;
+    linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px);
+  background-size: 11px 11px;
 }
-
-.map-pin {
+.icon-maps .map-pin {
   position: absolute;
+  top: 50%;
+  left: 50%;
   width: 14px;
   height: 14px;
   background: #ff3b30;
   border-radius: 50% 50% 50% 0;
-  transform: rotate(-45deg);
+  transform: translate(-50%, -70%) rotate(-45deg);
+  z-index: 2;
 }
-
-.icon-weather {
-  background: linear-gradient(180deg, #7ad7ff, #2f80d1);
-}
-
-.weather-sun {
+.icon-maps .map-pin::after {
+  content: "";
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 18px;
-  height: 18px;
+  inset: 3px;
+  background: #ffffff;
+  border-radius: 50%;
+}
+.icon-weather {
+  background: linear-gradient(180deg, #7ad7ff 0%, #2f80d1 100%);
+}
+.icon-weather .weather-sun {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 17px;
+  height: 17px;
   background: #ffd60a;
   border-radius: 50%;
   box-shadow: 0 0 10px #ffe066;
 }
-
-.weather-cloud {
-  width: 32px;
+.icon-weather .weather-cloud {
+  width: 30px;
   height: 12px;
-  background: #fff;
+  background: #ffffff;
   border-radius: 20px;
   position: relative;
   z-index: 2;
 }
-
-.weather-cloud::before,
-.weather-cloud::after {
+.icon-weather .weather-cloud::before,
+.icon-weather .weather-cloud::after {
   content: "";
   position: absolute;
-  background: #fff;
+  background: #ffffff;
   border-radius: 50%;
 }
-
-.weather-cloud::before {
+.icon-weather .weather-cloud::before {
   width: 14px;
   height: 14px;
   top: -7px;
   left: 5px;
 }
-
-.weather-cloud::after {
+.icon-weather .weather-cloud::after {
   width: 10px;
   height: 10px;
   top: -4px;
   right: 5px;
 }
-
 .icon-notes {
   background: #fffbe8;
 }
-
-.note-paper {
-  width: 70%;
-  height: 72%;
-  background: #fff;
-  border-radius: 3px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  padding: 6px;
+.icon-notes .note-paper {
+  width: 72%;
+  height: 74%;
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  padding: 7px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
-
-.note-line {
+.icon-notes .note-line {
   height: 2px;
   background: #ffe37a;
   border-radius: 2px;
 }
-
+.icon-notes .note-line:nth-child(1) { width: 90%; }
+.icon-notes .note-line:nth-child(2) { width: 72%; }
+.icon-notes .note-line:nth-child(3) { width: 82%; }
 .icon-kakao {
   background: #ffeb00;
 }
-
-.kakao-face {
+.icon-kakao .kakao-face {
   width: 34px;
   height: 34px;
   background: #3c1e1f;
   border-radius: 50%;
   position: relative;
 }
-
-.kakao-face::before,
-.kakao-face::after {
+.icon-kakao .kakao-face::before,
+.icon-kakao .kakao-face::after {
   content: "";
   position: absolute;
   top: 11px;
@@ -475,47 +276,40 @@ html, body {
   background: #ffeb00;
   border-radius: 50%;
 }
-
-.kakao-face::before { left: 7px; }
-.kakao-face::after { right: 7px; }
-
+.icon-kakao .kakao-face::before { left: 7px; }
+.icon-kakao .kakao-face::after { right: 7px; }
 .icon-instagram {
-  background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
 }
-
-.camera-outline {
-  width: 34px;
-  height: 34px;
-  border: 3px solid #fff;
+.icon-instagram .camera-outline {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #ffffff;
   border-radius: 10px;
   position: relative;
 }
-
-.camera-outline::before {
+.icon-instagram .camera-outline::before {
   content: "";
   position: absolute;
-  top: 50%;
   left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
   width: 10px;
   height: 10px;
-  border: 2px solid #fff;
+  border: 2px solid #ffffff;
   border-radius: 50%;
 }
-
 .icon-settings {
   background: #8e8e93;
 }
-
-.gear {
+.icon-settings .gear {
   width: 34px;
   height: 34px;
   background: #d1d1d6;
   border-radius: 50%;
   position: relative;
 }
-
-.gear::before {
+.icon-settings .gear::before {
   content: "";
   position: absolute;
   inset: -5px;
@@ -536,435 +330,252 @@ html, body {
   mask: radial-gradient(circle, transparent 10px, #000 10px);
   -webkit-mask: radial-gradient(circle, transparent 10px, #000 10px);
 }
-
 .icon-phone {
-  background: linear-gradient(180deg, #5ef764, #29b847);
+  background: linear-gradient(180deg, #5ef764 0%, #29b847 100%);
 }
-
-.icon-phone::before {
-  content: "";
+.icon-phone .phone-receiver {
   width: 24px;
-  height: 12px;
-  border: 3px solid #fff;
+  height: 14px;
+  border: 3px solid #ffffff;
   border-radius: 3px;
   transform: rotate(135deg);
   position: relative;
 }
-
-.icon-messages {
-  background: linear-gradient(180deg, #5ef764, #29b847);
-}
-
-.icon-messages::before {
+.icon-phone .phone-receiver::before,
+.icon-phone .phone-receiver::after {
   content: "";
-  width: 28px;
-  height: 22px;
-  background: #fff;
-  border-radius: 14px;
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  background: transparent;
+}
+.icon-phone .phone-receiver::before {
+  left: -6px;
+  top: 1px;
+}
+.icon-phone .phone-receiver::after {
+  right: -6px;
+  top: 1px;
+}
+.icon-messages {
+  background: linear-gradient(180deg, #5ef764 0%, #29b847 100%);
+}
+.icon-messages .bubble-icon {
+  width: 30px;
+  height: 24px;
+  background: #ffffff;
+  border-radius: 16px;
   position: relative;
 }
-
-.icon-safari {
-  background: linear-gradient(180deg, #7ac7ff, #1e88e5);
-}
-
-.icon-safari::before {
+.icon-messages .bubble-icon::after {
   content: "";
+  position: absolute;
+  left: 7px;
+  bottom: -4px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid #ffffff;
+}
+.icon-safari {
+  background: linear-gradient(180deg, #7ac7ff 0%, #1e88e5 100%);
+}
+.icon-safari .compass-icon {
   width: 40px;
   height: 40px;
-  background: #fff;
+  background: #ffffff;
   border-radius: 50%;
   position: relative;
+  overflow: hidden;
 }
-
-.icon-music {
-  background: linear-gradient(180deg, #fc2f55, #8f0f3a);
-}
-
-.icon-music::before {
+.icon-safari .compass-icon::before {
   content: "";
-  width: 22px;
-  height: 28px;
-  position: relative;
-  border-left: 3px solid #fff;
-  border-top: 3px solid #fff;
-  border-right: 3px solid #fff;
-  border-radius: 10px 10px 0 0;
-}
-
-/* Dock */
-.dock {
   position: absolute;
-  bottom: 30px;
-  left: 12px;
-  right: 12px;
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 28px;
-  padding: 12px 10px;
-  display: flex;
-  justify-content: space-around;
-  z-index: 5;
+  inset: 0;
+  background:
+    linear-gradient(45deg, #1e88e5 25%, transparent 25%),
+    linear-gradient(-45deg, #1e88e5 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #ffffff 75%),
+    linear-gradient(-45deg, transparent 75%, #ffffff 75%);
+  background-size: 10px 10px;
+  background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+  opacity: 0.35;
 }
-
+.icon-safari .needle-red,
+.icon-safari .needle-white {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 15px;
+  transform-origin: 50% 0;
+  z-index: 2;
+}
+.icon-safari .needle-red {
+  background: #ff3b30;
+  transform: translate(-50%, 0) rotate(50deg);
+}
+.icon-safari .needle-white {
+  background: #ffffff;
+  transform: translate(-50%, 0) rotate(-130deg);
+}
+.icon-music {
+  background: linear-gradient(180deg, #fc2f55 0%, #8f0f3a 100%);
+}
+.icon-music .music-note {
+  width: 22px;
+  height: 30px;
+  position: relative;
+}
+.icon-music .music-note::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 10px;
+  height: 18px;
+  border: 3px solid #ffffff;
+  border-radius: 0 8px 8px 0;
+  border-left: none;
+}
+.icon-music .music-note::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  width: 12px;
+  height: 12px;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+}
+/* Dock栏 */
+.dock{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:320px;
+  background:rgba(255,255,255,0.35);
+  backdrop-filter: blur(12px);
+  border-radius:24px;
+  padding:10px 14px;
+  display:flex;
+  justify-content:space-around;
+}
 .dock .icon {
   width: 46px;
   height: 46px;
 }
-
-.home-indicator-area {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 60;
-  pointer-events: none;
+.dock .icon-calendar .calendar-day {
+  font-size: 22px;
 }
-
-.home-indicator {
-  width: 134px;
-  height: 5px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
-}
-
-/* App 通用头部 */
-.app-header {
-  position: absolute;
-  top: 44px;
-  left: 0;
-  right: 0;
-  height: 44px;
-  background: #f2f2f7;
-  display: flex;
-  align-items: center;
-  padding: 0 12px;
-  z-index: 20;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-}
-
-.back-btn {
+.dock .icon-clock .clock-face {
   width: 36px;
   height: 36px;
-  border: none;
-  background: transparent;
-  font-size: 22px;
-  color: #007aff;
-  cursor: pointer;
 }
-
-.app-title {
-  flex: 1;
-  text-align: center;
-  font-size: 16px;
-  font-weight: 600;
+.dock .icon-messages .bubble-icon {
+  width: 28px;
+  height: 22px;
 }
-
-.app-subtitle {
+.dock .icon-safari .compass-icon {
   width: 36px;
-  font-size: 12px;
-  color: #8e8e93;
-  text-align: right;
-}
-
-/* 备忘录 */
-.note-list {
-  position: absolute;
-  top: 88px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #f2f2f7;
-  overflow-y: auto;
-  padding: 10px 14px;
-}
-
-.note-item {
-  background: #fff;
-  border-radius: 12px;
-  padding: 14px;
-  margin-bottom: 10px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-  cursor: pointer;
-}
-
-.note-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #111;
-  margin-bottom: 4px;
-}
-
-.note-preview {
-  font-size: 13px;
-  color: #8e8e93;
-}
-
-.note-detail {
-  position: absolute;
-  inset: 88px 0 0 0;
-  background: #f2f2f7;
-  z-index: 30;
-  padding: 20px;
-  overflow-y: auto;
-}
-
-.note-detail-inner h2 {
-  font-size: 20px;
-  margin-bottom: 12px;
-}
-
-.note-detail-inner p {
-  font-size: 15px;
-  line-height: 1.7;
-  color: #333;
-}
-
-.note-passcode-modal {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 40;
-}
-
-.modal-box {
-  width: 86%;
-  background: #fff;
-  border-radius: 20px;
-  padding: 22px;
-}
-
-.modal-title {
-  text-align: center;
-  font-size: 15px;
-  margin-bottom: 16px;
-  color: #333;
-}
-
-/* 地图 */
-.campus-map {
-  position: absolute;
-  top: 88px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #eaf6ff;
-}
-
-.map-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(120, 180, 220, 0.35) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(120, 180, 220, 0.35) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-
-.map-location {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  background: #ff3b30;
-  color: #fff;
-  padding: 6px 10px;
-  border-radius: 14px;
-  font-size: 12px;
-  box-shadow: 0 4px 10px rgba(255, 59, 48, 0.4);
-  cursor: pointer;
-}
-
-/* 聊天 */
-.chat-area {
-  position: absolute;
-  top: 88px;
-  left: 0;
-  right: 0;
-  bottom: 60px;
-  padding: 16px;
-  overflow-y: auto;
-  background: #f2f2f7;
-}
-
-.bubble {
-  max-width: 72%;
-  padding: 9px 12px;
-  border-radius: 16px;
-  font-size: 14px;
-  line-height: 1.4;
-  margin-bottom: 10px;
-  word-wrap: break-word;
-}
-
-.bubble.other {
-  background: #fff;
-  color: #000;
-  border-top-left-radius: 4px;
-}
-
-.bubble.me {
-  background: #95ec69;
-  color: #000;
-  margin-left: auto;
-  border-top-right-radius: 4px;
-}
-
-.chat-input-bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 60px;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  padding: 0 12px;
-  gap: 10px;
-  border-top: 1px solid #e5e5ea;
-}
-
-#chatInput {
-  flex: 1;
   height: 36px;
-  border: 1px solid #e5e5ea;
-  border-radius: 18px;
-  padding: 0 14px;
-  font-size: 14px;
-  outline: none;
-  background: #f2f2f7;
 }
-
-.send-btn {
-  width: 56px;
-  height: 36px;
-  border: none;
-  border-radius: 18px;
-  background: #007aff;
-  color: #fff;
-  font-size: 14px;
-  cursor: pointer;
+.dock .icon-music .music-note {
+  transform: scale(0.92);
 }
-
-.option-panel {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 60px;
-  background: #fff;
-  border-top: 1px solid #e5e5ea;
-  max-height: 220px;
-  overflow-y: auto;
-  z-index: 25;
+/* 底部小黑条 */
+.home-indicator{
+  position:absolute;
+  bottom:6px;
+  left:50%;
+  transform:translateX(-50%);
+  width:120px;
+  height:5px;
+  background:#000;
+  border-radius:999px;
 }
-
-.option-item {
-  padding: 14px 16px;
-  border-bottom: 1px solid #f2f2f7;
-  font-size: 14px;
-  cursor: pointer;
+/* 聊天、弹窗、页面容器基础（保留捡手机功能） */
+.page{
+  display:none;
+  width:100%;
+  height:calc(100% - 48px);
+  background:#fff;
+  overflow-y:auto;
 }
-
-.option-item:active {
-  background: #f2f2f7;
+.page.active{
+  display:block;
 }
-
-/* Instagram */
-.ig-feed {
-  position: absolute;
-  top: 88px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #f2f2f7;
-  overflow-y: auto;
-  padding: 12px;
+.chat-header{
+  height:44px;
+  background:#f7f7f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  border-bottom:1px solid #ddd;
+  position:sticky;
+  top:0;
+  z-index:9;
 }
-
-.ig-post {
-  background: #fff;
-  border-radius: 14px;
-  overflow: hidden;
-  margin-bottom: 14px;
+.chat-area{
+  padding:12px;
+  padding-bottom:70px;
 }
-
-.ig-post-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  font-size: 14px;
-  font-weight: 600;
+.bubble-other{
+  background:#e5e5ea;
+  border-radius:18px 18px 18px 4px;
+  padding:8px 12px;
+  max-width:75%;
+  margin:6px 0;
+  width:fit-content;
 }
-
-.ig-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #f09433, #bc1888);
+.bubble-me{
+  background:#007aff;
+  color:white;
+  border-radius:18px 18px 4px 18px;
+  padding:8px 12px;
+  max-width:75%;
+  margin:6px 0 6px auto;
+  width:fit-content;
 }
-
-.ig-post-image {
-  width: 100%;
-  height: 220px;
-  background: linear-gradient(135deg, #ffd6e8, #b5f0ff);
+.chat-input-bar{
+  position:fixed;
+  bottom:34px;
+  width:calc(390px - 24px);
+  display:flex;
+  gap:6px;
+  padding:8px 12px;
+  background:#fff;
+  border-top:1px solid #ddd;
 }
-
-.ig-post-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px 4px;
-  font-size: 13px;
+.chat-input-bar input{
+  flex:1;
+  padding:8px 12px;
+  border:1px solid #ddd;
+  border-radius:20px;
 }
-
-.like-btn {
-  border: none;
-  background: transparent;
-  font-size: 22px;
-  cursor: pointer;
-  color: #000;
+.chat-input-bar button{
+  padding:8px 14px;
+  border:none;
+  background:#007aff;
+  color:white;
+  border-radius:20px;
 }
-
-.like-btn.liked {
-  color: #ff2d55;
+.notify-popup{
+  position:absolute;
+  top:52px;
+  left:12px;
+  right:12px;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(10px);
+  border-radius:14px;
+  padding:10px 12px;
+  z-index:99;
+  box-shadow:0 4px 14px rgba(0,0,0,0.18);
+  display:none;
 }
-
-.ig-post-caption {
-  padding: 0 12px 12px;
-  font-size: 13px;
-  color: #333;
-}
-
-/* 屏幕适配 */
-@media (max-width: 360px) {
-  .lock-time {
-    font-size: 60px;
-  }
-
-  .icon {
-    width: 50px;
-    height: 50px;
-  }
-
-  .dock .icon {
-    width: 42px;
-    height: 42px;
-  }
-}
-
-@media (min-width: 414px) {
-  .lock-time {
-    font-size: 84px;
-  }
-
-  .app-grid {
-    padding: 0 26px;
-  }
+.notify-popup.show{
+  display:block;
 }

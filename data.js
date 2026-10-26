@@ -1,15 +1,7 @@
-// 《서린대학교》data.js 更新完整版
-// 时序：初识帮忙 → 多次巧合偶遇 → 朋友阶段 → 暧昧拉扯 → 确定关系主线
-// 记忆互通：私聊发生的事件，会在群聊、闺蜜群、其他NPC对话呼应
-// 主线男主：朴成淏；支线：李常赫、明宰铉、韩泰山、金桐儇、金云鹤；闺蜜：崔裕真、姜智敏
+// 《서린대학교》data.js 剧情完整版
 const GAME_DATA = {
-
-  // 锁屏密码
   lockScreenPassword: "0904",
-  // 备忘录单独密码
   notePassword: "0530",
-
-  // 备忘录内容
   notes: [
     {
       id: "normal_1",
@@ -29,11 +21,9 @@ const GAME_DATA = {
     {
       id: "secret_1",
       title: "绝密剧情提示",
-      content: "提示：朴成淏的生日是 0530。他是慢热型，不要太急切。需要在地图完成全部10次打卡，才能解锁和他确定关系的结局。你和各个学长发生的小事，会在群聊被提起，所有对话记忆是互通的。"
+      content: "【剧本杀防卡关指南】\n\n1. 熟悉阶段：多去【地图】和成淏打卡约会，累计10次线下约会后才能解锁后续心动剧情。\n2. 发现线索：如果有不懂的，去看看成淏的 IG 动态。"
     }
   ],
-
-  // 10个打卡点位（主线硬性打卡，解锁成淏恋爱结局）
   locations: [
     { id: "library", name: "图书馆", desc: "安静的自习区，很多大三学长会来这里看书" },
     { id: "basketball", name: "篮球场", desc: "男生们经常组队打球的地方" },
@@ -46,8 +36,6 @@ const GAME_DATA = {
     { id: "lake", name: "校园湖边", desc: "傍晚风很好，很安静" },
     { id: "busstop", name: "校门口公交站", desc: "放学等车的地方" }
   ],
-
-  // 打卡剧情包，每个点位自带选项、后续联动私聊
   locationEvents: {
     library: {
       title: "图书馆偶遇朴成淏",
@@ -210,10 +198,7 @@ const GAME_DATA = {
       ]
     }
   },
-
-  // 所有私聊、群聊剧本，key对应上面triggerChat，记忆互通
   chats: {
-    // ===== 朴成淏 主线私聊 =====
     chat_seongho_firstmeet: {
       title: "朴成淏",
       messages: [
@@ -304,8 +289,6 @@ const GAME_DATA = {
         ho_final2: [{ speaker: "other", text: "我也是，每一次偶遇你的时候，我心里都会悄悄开心很久。" }]
       }
     },
-
-    // ===== 其他学长支线私聊 =====
     chat_tesan_first: {
       title: "韩泰山",
       messages: [
@@ -351,8 +334,6 @@ const GAME_DATA = {
         sa2: [{ speaker: "other", text: "是啊，每天下课这里都挤，尽量靠边走比较安全。" }]
       }
     },
-
-    // ===== 男生六人小群聊 =====
     group_boys_playground: {
       title: "서린大三六人组",
       messages: [
@@ -370,8 +351,6 @@ const GAME_DATA = {
         g2: [{ speaker: "朴成淏", text: "那不要耽误你的事，有空再一起。" }, { speaker: "明宰铉", text: "呜呜那下次一定要久一点！" }]
       }
     },
-
-    // ===== 闺蜜小群聊（磕糖专用，承接你和成淏的相遇记忆） =====
     group_girls: {
       title: "裕真&智敏&我",
       messages: [
