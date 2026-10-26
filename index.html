@@ -2,46 +2,46 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BOYNEXTDOOR 捡手机</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>서린대학교捡手机</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="iphone">
   <div class="screen">
-    <!-- 状态栏 -->
+    <!-- iOS状态栏 -->
     <div class="statusbar">
-      <span>10:26</span>
+      <span id="statusTime">10:26</span>
       <div class="status-right">
         <span>📶</span>
         <span>🔋</span>
       </div>
     </div>
 
-    <!-- 通知弹窗 -->
+    <!-- 全局消息推送弹窗（iOS通知） -->
     <div class="notify-popup" id="notify">
-      <div style="font-weight:600;font-size:13px" id="notify-name">朴成淏</div>
-      <div style="font-size:14px;margin-top:2px" id="notify-text">消息内容</div>
+      <div class="notify-avatar"></div>
+      <div class="notify-info">
+        <div class="notify-name" id="notifyName">朴成淏</div>
+        <div class="notify-text" id="notifyText">消息内容</div>
+      </div>
     </div>
 
     <!-- 主桌面 -->
     <div class="home" id="home">
       <div class="home-grid">
-
         <div class="icon-wrap" onclick="openPage('kkt')">
           <div class="icon icon-kakao">
             <div class="kakao-face"></div>
           </div>
           <div class="icon-label">KakaoTalk</div>
         </div>
-
         <div class="icon-wrap" onclick="openPage('insta')">
           <div class="icon icon-instagram">
             <div class="camera-outline"></div>
           </div>
           <div class="icon-label">Instagram</div>
         </div>
-
         <div class="icon-wrap" onclick="openPage('map')">
           <div class="icon icon-maps">
             <div class="map-layer">
@@ -50,7 +50,6 @@
           </div>
           <div class="icon-label">地图</div>
         </div>
-
         <div class="icon-wrap" onclick="openPage('notes')">
           <div class="icon icon-notes">
             <div class="note-paper">
@@ -61,7 +60,6 @@
           </div>
           <div class="icon-label">备忘录</div>
         </div>
-
         <div class="icon-wrap">
           <div class="icon icon-calendar">
             <div class="calendar-month">10月</div>
@@ -69,7 +67,6 @@
           </div>
           <div class="icon-label">日历</div>
         </div>
-
         <div class="icon-wrap">
           <div class="icon icon-clock">
             <div class="clock-face">
@@ -80,7 +77,6 @@
           </div>
           <div class="icon-label">时钟</div>
         </div>
-
         <div class="icon-wrap">
           <div class="icon icon-photos">
             <div class="photo photo-1"></div>
@@ -90,7 +86,6 @@
           </div>
           <div class="icon-label">照片</div>
         </div>
-
         <div class="icon-wrap">
           <div class="icon icon-weather">
             <div class="weather-sun"></div>
@@ -98,10 +93,7 @@
           </div>
           <div class="icon-label">天气</div>
         </div>
-
       </div>
-
-      <!-- Dock栏 -->
       <div class="dock">
         <div class="icon-wrap">
           <div class="icon icon-phone">
@@ -127,73 +119,254 @@
           </div>
         </div>
       </div>
-      <div class="home-indicator"></div>
     </div>
 
-    <!-- 各个页面容器（Kakao、IG、地图、备忘录，JS控制） -->
+    <!-- ========== KAKAO TALK 页面（好友通讯录 + 聊天页） ========== -->
     <div class="page" id="kkt">
-      <div class="chat-header">KakaoTalk</div>
-      <div class="chat-area" id="chatBox"></div>
-      <div class="chat-input-bar">
-        <input type="text" id="chatInput" readonly placeholder="选择下方回复发送">
-        <button onclick="sendMsg()">发送</button>
+      <!-- KKT顶部导航 -->
+      <div class="kkt-nav">
+        <span class="kkt-nav-title">친구</span>
+        <div class="kkt-nav-right">🔍 ➕</div>
+      </div>
+      <!-- KKT Tab栏：好友 / 聊天 / 发现 / 더보기 -->
+      <div class="kkt-tab">
+        <div class="kkt-tab-item active" data-tab="friends">친구</div>
+        <div class="kkt-tab-item" data-tab="chatlist">채팅</div>
+        <div class="kkt-tab-item" data-tab="find">탐색</div>
+        <div class="kkt-tab-item" data-tab="more">더보기</div>
+      </div>
+      <!-- 好友列表页 -->
+      <div class="kkt-tab-content active" id="kkt-friends">
+        <div class="kkt-myprofile">
+          <div class="kkt-avatar my-avatar"></div>
+          <div>
+            <div class="kkt-name">나</div>
+            <div class="kkt-status">서린대 24학번</div>
+          </div>
+        </div>
+        <div class="kkt-friend-title">친구</div>
+        <div class="kkt-friend-list" id="friendList"></div>
+      </div>
+      <!-- 聊天列表页 -->
+      <div class="kkt-tab-content" id="kkt-chatlist">
+        <div class="kkt-chat-list" id="chatList"></div>
+      </div>
+      <div class="kkt-tab-content" id="kkt-find"><div class="kkt-empty">탐색</div></div>
+      <div class="kkt-tab-content" id="kkt-more"><div class="kkt-empty">더보기</div></div>
+      <!-- 单个聊天房间 -->
+      <div class="kkt-chatroom" id="chatRoom">
+        <div class="kkt-chat-header">
+          <span class="kkt-back" onclick="closeChatRoom()">←</span>
+          <span class="kkt-chat-name" id="chatRoomName">이름</span>
+          <span>⋮</span>
+        </div>
+        <div class="kkt-chat-area" id="chatArea"></div>
+        <div class="kkt-input-bar">
+          <span class="kkt-plus">+</span>
+          <input readonly class="kkt-input" id="kktInput" placeholder="메시지를 입력하세요" onclick="showReplyOption()">
+          <button class="kkt-send" id="sendBtn" onclick="sendPlayerMsg()" disabled>보내기</button>
+        </div>
+        <!-- 唯一回复选项弹窗（橙光单线，只有一条选项） -->
+        <div class="reply-option-box" id="replyBox">
+          <div class="reply-option" id="replyOption" onclick="selectReply()"></div>
+        </div>
       </div>
     </div>
 
     <div class="page" id="insta">
       <div class="chat-header">Instagram</div>
-      <div style="padding:16px">IG页面内容</div>
+      <div style="padding:16px">IG动态页面</div>
     </div>
-
     <div class="page" id="map">
-      <div class="chat-header">校园地图</div>
-      <div style="padding:16px">地图打卡区域</div>
+      <div class="chat-header">서린대 지도</div>
+      <div style="padding:16px">地图打卡界面</div>
     </div>
-
     <div class="page" id="notes">
-      <div class="chat-header">备忘录</div>
+      <div class="chat-header">메모</div>
       <div style="padding:16px" id="notesBox"></div>
     </div>
 
+    <!-- ✅ 点击返回桌面的iOS小黑条 -->
+    <div class="home-indicator" onclick="backHome()"></div>
   </div>
 </div>
 
 <script src="data.js"></script>
 <script>
-let currentChatId = "";
+// 全局变量
+let currentPage = "home";
+let currentChatKey = null;
+let selectedReplyText = "";
+let gameSave = JSON.parse(localStorage.getItem("saveData")) || {
+  affection: 0,
+  storyIndex: 0,
+  unlockedChats:["seongho"],
+  chatHistory:{}
+};
+const SAVE_KEY = "saveData";
+
+// 页面切换
 function openPage(pageId){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(pageId).classList.add("active");
   document.getElementById("home").style.display="none";
+  currentPage = pageId;
+  if(pageId === "kkt") initKKT();
 }
 function backHome(){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById("home").style.display="block";
+  document.getElementById("chatRoom").style.display="none";
+  document.getElementById("replyBox").style.display="none";
+  currentPage="home";
 }
-// 弹窗通知
+
+// KKT Tab切换
+document.querySelectorAll(".kkt-tab-item").forEach(tab=>{
+  tab.onclick=()=>{
+    document.querySelectorAll(".kkt-tab-item").forEach(i=>i.classList.remove("active"));
+    tab.classList.add("active");
+    const target = tab.dataset.tab;
+    document.querySelectorAll(".kkt-tab-content").forEach(c=>c.classList.remove("active"));
+    if(target==="friends") document.getElementById("kkt-friends").classList.add("active");
+    if(target==="chatlist") document.getElementById("kkt-chatlist").classList.add("active");
+    if(target==="find") document.getElementById("kkt-find").classList.add("active");
+    if(target==="more") document.getElementById("kkt-more").classList.add("active");
+  }
+})
+
+// 初始化好友列表、聊天列表
+function initKKT(){
+  renderFriendList();
+  renderChatList();
+}
+function renderFriendList(){
+  const wrap = document.getElementById("friendList");
+  wrap.innerHTML="";
+  GAME_DATA.friends.forEach(fr=>{
+    const div = document.createElement("div");
+    div.className="kkt-friend-item";
+    div.innerHTML=`<div class="kkt-avatar"></div><div><div class="kkt-name">${fr.name}</div><div class="kkt-status">${fr.status}</div></div>`;
+    div.onclick=()=>openChat(fr.key);
+    wrap.appendChild(div);
+  })
+}
+function renderChatList(){
+  const wrap = document.getElementById("chatList");
+  wrap.innerHTML="";
+  GAME_DATA.friends.forEach(fr=>{
+    if(!gameSave.unlockedChats.includes(fr.key)) return;
+    const his = gameSave.chatHistory[fr.key] || [];
+    const lastMsg = his.length ? his[his.length-1].text : "";
+    const div = document.createElement("div");
+    div.className="kkt-chat-item";
+    div.innerHTML=`<div class="kkt-avatar"></div><div class="kkt-chat-info"><div class="kkt-name">${fr.name}</div><div class="kkt-lastmsg">${lastMsg}</div></div><div class="kkt-time">10:26</div>`;
+    div.onclick=()=>openChat(fr.key);
+    wrap.appendChild(div);
+  })
+}
+
+// 打开聊天房间，自动播放当前剧情段，对方先发消息+推送弹窗
+function openChat(chatKey){
+  currentChatKey = chatKey;
+  document.getElementById("chatRoom").style.display="flex";
+  document.querySelector(".kkt-tab").style.display="none";
+  document.getElementById("chatRoomName").innerText = GAME_DATA.chats[chatKey].title;
+  document.getElementById("replyBox").style.display="none";
+  document.getElementById("sendBtn").disabled=true;
+  selectedReplyText="";
+  document.getElementById("kktInput").value="";
+
+  // 读取已有历史
+  const historyWrap = document.getElementById("chatArea");
+  historyWrap.innerHTML="";
+  if(!gameSave.chatHistory[chatKey]) gameSave.chatHistory[chatKey]=[];
+  const story = GAME_DATA.chats[chatKey].story[gameSave.storyIndex];
+  if(!story){
+    addChatBubble("other","대화가 더 없어요. 다음 이벤트를 기다리세요.");
+    return;
+  }
+  // 对面先发消息，逐条延迟弹出，附带系统推送通知
+  let delay=300;
+  story.others.forEach(msg=>{
+    setTimeout(()=>{
+      addChatBubble("other",msg.text);
+      showNotify(GAME_DATA.chats[chatKey].title, msg.text);
+      saveGame();
+    },delay);
+    delay += 1200;
+  })
+  // 加载玩家唯一回复选项
+  setTimeout(()=>{
+    const opt = story.playerOption;
+    document.getElementById("replyOption").innerText = opt;
+  },delay+300)
+}
+
+// 关闭聊天房间
+function closeChatRoom(){
+  document.getElementById("chatRoom").style.display="none";
+  document.querySelector(".kkt-tab").style.display="flex";
+  document.getElementById("replyBox").style.display="none";
+  currentChatKey=null;
+  renderChatList();
+}
+
+// 添加聊天气泡
+function addChatBubble(type,text){
+  const box = document.getElementById("chatArea");
+  const div = document.createElement("div");
+  div.className = type=="me" ? "kkt-bubble me" : "kkt-bubble other";
+  div.innerText = text;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+  gameSave.chatHistory[currentChatKey].push({type,text});
+}
+
+// 点击输入框，弹出唯一回复选项
+function showReplyOption(){
+  document.getElementById("replyBox").style.display="block";
+}
+function selectReply(){
+  const optText = document.getElementById("replyOption").innerText;
+  selectedReplyText = optText;
+  document.getElementById("kktInput").value = optText;
+  document.getElementById("replyBox").style.display="none";
+  document.getElementById("sendBtn").disabled = false;
+}
+
+// 发送玩家消息，推进剧情、增加好感度
+function sendPlayerMsg(){
+  if(!selectedReplyText) return;
+  addChatBubble("me", selectedReplyText);
+  // 好感增加
+  const story = GAME_DATA.chats[currentChatKey].story[gameSave.storyIndex];
+  gameSave.affection += story.affGain;
+  gameSave.storyIndex +=1;
+  // 剧情分支解锁（慢节奏）
+  checkUnlock();
+  saveGame();
+  setTimeout(()=>closeChatRoom(),1600);
+}
+
+// 好感判定：阶段划分【陌生→初识→熟悉→暧昧→吃醋→告白→热恋】
+function checkUnlock(){
+  const aff = gameSave.affection;
+  if(aff >= 10 && !gameSave.unlockedChats.includes("unhak")) gameSave.unlockedChats.push("unhak");
+  if(aff >=25 && !gameSave.unlockedChats.includes("taesan")) gameSave.unlockedChats.push("taesan");
+  if(aff >=40 && !gameSave.unlockedChats.includes("group")) gameSave.unlockedChats.push("group");
+}
+function saveGame(){
+  localStorage.setItem(SAVE_KEY, JSON.stringify(gameSave));
+}
+
+// iOS通知弹窗
 function showNotify(name,text){
   const el = document.getElementById("notify");
-  document.getElementById("notify-name").innerText = name;
-  document.getElementById("notify-text").innerText = text;
+  document.getElementById("notifyName").innerText = name;
+  document.getElementById("notifyText").innerText = text;
   el.classList.add("show");
-  setTimeout(()=>el.classList.remove("show"),2800);
-}
-// 聊天简易逻辑，对接data.js
-function openChat(chatKey){
-  currentChatId = chatKey;
-  const chat = GAME_DATA.chats[chatKey];
-  const box = document.getElementById("chatBox");
-  box.innerHTML = "";
-  chat.messages.forEach(m=>{
-    const div = document.createElement("div");
-    div.className = m.speaker=="me" ? "bubble-me" : "bubble-other";
-    div.innerText = m.text;
-    box.appendChild(div);
-  })
-  openPage("kkt");
-}
-function sendMsg(){
-  // 这里后续对接选项逻辑，你原来data.js配套
+  setTimeout(()=>el.classList.remove("show"),2600);
 }
 </script>
 </body>
