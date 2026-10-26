@@ -13,17 +13,13 @@ var APPS = [
 
 var MEMOS = [
   { id: "m1", title: "选课笔记", date: "今天 09:00", content: "周一上午有经营学，记得带计算器。\n周三去图书馆借两本全英教材。" },
-  { id: "m2", title: "绝密剧情提示", date: "现在", isLocked: true, content: "【剧本杀防卡关指南】\n\n1. 聊天触发：去 KakaoTalk 找成淏聊天，点击输入框触发大事件！\n2. 线下事件：大事件聊完后，必须去【地图】点击指定地点打卡。\n3. 小事件：地图上其他地点随时可以点。\n4. 备忘录密码是 0904，解锁后看这里。" }
+  { id: "m2", title: "绝密剧情提示", date: "现在", isLocked: true, content: "【剧本杀防卡关指南】\n\n1. 聊天触发：去 KakaoTalk 找各位学长聊天，点击输入框触发剧情！\n2. 线下事件：大事件聊完后，必须去【地图】点击指定地点打卡。\n3. 小事件：地图上其他地点随时可以点。\n4. 备忘录密码是 0904。" }
 ];
 
-var gameState = {
-  activeEvent: 0, 
-  memoUnlocked: false, 
-  likedSunghoPost: false 
-};
+var gameState = { activeEvent: 0, memoUnlocked: false, likedSunghoPost: false };
 
 var MAP_PLACES = [
-  // 小事件（随时可点）
+  // --- 小事件 ---
   { id: "s1", name: "老地方烤肉店", x: 50, y: 45, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
       { text: "六人聚餐，大家刚坐下。", choices: ["坐在成淏旁边", "坐在云鹤旁边"], reply: "【朴成淏】刚刚聚餐，云鹤一直给你夹肉，我有点不舒服。下次我给你夹。" },
@@ -32,14 +28,12 @@ var MAP_PLACES = [
   },
   { id: "s2", name: "中央图书馆", x: 25, y: 30, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
-      { text: "你在书架旁遇到成淏，他正踮脚找高处的书。", choices: ["帮他拿下来", "假装没看见"], reply: "【朴成淏】刚刚看到你踮脚的样子，像只小兔子。下次这种事，我帮你做就好。" },
-      { text: "成淏趴在桌上睡着了。", choices: ["给他披件外套", "叫醒他"], reply: "【朴成淏】醒来看到你的外套了。刚刚醒来第一眼看到是你，感觉很好。" }
+      { text: "你在书架旁遇到成淏，他正踮脚找高处的书。", choices: ["帮他拿下来", "假装没看见"], reply: "【朴成淏】刚刚看到你踮脚的样子，像只小兔子。下次这种事，我帮你做就好。" }
     ]
   },
   { id: "s3", name: "篮球场", x: 75, y: 20, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
-      { text: "成淏刚打完比赛，满头大汗。", choices: ["跑过去给他送水", "站在远处看"], reply: "【朴成淏】刚刚的水，谢谢。我投进三分球的时候，余光看到你在欢呼。" },
-      { text: "篮球滚到了你脚边。", choices: ["把球扔回给他", "抱在怀里逗他"], reply: "【朴成淏】刚才故意不给我球是吧？下次见面我可要抓着你胳膊了。" }
+      { text: "成淏刚打完比赛，满头大汗。", choices: ["跑过去给他送水", "站在远处看"], reply: "【朴成淏】刚刚的水，谢谢。我投进三分球的时候，余光看到你在欢呼。" }
     ]
   },
   { id: "s4", name: "音乐楼", x: 80, y: 65, clickCount: 0, isBigEvent: false, unlockCondition: 0,
@@ -62,8 +56,7 @@ var MAP_PLACES = [
       { text: "夜市上人很多，你差点被挤散。", choices: ["抓住他的衣角", "自己走开"], reply: "【朴成淏】刚刚你抓着我衣角，我真的好想直接牵你的手。" }
     ]
   },
-  
-  // 大事件（按顺序解锁）
+  // --- 大事件 ---
   { id: "p11", name: "校园咖啡店", x: 15, y: 35, clickCount: 0, isBigEvent: true, unlockCondition: 1,
     events: [
       { text: "你带着课本约成淏在咖啡店请教问题。他讲得很认真。", choices: ["夸他讲得好", "假装在听"], reply: "【朴成淏】刚刚看你盯着我看，书都拿倒了。其实你一直看我的话，我完全讲不下去的。" }
@@ -95,12 +88,9 @@ var CHATS = {
   sungho: { 
     name: "朴成淏", avatarClass: "avatar-sh", color: "#ff9f0a", time: "刚刚", preview: "好的。",
     history: [
-      { type: "time", text: "9月2日 迎新日" },
-      { from: "them", text: "你好，请问是来参加迎新的新生吗？" },
-      { from: "me", text: "是的！但是我地图定位好像不太准。" },
-      { from: "them", text: "你往左手边那条路走，看到学生会馆就到了。" },
-      { type: "time", text: "今天 下午 16:00" },
-      { from: "them", text: "宰铉在群里说周五聚餐，你看到了吗？" }
+      { type: "time", text: "9月2日 迎新日" }, { from: "them", text: "你好，请问是来参加迎新的新生吗？" },
+      { from: "me", text: "是的！但是我地图定位好像不太准。" }, { from: "them", text: "你往左手边那条路走，看到学生会馆就到了。" },
+      { type: "time", text: "今天 下午 16:00" }, { from: "them", text: "宰铉在群里说周五聚餐，你看到了吗？" }
     ],
     story: [
       { me: "看到啦，我一定会去的！", them: "嗯，去吧，大家都很想见你。" },
@@ -116,36 +106,48 @@ var CHATS = {
     name: "李常赫", avatarClass: "avatar-rw", color: "#30d158", time: "昨天", preview: "舞蹈社的日常。",
     history: [ { type: "time", text: "9月10日" }, { from: "them", text: "我是李常赫。如果觉得经营学无聊，可以来舞蹈社看看。" } ],
     story: [
+      { me: "常赫学长，明天舞蹈社有活动吗？", them: "有。不过成淏也会来，他最近练得很勤。" },
+      { me: "诶？他练什么？", them: "不知道。不过他老是偷看你，我都看到了。" },
       { me: "常赫学长，群里说要去智多寺，你去吗？", them: "去。不过刚刚群消息太多没看到。成淏去吗？他去我就去。" }
     ]
   },
   jaehyun: { 
     name: "明宰铉", avatarClass: "avatar-jh", color: "#ff375f", time: "昨天", preview: "聚餐定啦！",
-    history: [ { type: "time", text: "9月12日" }, { from: "them", text: "学妹好呀！我是传媒系的明宰铉！" } ],
-    story: []
+    history: [ { type: "time", text: "9月12日" }, { from: "them", text: "学妹好呀！我是明宰铉！" } ],
+    story: [
+      { me: "宰铉学长，聚餐会有什么活动吗？", them: "有啊！玩游戏！到时候我要抽签分组，你猜你会和谁一组？" },
+      { me: "不知道诶。", them: "我赌一百块，绝对是成淏。他刚才还在问我怎么作弊呢哈哈哈。" }
+    ]
   },
   taesan: { 
     name: "韩泰山", avatarClass: "avatar-ts", color: "#5e5ce6", time: "昨天", preview: "新歌demo。",
     history: [ { type: "time", text: "9月20日" }, { from: "them", text: "我是韩泰山。" } ],
-    story: []
+    story: [
+      { me: "泰山学长，新歌很好听！", them: "谢谢。其实副歌那段旋律，是看着你和成淏打闹的时候写的。" },
+      { me: "啊？我们的打闹？", them: "嗯，很有生命力。别告诉成淏，他会脸红的。" }
+    ]
   },
   leehan: { 
     name: "金桐儇", avatarClass: "avatar-lh", color: "#64d2ff", time: "昨天", preview: "图书馆见。",
     history: [ { type: "time", text: "10月1日" }, { from: "them", text: "我是金桐儇。" } ],
-    story: []
+    story: [
+      { me: "桐儇学长，你在图书馆吗？", them: "在。成淏也在，他占了个双人座，说在等人。" },
+      { me: "等人？等谁？", them: "你觉得呢？他已经在往门口看了十分钟了。" }
+    ]
   },
   woonhak: { 
     name: "金云鹤", avatarClass: "avatar-wh", color: "#bf5af2", time: "昨天", preview: "学妹好！",
     history: [ { type: "time", text: "9月5日" }, { from: "them", text: "我是云鹤！" } ],
-    story: []
+    story: [
+      { me: "云鹤学长，最近有什么好玩的事吗？", them: "有！我听说成淏哥手机壁纸换成你的照片了！他没告诉你吗？" },
+      { me: "真的假的？", them: "真的！那天他手机亮了，我刚好看到了。不过你别告诉他是我说的！" }
+    ]
   },
   group: {
     name: "6+1小分队", avatarClass: "avatar-group", color: "#8e8e93", time: "下午 14:30", preview: "群聊消息",
     history: [ 
-      { type: "time", text: "今天 14:30" },
-      { from: "them", sender: "明宰铉", text: "各位！周五晚上聚餐，老地方！" },
-      { from: "them", sender: "金云鹤", text: "好耶！有新开的店！" },
-      { from: "them", sender: "李常赫", text: "你上周不是才去过吗？" },
+      { type: "time", text: "今天 14:30" }, { from: "them", sender: "明宰铉", text: "各位！周五晚上聚餐，老地方！" },
+      { from: "them", sender: "金云鹤", text: "好耶！有新开的店！" }, { from: "them", sender: "李常赫", text: "你上周不是才去过吗？" },
       { from: "them", sender: "朴成淏", text: "我带学妹来。" }
     ],
     story: [
@@ -172,29 +174,23 @@ function renderApps() {
   var grid = document.getElementById("app-grid"); 
   if (!grid) return;
   grid.innerHTML = "";
-  
   var dockApps = ["phone", "map", "kakao", "instagram"];
   var mainApps = APPS.filter(function(app) { return !dockApps.includes(app.id); });
-  
   var createIconHTML = function(app) {
     if (app.id === "x") return '<div class="icon-box icon-x">X</div>';
     return '<div class="icon-box ' + app.iconClass + '"></div>';
   };
-
   mainApps.forEach(function(app) {
     var el = document.createElement("div"); el.className = "app-icon";
     el.innerHTML = createIconHTML(app) + '<span class="icon-label">' + app.name + '</span>';
     el.onclick = function(e) { e.stopPropagation(); openApp(app.id, app.name); };
     grid.appendChild(el);
   });
-  
   var dock = document.getElementById("dock"); 
   if(dock) {
     dock.innerHTML = "";
     dockApps.forEach(function(id) {
-      var app = APPS.find(function(a) { return a.id === id; });
-      if (!app) app = { id: "phone", name: "电话", iconClass: "icon-phone" };
-      
+      var app = APPS.find(function(a) { return a.id === id; }) || { id: "phone", name: "电话", iconClass: "icon-phone" };
       var el = document.createElement("div"); el.className = "app-icon";
       el.innerHTML = createIconHTML(app);
       el.onclick = function(e) { e.stopPropagation(); openApp(app.id, app.name); };
@@ -209,20 +205,13 @@ function openApp(id, name) {
   document.getElementById("app-title").textContent = name;
   var dock = document.querySelector(".dock");
   if(dock) dock.classList.add("hidden-dock");
-  
   var c = document.getElementById("app-content");
   c.classList.remove("no-padding");
   c.innerHTML = "<div style='text-align:center;padding:80px 20px;color:#8e8e93;font-size:16px;'>功能开发中...</div>";
-  
-  if (id === "kakao") {
-    renderKakao(c);
-  } else if (id === "map") {
-    renderMap(c);
-  } else if (id === "memo") {
-    renderMemo(c);
-  } else if (id === "instagram") {
-    renderInstagram(c);
-  }
+  if (id === "kakao") renderKakao(c);
+  else if (id === "map") renderMap(c);
+  else if (id === "memo") renderMemo(c);
+  else if (id === "instagram") renderInstagram(c);
   c.scrollTop = 0;
 }
 
@@ -231,56 +220,29 @@ function goHome() {
   document.getElementById("home").classList.add("active");
   var dock = document.querySelector(".dock");
   if(dock) dock.classList.remove("hidden-dock");
-  currentChat = null;
-  currentMemo = null;
+  currentChat = null; currentMemo = null;
 }
 
 function goBack() { 
-  if (currentChat) {
-    currentChat = null;
-    openApp("kakao", "KakaoTalk");
-  } else if (currentMemo) {
-    currentMemo = null;
-    openApp("memo", "备忘录");
-  } else {
-    goHome(); 
-  }
+  if (currentChat) { currentChat = null; openApp("kakao", "KakaoTalk"); }
+  else if (currentMemo) { currentMemo = null; openApp("memo", "备忘录"); }
+  else { goHome(); }
 }
 
 function renderKakao(c) {
-  c.classList.add("no-padding");
-  c.style.backgroundColor = "#fff";
+  c.classList.add("no-padding"); c.style.backgroundColor = "#fff";
   document.getElementById("app-title").textContent = "KakaoTalk";
-  
   if (currentChat) {
     var chat = CHATS[currentChat];
     document.getElementById("app-title").textContent = chat.name;
-    
-    c.innerHTML = 
-      '<div class="chat-room-wrapper">' +
-        '<div class="chat-room" id="kkt-room"></div>' +
-        '<div class="kkt-input-bar">' +
-          '<div class="kkt-plus">+</div>' +
-          '<input type="text" id="kkt-input" class="kkt-input-box" placeholder="发送消息...">' +
-          '<button class="kkt-send-btn" id="kkt-send">发送</button>' +
-        '</div>' +
-      '</div>';
-
+    c.innerHTML = '<div class="chat-room-wrapper"><div class="chat-room" id="kkt-room"></div><div class="kkt-input-bar"><div class="kkt-plus">+</div><input type="text" id="kkt-input" class="kkt-input-box" placeholder="发送消息..."><button class="kkt-send-btn" id="kkt-send">发送</button></div></div>';
     var room = document.getElementById("kkt-room");
-    
     chat.history.forEach(function(m) {
-      if (m.type === "time") {
-        room.innerHTML += '<div class="time-divider"><span>' + m.text + '</span></div>';
-        return;
-      }
-      
-      var row = document.createElement("div");
-      row.className = "msg-row " + m.from;
-      
+      if (m.type === "time") { room.innerHTML += '<div class="time-divider"><span>' + m.text + '</span></div>'; return; }
+      var row = document.createElement("div"); row.className = "msg-row " + m.from;
       var avatarHTML = "";
       if (m.from === "them") {
-         var avClass = chat.avatarClass || '';
-         var avColor = chat.color;
+         var avClass = chat.avatarClass || ''; var avColor = chat.color;
          if (currentChat === 'group') {
              if (m.sender === "明宰铉") { avClass = "avatar-jh"; avColor = "#ff375f"; }
              else if (m.sender === "金云鹤") { avClass = "avatar-wh"; avColor = "#bf5af2"; }
@@ -291,66 +253,35 @@ function renderKakao(c) {
          }
          avatarHTML = '<div class="msg-avatar ' + avClass + '" style="background-color:' + avColor + '"></div>';
       }
-
       var contentHTML = '<div class="msg-content">';
-      if (m.sender) {
-         contentHTML += '<div class="msg-sender">' + m.sender + '</div>';
-      }
+      if (m.sender) contentHTML += '<div class="msg-sender">' + m.sender + '</div>';
       contentHTML += '<div class="bubble">' + m.text + '</div></div>';
-      
-      row.innerHTML = avatarHTML + contentHTML;
-      room.appendChild(row);
+      row.innerHTML = avatarHTML + contentHTML; room.appendChild(row);
     });
-
     setTimeout(function() { room.scrollTop = room.scrollHeight; }, 10);
-
     var inputEl = document.getElementById("kkt-input");
     var sendBtn = document.getElementById("kkt-send");
     var isTyping = false; 
-
     inputEl.onclick = function(e) {
-      e.preventDefault();
-      if (isTyping) return; 
-      
+      e.preventDefault(); if (isTyping) return; 
       if (chat.story && chat.story.length > 0) {
-        inputEl.blur();
-        var choice = prompt(chat.story[0].me + "\n\n(点击确定自动填入)");
-        if (choice !== null) {
-          inputEl.value = chat.story[0].me;
-        }
-      } else {
-        inputEl.focus(); 
-      }
+        inputEl.blur(); var choice = prompt(chat.story[0].me + "\n\n(点击确定自动填入)");
+        if (choice !== null) inputEl.value = chat.story[0].me;
+      } else inputEl.focus(); 
     };
-
     sendBtn.onclick = function() {
-      if (isTyping) return;
-      var text = inputEl.value.trim();
-      if (!text) return;
-      
-      chat.history.push({ from: "me", text: text });
-      chat.preview = text;
-      inputEl.value = "";
-      
-      var row = document.createElement("div");
-      row.className = "msg-row me";
+      if (isTyping) return; var text = inputEl.value.trim(); if (!text) return;
+      chat.history.push({ from: "me", text: text }); chat.preview = text; inputEl.value = "";
+      var row = document.createElement("div"); row.className = "msg-row me";
       row.innerHTML = '<div class="msg-content"><div class="bubble">' + text + '</div></div>';
-      room.appendChild(row);
-      room.scrollTop = room.scrollHeight;
-
+      room.appendChild(row); room.scrollTop = room.scrollHeight;
       if (chat.story && chat.story.length > 0 && chat.story[0].me === text) {
-        var currentStory = chat.story.shift();
-        isTyping = true;
-        inputEl.placeholder = "对方正在输入...";
-        
+        var currentStory = chat.story.shift(); isTyping = true; inputEl.placeholder = "对方正在输入...";
         setTimeout(function() {
           chat.history.push({ from: "them", text: currentStory.them, sender: currentStory.sender });
           chat.preview = currentStory.them;
-          
-          var replyRow = document.createElement("div");
-          replyRow.className = "msg-row them";
-          var rAvClass = chat.avatarClass;
-          var rAvColor = chat.color;
+          var replyRow = document.createElement("div"); replyRow.className = "msg-row them";
+          var rAvClass = chat.avatarClass; var rAvColor = chat.color;
           if (currentStory.sender) {
               if (currentStory.sender === "明宰铉") { rAvClass = "avatar-jh"; rAvColor = "#ff375f"; }
               else if (currentStory.sender === "金云鹤") { rAvClass = "avatar-wh"; rAvColor = "#bf5af2"; }
@@ -358,119 +289,51 @@ function renderKakao(c) {
           }
           var senderNameHTML = currentStory.sender ? '<div class="msg-sender">' + currentStory.sender + '</div>' : '';
           replyRow.innerHTML = '<div class="msg-avatar ' + rAvClass + '" style="background-color:' + rAvColor + '"></div><div class="msg-content">' + senderNameHTML + '<div class="bubble">' + currentStory.them + '</div></div>';
-          room.appendChild(replyRow);
-          room.scrollTop = room.scrollHeight;
-          
-          isTyping = false;
-          inputEl.placeholder = "发送消息...";
+          room.appendChild(replyRow); room.scrollTop = room.scrollHeight;
+          isTyping = false; inputEl.placeholder = "发送消息...";
         }, 1200);
       }
     };
     return;
   }
-
   c.innerHTML = '<div class="kkt-list-bg" id="kkt-list"></div>';
   var list = document.getElementById("kkt-list");
-  
   Object.keys(CHATS).forEach(function(key) {
-    var chat = CHATS[key];
-    var item = document.createElement("div"); item.className = "chat-list-item";
-    
-    var lastMsg = chat.history[chat.history.length - 1];
-    var previewText = lastMsg.text;
+    var chat = CHATS[key]; var item = document.createElement("div"); item.className = "chat-list-item";
+    var lastMsg = chat.history[chat.history.length - 1]; var previewText = lastMsg.text;
     if (lastMsg.sender) previewText = lastMsg.sender + "：" + lastMsg.text;
-
-    item.innerHTML = 
-      '<div class="chat-avatar ' + (chat.avatarClass || '') + '" style="background-color:' + chat.color + '"></div>' +
-      '<div class="chat-info">' +
-        '<div class="chat-header-row">' +
-          '<div class="chat-name">' + chat.name + '</div>' +
-          '<div class="chat-time">刚刚</div>' +
-        '</div>' +
-        '<div class="chat-preview">' + previewText + '</div>' +
-      '</div>';
-    item.onclick = function() { 
-      currentChat = key; 
-      openApp("kakao", "KakaoTalk"); 
-    };
+    item.innerHTML = '<div class="chat-avatar ' + (chat.avatarClass || '') + '" style="background-color:' + chat.color + '"></div><div class="chat-info"><div class="chat-header-row"><div class="chat-name">' + chat.name + '</div><div class="chat-time">刚刚</div></div><div class="chat-preview">' + previewText + '</div></div>';
+    item.onclick = function() { currentChat = key; openApp("kakao", "KakaoTalk"); };
     list.appendChild(item);
   });
 }
 
 function renderMap(c) {
-  c.innerHTML = 
-    '<div class="map-container" id="map-container">' +
-      '<div id="map-pins"></div>' +
-      '<div id="map-choice-modal" class="map-choice-modal">' +
-        '<div class="map-choice-box">' +
-          '<div class="map-choice-title" id="map-event-text">事件描述</div>' +
-          '<div id="map-choice-options"></div>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
-  
-  var pinsCont = document.getElementById("map-pins");
-  var choiceModal = document.getElementById("map-choice-modal");
-  var eventText = document.getElementById("map-event-text");
-  var choiceOptions = document.getElementById("map-choice-options");
-
+  c.innerHTML = '<div class="map-container" id="map-container"><div id="map-pins"></div><div id="map-choice-modal" class="map-choice-modal"><div class="map-choice-box"><div class="map-choice-title" id="map-event-text">事件描述</div><div id="map-choice-options"></div></div></div></div>';
+  var pinsCont = document.getElementById("map-pins"); var choiceModal = document.getElementById("map-choice-modal");
+  var eventText = document.getElementById("map-event-text"); var choiceOptions = document.getElementById("map-choice-options");
   MAP_PLACES.forEach(function(p) {
-    var pin = document.createElement("div");
-    pin.className = "map-pin";
-    pin.style.left = p.x + "%";
-    pin.style.top = p.y + "%";
-    
+    var pin = document.createElement("div"); pin.className = "map-pin"; pin.style.left = p.x + "%"; pin.style.top = p.y + "%";
     var isLocked = false;
-    if (p.isBigEvent && gameState.activeEvent < p.unlockCondition - 1) {
-        isLocked = true;
-    }
-    
-    if (isLocked) {
-        pin.style.filter = "grayscale(100%) opacity(50%)";
-    } else {
-        pin.style.filter = "none";
-    }
-    
+    if (p.isBigEvent && gameState.activeEvent < p.unlockCondition - 1) isLocked = true;
+    pin.style.filter = isLocked ? "grayscale(100%) opacity(50%)" : "none";
     pin.innerHTML = '<div class="pin-icon"></div><div class="pin-label">' + p.name + '</div>';
-    
     pin.onclick = function(e) {
-      e.stopPropagation();
-      if (isLocked) {
-          alert("这里暂时没有剧情。先去 KakaoTalk 推进前置聊天吧！");
-          return;
-      }
-      
+      e.stopPropagation(); if (isLocked) { alert("这里暂时没有剧情。先去 KakaoTalk 推进前置聊天吧！"); return; }
       var currentEvent = p.events[p.clickCount % p.events.length];
-      eventText.innerText = currentEvent.text;
-      choiceOptions.innerHTML = "";
-      
+      eventText.innerText = currentEvent.text; choiceOptions.innerHTML = "";
       currentEvent.choices.forEach(function(choice, index) {
-        var btn = document.createElement("div");
-        btn.className = "map-choice-btn";
-        btn.innerText = choice;
+        var btn = document.createElement("div"); btn.className = "map-choice-btn"; btn.innerText = choice;
         btn.onclick = function() {
           choiceModal.classList.remove("show");
-          if (index === 1) {
-             p.clickCount++; 
-             return;
-          }
+          if (index === 1) { p.clickCount++; return; }
           if (currentEvent.reply) {
-             var speaker = "朴成淏";
-             var chatId = "sungho";
-             var replyText = currentEvent.reply;
+             var speaker = "朴成淏"; var chatId = "sungho"; var replyText = currentEvent.reply;
              if (replyText.indexOf("】") > -1) {
-                 speaker = replyText.substring(1, replyText.indexOf("】"));
-                 replyText = replyText.substring(replyText.indexOf("】") + 1);
+                 speaker = replyText.substring(1, replyText.indexOf("】")); replyText = replyText.substring(replyText.indexOf("】") + 1);
              }
-
-             CHATS[chatId].history.push({ type: "time", text: "刚刚" });
-             CHATS[chatId].history.push({ from: "them", text: replyText });
-             CHATS[chatId].preview = replyText;
-             
-             if (p.isBigEvent) {
-                 gameState.activeEvent++;
-             }
-             
+             CHATS[chatId].history.push({ type: "time", text: "刚刚" }); CHATS[chatId].history.push({ from: "them", text: replyText }); CHATS[chatId].preview = replyText;
+             if (p.isBigEvent) gameState.activeEvent++;
              showNotification(replyText, chatId, speaker);
           }
           p.clickCount++;
@@ -484,9 +347,7 @@ function renderMap(c) {
 }
 
 function renderMemo(c) {
-  c.style.backgroundColor = "#fff";
-  document.getElementById("app-title").textContent = "备忘录";
-  
+  c.style.backgroundColor = "#fff"; document.getElementById("app-title").textContent = "备忘录";
   if (currentMemo) {
     var note = MEMOS.find(function(m) { return m.id === currentMemo; });
     if (note.isLocked && !gameState.memoUnlocked) {
@@ -496,11 +357,9 @@ function renderMemo(c) {
     c.innerHTML = '<div class="memo-detail"><h1>' + note.title + '</h1><p style="color:#888; font-size:12px; margin-bottom:20px;">' + note.date + '</p><p>' + note.content + '</p></div>';
     return;
   }
-
   c.innerHTML = '<div style="padding:16px; font-size:24px; font-weight:bold; border-bottom:1px solid #eee;">文件夹: 我的备忘录</div>';
   MEMOS.forEach(function(m) {
-    var el = document.createElement("div");
-    el.className = "memo-list-item";
+    var el = document.createElement("div"); el.className = "memo-list-item";
     el.innerHTML = '<div class="memo-list-title">' + m.title + '</div><div class="memo-list-date">' + m.date + '</div>';
     el.onclick = function() { currentMemo = m.id; openApp("memo", "备忘录"); };
     c.appendChild(el);
@@ -509,70 +368,41 @@ function renderMemo(c) {
 
 function checkMemoPass() {
   var val = document.getElementById("memo-pass").value;
-  if (val === "0904") { gameState.memoUnlocked = true; openApp("memo", "备忘录"); } 
-  else { alert("密码错误"); }
+  if (val === "0904") { gameState.memoUnlocked = true; openApp("memo", "备忘录"); } else alert("密码错误");
 }
 
 function renderInstagram(c) {
   c.style.padding = "0"; c.style.backgroundColor = "#fff";
-  c.innerHTML = 
-    '<div class="ig-header"><div class="ig-logo">Instagram</div><div>❤️ ✉️</div></div>' +
-    '<div id="ig-feed"></div>';
-  
+  c.innerHTML = '<div class="ig-header"><div class="ig-logo">Instagram</div><div>❤️ ✉️</div></div><div id="ig-feed"></div>';
   var feed = document.getElementById("ig-feed");
   var post = { id: "post_2", user: "sungho_", avatar: "成", img: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600", caption: "coffee." };
-  
-  var postEl = document.createElement("div");
-  postEl.className = "ig-feed-post";
-  postEl.innerHTML = 
-    '<div class="ig-feed-header"><div class="chat-avatar" style="width:32px;height:32px;font-size:12px;background:#ff9f0a;">' + post.avatar + '</div><strong>' + post.user + '</strong></div>' +
-    '<div class="ig-feed-img" style="background-image:url(\'' + post.img + '\');"></div>' +
-    '<div class="ig-feed-actions">' +
-      '<span class="ig-heart" id="heart_' + post.id + '" onclick="likePost(\'' + post.id + '\')">🤍</span> ' +
-      '<span>💬</span> ' +
-      '<span>✈️</span>' +
-    '</div>' +
-    '<div class="ig-feed-caption"><strong>' + post.user + '</strong> ' + post.caption + '</div>';
+  var postEl = document.createElement("div"); postEl.className = "ig-feed-post";
+  postEl.innerHTML = '<div class="ig-feed-header"><div class="chat-avatar" style="width:32px;height:32px;font-size:12px;background:#ff9f0a;">' + post.avatar + '</div><strong>' + post.user + '</strong></div><div class="ig-feed-img" style="background-image:url(\'' + post.img + '\');"></div><div class="ig-feed-actions"><span class="ig-heart" id="heart_' + post.id + '" onclick="likePost(\'' + post.id + '\')">🤍</span> <span>💬</span> <span>✈️</span></div><div class="ig-feed-caption"><strong>' + post.user + '</strong> ' + post.caption + '</div>';
   feed.appendChild(postEl);
 }
 
 function likePost(postId) {
   var heart = document.getElementById('heart_' + postId);
-  if (heart.classList.contains('liked')) return; 
-  heart.classList.add('liked');
-  heart.innerText = "❤️";
+  if (heart.classList.contains('liked')) return; heart.classList.add('liked'); heart.innerText = "❤️";
   if (postId === "post_2" && !gameState.likedSunghoPost) {
-    gameState.likedSunghoPost = true;
-    CHATS.sungho.history.push({ type: "time", text: "刚刚" });
-    CHATS.sungho.history.push({ from: "them", text: "你看到我发的动态啦？明天要一起去吗？" });
-    CHATS.sungho.preview = "你看到我发的动态啦？明天要一起去吗？";
+    gameState.likedSunghoPost = true; CHATS.sungho.history.push({ type: "time", text: "刚刚" });
+    CHATS.sungho.history.push({ from: "them", text: "你看到我发的动态啦？明天要一起去吗？" }); CHATS.sungho.preview = "你看到我发的动态啦？明天要一起去吗？";
     showNotification("你看到我发的动态啦？明天要一起去吗？", "sungho", "朴成淏");
   }
 }
 
 var notifTimeout = null;
 function showNotification(text, chatId, speakerName) {
-  var notif = document.getElementById("ios-notification");
-  var body = document.getElementById("notif-body-text");
-  body.innerText = (speakerName || "朴成淏") + "：" + text;
-  
-  notif.classList.add("show");
-  notif.setAttribute("data-chatid", chatId); 
-  
+  var notif = document.getElementById("ios-notification"); var body = document.getElementById("notif-body-text");
+  body.innerText = (speakerName || "朴成淏") + "：" + text; notif.classList.add("show"); notif.setAttribute("data-chatid", chatId); 
   if (notifTimeout) clearTimeout(notifTimeout);
-  notifTimeout = setTimeout(function() {
-    notif.classList.remove("show");
-  }, 3000);
+  notifTimeout = setTimeout(function() { notif.classList.remove("show"); }, 3000);
 }
 
 function goToChat() {
-  var notif = document.getElementById("ios-notification");
-  var chatId = notif.getAttribute("data-chatid");
+  var notif = document.getElementById("ios-notification"); var chatId = notif.getAttribute("data-chatid");
   notif.classList.remove("show");
-  if (chatId) {
-    currentChat = chatId;
-    openApp("kakao", "KakaoTalk");
-  }
+  if (chatId) { currentChat = chatId; openApp("kakao", "KakaoTalk"); }
 }
 
 renderApps();
