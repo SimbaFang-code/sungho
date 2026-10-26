@@ -16,7 +16,7 @@ const MEMOS = [
   { id: "m2", title: "绝密剧情提示", date: "现在", isLocked: true, content: "【剧本杀防卡关指南】\n\n1. 熟悉阶段：多去【地图】和成淏打卡约会，累计10次线下约会后才能解锁后续心动剧情。\n2. 发现线索：如果有不懂的，去看看成淏的 IG 动态。" }
 ];
 
-// 10次线下约会打卡点
+// 地图打卡地点
 const MAP_PLACES = [
   { id: "p1", name: "中央图书馆", x: 30, y: 40, dateNum: 1, triggerMsg: "今天在图书馆偶遇了成淏学长，他帮我找了全英教材。" },
   { id: "p2", name: "学生会馆", x: 60, y: 25, dateNum: 2, triggerMsg: "成淏学长在学生会馆开会，给我带了冰美式。" },
@@ -33,11 +33,16 @@ const MAP_PLACES = [
 const CHATS = {
   sungho: {
     name: "朴成淏", avatar: "成", color: "#ff9f0a",
+    // 这里的 messages 是开局就有的记录，作为前情提要
     messages: [
+      { type: "time", text: "9月2日 迎新日" },
+      { from: "them", text: "你好，请问是来参加迎新的新生吗？" },
+      { from: "me", text: "是的！但是我地图定位好像不太准……" },
+      { from: "them", text: "往左手边那条路走，看到学生会馆就到了。" },
       { type: "time", text: "今天 下午 16:00" },
       { from: "them", text: "宰铉在群里说周五聚餐，你看到了吗？" }
     ],
-    // 橙光式剧情树（发一句回一句）
+    // 主线剧情树（橙光式逐句对话）
     story: [
       { me: "看到啦，我一定会去的", them: "嗯，去吧，大家都很想见你。" },
       { me: "学长最近好像很忙？", them: "有一点，准备迎新晚会的事情。" },
@@ -46,6 +51,10 @@ const CHATS = {
       { me: "学长怎么连这种醋都吃", them: "因为，我好像有点太在意你了。" }
     ]
   },
+  riwoo: { name: "李常赫", avatar: "常", color: "#30d158", messages: [{type:"time", text:"昨天"}, {from:"them", text:"舞蹈社有练习。"}], story: [] },
+  taesan: { name: "韩泰山", avatar: "泰", color: "#5e5ce6", messages: [{type:"time", text:"昨天"}, {from:"them", text:"新歌发了。"}], story: [] },
+  leehan: { name: "金桐儇", avatar: "桐", color: "#64d2ff", messages: [{type:"time", text:"昨天"}, {from:"them", text:"图书馆见。"}], story: [] },
+  woonhak: { name: "金云鹤", avatar: "云", color: "#bf5af2", messages: [{type:"time", text:"昨天"}, {from:"them", text:"学妹好！"}], story: [] },
   group: {
     name: "延世街六人组", avatar: "群", color: "#8e8e93",
     messages: [{ type: "time", text: "今天 14:30" }, { from: "them", sender: "明宰铉", text: "周五聚餐！" }, { from: "them", sender: "朴成淏", text: "我带学妹来。" }],
@@ -53,11 +62,7 @@ const CHATS = {
       { me: "好呀，谢谢大家！", them: "宰铉：欢迎欢迎！", sender: "明宰铉" },
       { me: "我会准时到的", them: "云鹤：太好啦！", sender: "金云鹤" }
     ]
-  },
-  riwoo: { name: "李常赫", avatar: "常", color: "#30d158", messages: [], story: [] },
-  taesan: { name: "韩泰山", avatar: "泰", color: "#5e5ce6", messages: [], story: [] },
-  leehan: { name: "金桐儇", avatar: "桐", color: "#64d2ff", messages: [], story: [] },
-  woonhak: { name: "金云鹤", avatar: "云", color: "#bf5af2", messages: [], story: [] }
+  }
 };
 
 const INSTAGRAM_FEED = [
