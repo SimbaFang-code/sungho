@@ -11,7 +11,6 @@ var APPS = [
   { id: "x", name: "X", iconClass: "icon-x" }
 ];
 
-// --- 完整故事线的背景聊天记录 ---
 var CHATS = {
   sungho: { 
     name: "朴成淏", avatarClass: "avatar-sh", color: "#ff9f0a", time: "刚刚", preview: "明天见。",
@@ -106,62 +105,61 @@ var CHATS = {
   }
 };
 
-// --- 全新的地图地点与循环事件配置 ---
 var MAP_PLACES = [
   { 
     id: "p1", name: "中央图书馆", x: 25, y: 30, clickCount: 0,
     events: [
-      { text: "你在书架旁遇到成淏，他正踮脚找一本高处的书。", choices: ["帮他拿下来", "假装没看见"], reply: "成淏接过书看着你："谢谢，你长得不高，但很可靠。"" },
-      { text: "成淏趴在桌上睡着了，旁边还有没写完的报告。", choices: ["给他披件外套", "叫醒他"], reply: "他醒来看到外套，眼神温柔："是你啊……陪我待会儿？"" },
-      { text: "你忘带笔记本了，正发愁。", choices: ["向他借", "去外面买"], reply: "成淏直接把本子推给你："用我的吧，我记了双份。"" }
+      { text: "你在书架旁遇到成淏，他正踮脚找一本高处的书。", choices: ["帮他拿下来", "假装没看见"], reply: "成淏接过书看着你：谢谢，你长得不高，但很可靠。" },
+      { text: "成淏趴在桌上睡着了，旁边还有没写完的报告。", choices: ["给他披件外套", "叫醒他"], reply: "他醒来看到外套，眼神温柔：是你啊...陪我待会儿？" },
+      { text: "你忘带笔记本了，正发愁。", choices: ["向他借", "去外面买"], reply: "成淏直接把本子推给你：用我的吧，我记了双份。" }
     ]
   },
   { 
     id: "p2", name: "篮球场", x: 75, y: 20, clickCount: 0,
     events: [
-      { text: "成淏刚打完一场比赛，满头大汗地坐在场边休息。", choices: ["跑过去给他送水", "站在远处看"], reply: "【KakaoTalk 弹窗】朴成淏：刚刚的水，谢谢。下次换我请你喝东西。" },
-      { text: "篮球滚到了你脚边，成淏跑过来捡。", choices: ["把球扔回给他", "抱在怀里逗他"], reply: "【KakaoTalk 弹窗】朴成淏：刚才故意不给我球是吧？下次见面我要捏你的脸。" },
-      { text: "比赛结束了，他正被一群女生围着。", choices: ["转身走开", "在操场门口等他"], reply: "【KakaoTalk 弹窗】朴成淏：刚才去哪了？我一转眼你就不见了，害我找了半天。" }
+      { text: "成淏刚打完一场比赛，满头大汗地坐在场边休息。", choices: ["跑过去给他送水", "站在远处看"], reply: "刚刚的水，谢谢。下次换我请你喝东西。" },
+      { text: "篮球滚到了你脚边，成淏跑过来捡。", choices: ["把球扔回给他", "抱在怀里逗他"], reply: "刚才故意不给我球是吧？下次见面我要捏你的脸。" },
+      { text: "比赛结束了，他正被一群女生围着。", choices: ["转身走开", "在操场门口等他"], reply: "刚才去哪了？我一转眼你就不见了，害我找了半天。" }
     ]
   },
   { 
     id: "p3", name: "音乐楼", x: 80, y: 65, clickCount: 0,
     events: [
-      { text: "经过琴房，听到里面传出好听的吉他声，是成淏在弹。", choices: ["推门进去听", "在门外安静听完"], reply: "【KakaoTalk 弹窗】朴成淏：刚刚门外是你吧？进来啊，这首曲子刚写好。" },
-      { text: "成淏正在调试设备，看起来有点烦躁。", choices: ["递给他一瓶水", "找泰山来帮忙"], reply: "【KakaoTalk 弹窗】朴成淏：谢谢你的水，不过找泰山就算了，那家伙只会笑我。" },
-      { text: "社团招新，成淏坐在那里发传单。", choices: ["帮他一起发", "给他买杯咖啡"], reply: "【KakaoTalk 弹窗】朴成淏：咖啡很好喝。不过其实你站在旁边，比一百张传单都有用。" }
+      { text: "经过琴房，听到里面传出好听的吉他声，是成淏在弹。", choices: ["推门进去听", "在门外安静听完"], reply: "刚刚门外是你吧？进来啊，这首曲子刚写好。" },
+      { text: "成淏正在调试设备，看起来有点烦躁。", choices: ["递给他一瓶水", "找泰山来帮忙"], reply: "谢谢你的水，不过找泰山就算了，那家伙只会笑我。" },
+      { text: "社团招新，成淏坐在那里发传单。", choices: ["帮他一起发", "给他买杯咖啡"], reply: "咖啡很好喝。不过其实你站在旁边，比一百张传单都有用。" }
     ]
   },
   { 
     id: "p4", name: "学生会馆", x: 50, y: 45, clickCount: 0,
     events: [
-      { text: "成淏在开会，你路过刚好和他对上视线。", choices: ["笑着打招呼", "装作没看见走开"], reply: "【KakaoTalk 弹窗】朴成淏：刚刚看到我装没看到是吧？开完会去找你，等着。" },
-      { text: "他在整理一堆厚重的文件，看起来很累。", choices: ["上去帮忙", "去买两杯热可可"], reply: "【KakaoTalk 弹窗】朴成淏：热可可很暖。不过最暖的是，你刚才一直在偷看我。" },
-      { text: "走廊上人很多，你差点被撞倒。", choices: ["抓住他的手臂", "自己站稳"], reply: "【KakaoTalk 弹窗】朴成淏：下次走路看着点。要是我不在，你摔倒了怎么办？" }
+      { text: "成淏在开会，你路过刚好和他对上视线。", choices: ["笑着打招呼", "装作没看见走开"], reply: "刚刚看到我装没看到是吧？开完会去找你，等着。" },
+      { text: "他在整理一堆厚重的文件，看起来很累。", choices: ["上去帮忙", "去买两杯热可可"], reply: "热可可很暖。不过最暖的是，你刚才一直在偷看我。" },
+      { text: "走廊上人很多，你差点被撞倒。", choices: ["抓住他的手臂", "自己站稳"], reply: "下次走路看着点。要是我不在，你摔倒了怎么办？" }
     ]
   },
   { 
     id: "p5", name: "食堂", x: 40, y: 80, clickCount: 0,
     events: [
-      { text: "你在排队，前面刚好是成淏。", choices: ["拍他肩膀", "默默排着"], reply: "【KakaoTalk 弹窗】朴成淏：刚才拍我肩膀的时候，有没有觉得我背很宽？" },
-      { text: "只有他旁边有空位。", choices: ["坐过去", "去外面吃"], reply: "【KakaoTalk 弹窗】朴成淏：怎么去外面了？下次直接坐我旁边，我帮你占座。" },
-      { text: "你没带饭卡。", choices: ["找他借", "饿着肚子"], reply: "【KakaoTalk 弹窗】朴成淏：下次没带饭卡直接找我。你要是饿瘦了，我怎么跟叔叔阿姨交代？" }
+      { text: "你在排队，前面刚好是成淏。", choices: ["拍他肩膀", "默默排着"], reply: "刚才拍我肩膀的时候，有没有觉得我背很宽？" },
+      { text: "只有他旁边有空位。", choices: ["坐过去", "去外面吃"], reply: "怎么去外面了？下次直接坐我旁边，我帮你占座。" },
+      { text: "你没带饭卡。", choices: ["找他借", "饿着肚子"], reply: "下次没带饭卡直接找我。你要是饿瘦了，我怎么跟叔叔阿姨交代？" }
     ]
   },
   { 
     id: "p6", name: "咖啡店", x: 20, y: 60, clickCount: 0,
     events: [
-      { text: "成淏一个人在喝咖啡，看起来在发呆。", choices: ["坐过去", "给他发消息"], reply: "【KakaoTalk 弹窗】朴成淏：刚看到你了。过来啊，我想和你一起喝。" },
-      { text: "你在点单，他站在你后面。", choices: ["帮他买单", "AA制"], reply: "【KakaoTalk 弹窗】朴成淏：怎么偷偷帮我买单了？下次必须让我请回来。" },
-      { text: "下雨了，他站在店门口没带伞。", choices: ["走过去共伞", "把伞留给他"], reply: "【KakaoTalk 弹窗】朴成淏：你把伞给我了，自己淋湿了怎么办？" }
+      { text: "成淏一个人在喝咖啡，看起来在发呆。", choices: ["坐过去", "给他发消息"], reply: "刚看到你了。过来啊，我想和你一起喝。" },
+      { text: "你在点单，他站在你后面。", choices: ["帮他买单", "AA制"], reply: "怎么偷偷帮我买单了？下次必须让我请回来。" },
+      { text: "下雨了，他站在店门口没带伞。", choices: ["走过去共伞", "把伞留给他"], reply: "你把伞给我了，自己淋湿了怎么办？" }
     ]
   },
   { 
     id: "p7", name: "银杏大道", x: 65, y: 80, clickCount: 0,
     events: [
-      { text: "银杏叶落满一地，他在拍照。", choices: ["偷偷走进他镜头", "在旁边静静看"], reply: "【KakaoTalk 弹窗】朴成淏：刚才那张照片，拍到了你的背影。很好看。" },
-      { text: "他在长椅上看书。", choices: ["坐旁边", "扔个叶子逗他"], reply: "【KakaoTalk 弹窗】朴成淏：刚才用叶子砸我是不是？不乖啊。" },
-      { text: "冷风吹过，你打了一个喷嚏。", choices: ["抱怨天气", "缩缩脖子"], reply: "【KakaoTalk 弹窗】朴成淏：天冷了，下次出门记得多穿点。不然我会心疼。" }
+      { text: "银杏叶落满一地，他在拍照。", choices: ["偷偷走进他镜头", "在旁边静静看"], reply: "刚才那张照片，拍到了你的背影。很好看。" },
+      { text: "他在长椅上看书。", choices: ["坐旁边", "扔个叶子逗他"], reply: "刚才用叶子砸我是不是？不乖啊。" },
+      { text: "冷风吹过，你打了一个喷嚏。", choices: ["抱怨天气", "缩缩脖子"], reply: "天冷了，下次出门记得多穿点。不然我会心疼。" }
     ]
   }
 ];
@@ -184,7 +182,7 @@ function renderApps() {
   var mainApps = APPS.filter(function(app) { return !dockApps.includes(app.id); });
   
   var createIconHTML = function(app) {
-    if (app.id === "x") return '<div class="icon-box icon-x">✕</div>';
+    if (app.id === "x") return '<div class="icon-box icon-x">X</div>';
     return '<div class="icon-box ' + app.iconClass + '"></div>';
   };
 
@@ -219,7 +217,7 @@ function openApp(id, name) {
   
   var c = document.getElementById("app-content");
   c.classList.remove("no-padding");
-  c.innerHTML = "<div style='text-align:center;padding:80px 20px;color:#8e8e93;font-size:16px;'>【" + name + "】功能开发中...</div>";
+  c.innerHTML = "<div style='text-align:center;padding:80px 20px;color:#8e8e93;font-size:16px;'>功能开发中...</div>";
   
   if (id === "kakao") {
     renderKakao(c);
@@ -246,7 +244,6 @@ function goBack() {
   }
 }
 
-// ---------------- KKT 渲染 ----------------
 function renderKakao(c) {
   c.classList.add("no-padding");
   c.style.backgroundColor = "#fff";
@@ -350,7 +347,6 @@ function renderKakao(c) {
   });
 }
 
-// ---------------- 地图渲染 ----------------
 function renderMap(c) {
   c.innerHTML = 
     '<div class="map-container" id="map-container">' +
@@ -392,12 +388,12 @@ function renderMap(c) {
              return;
           }
           if (currentEvent.reply) {
-             var replyText = currentEvent.reply.replace("【KakaoTalk 弹窗】朴成淏：", "");
+             var replyText = currentEvent.reply;
              CHATS.sungho.history.push({ type: "time", text: "刚刚" });
              CHATS.sungho.history.push({ from: "them", text: replyText });
              CHATS.sungho.preview = replyText;
              setTimeout(function() {
-               alert("【KakaoTalk 新消息】朴成淏：" + replyText);
+               alert("KakaoTalk新消息 - 朴成淏：" + replyText);
              }, 300);
           }
           p.clickCount++;
