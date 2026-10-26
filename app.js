@@ -23,77 +23,68 @@ var gameState = {
 };
 
 var MAP_PLACES = [
-  { 
-    id: "s1", name: "老地方烤肉店", x: 50, y: 45, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  // 小事件（随时可点）
+  { id: "s1", name: "老地方烤肉店", x: 50, y: 45, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
       { text: "六人聚餐，大家刚坐下。", choices: ["坐在成淏旁边", "坐在云鹤旁边"], reply: "【朴成淏】刚刚聚餐，云鹤一直给你夹肉，我有点不舒服。下次我给你夹。" },
-      { text: "聚餐时，宰铉提议玩真心话大冒险。", choices: ["参与游戏", "在旁边看"], reply: "【明宰铉】学妹！你抽到了大冒险！去和成淏对视十秒！快点！" }
+      { text: "聚餐进行到一半，大家在玩游戏。", choices: ["帮成淏挡酒", "自己喝掉"], reply: "【朴成淏】你干嘛替我挡酒？不过刚刚你脸红的样子，真的很好看。" }
     ]
   },
-  { 
-    id: "s2", name: "中央图书馆", x: 25, y: 30, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s2", name: "中央图书馆", x: 25, y: 30, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
       { text: "你在书架旁遇到成淏，他正踮脚找高处的书。", choices: ["帮他拿下来", "假装没看见"], reply: "【朴成淏】刚刚看到你踮脚的样子，像只小兔子。下次这种事，我帮你做就好。" },
       { text: "成淏趴在桌上睡着了。", choices: ["给他披件外套", "叫醒他"], reply: "【朴成淏】醒来看到你的外套了。刚刚醒来第一眼看到是你，感觉很好。" }
     ]
   },
-  { 
-    id: "s3", name: "篮球场", x: 75, y: 20, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s3", name: "篮球场", x: 75, y: 20, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
       { text: "成淏刚打完比赛，满头大汗。", choices: ["跑过去给他送水", "站在远处看"], reply: "【朴成淏】刚刚的水，谢谢。我投进三分球的时候，余光看到你在欢呼。" },
       { text: "篮球滚到了你脚边。", choices: ["把球扔回给他", "抱在怀里逗他"], reply: "【朴成淏】刚才故意不给我球是吧？下次见面我可要抓着你胳膊了。" }
     ]
   },
-  { 
-    id: "s4", name: "音乐楼", x: 80, y: 65, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s4", name: "音乐楼", x: 80, y: 65, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
       { text: "经过琴房，听到成淏在弹吉他。", choices: ["推门进去听", "在门外安静听完"], reply: "【朴成淏】刚刚门外是你吧？这首曲子刚写好，想第一个弹给你听。" }
     ]
   },
-  { 
-    id: "s5", name: "食堂", x: 40, y: 80, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s5", name: "食堂", x: 40, y: 80, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
       { text: "食堂人很多，只有他旁边有空位。", choices: ["坐过去", "去外面吃"], reply: "【朴成淏】怎么去外面了？下次直接坐我旁边，我帮你占座。" }
     ]
   },
-  { 
-    id: "s6", name: "操场看台", x: 15, y: 25, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s6", name: "操场看台", x: 15, y: 25, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
       { text: "晚上操场很安静，你来看星星。", choices: ["给成淏发消息", "一个人坐着"], reply: "【朴成淏】看到消息我就跑下来了。你一个人坐在这，也不怕冷。披上我的外套。" }
     ]
   },
-  { 
-    id: "s7", name: "校门口夜市", x: 85, y: 40, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s7", name: "校门口夜市", x: 85, y: 40, clickCount: 0, isBigEvent: false, unlockCondition: 0,
     events: [
       { text: "夜市上人很多，你差点被挤散。", choices: ["抓住他的衣角", "自己走开"], reply: "【朴成淏】刚刚你抓着我衣角，我真的好想直接牵你的手。" }
     ]
   },
-  { 
-    id: "p11", name: "校园咖啡店", x: 15, y: 35, clickCount: 0, isBigEvent: true, unlockCondition: 1,
+  
+  // 大事件（按顺序解锁）
+  { id: "p11", name: "校园咖啡店", x: 15, y: 35, clickCount: 0, isBigEvent: true, unlockCondition: 1,
     events: [
       { text: "你带着课本约成淏在咖啡店请教问题。他讲得很认真。", choices: ["夸他讲得好", "假装在听"], reply: "【朴成淏】刚刚看你盯着我看，书都拿倒了。其实你一直看我的话，我完全讲不下去的。" }
     ]
   },
-  { 
-    id: "p12", name: "校外智多寺", x: 10, y: 15, clickCount: 0, isBigEvent: true, unlockCondition: 2,
+  { id: "p12", name: "校外智多寺", x: 10, y: 15, clickCount: 0, isBigEvent: true, unlockCondition: 2,
     events: [
       { text: "你们七个人一起去爬山烧香。你爬不动了。", choices: ["让成淏拉你一把", "自己慢慢爬"], reply: "【朴成淏】手给我。刚刚你抓着我手的时候，突然觉得这山也不算陡了。" }
     ]
   },
-  { 
-    id: "p13", name: "教学楼", x: 65, y: 30, clickCount: 0, isBigEvent: true, unlockCondition: 3,
+  { id: "p13", name: "教学楼", x: 65, y: 30, clickCount: 0, isBigEvent: true, unlockCondition: 3,
     events: [
       { text: "大降温，你穿着单衣在教室冻得发抖。成淏脱下大衣给你。", choices: ["乖乖让他披上", "拒绝"], reply: "【朴成淏】不许拒绝。大衣很暖和，还带着我的体温。你要是感冒了，我会心疼的。" }
     ]
   },
-  { 
-    id: "p14", name: "操场跑道", x: 45, y: 25, clickCount: 0, isBigEvent: true, unlockCondition: 4,
+  { id: "p14", name: "操场跑道", x: 45, y: 25, clickCount: 0, isBigEvent: true, unlockCondition: 4,
     events: [
       { text: "体测800米，你跑完虚脱了。成淏冲过来一把扶住你。", choices: ["靠在他怀里", "推开他"], reply: "【朴成淏】别动，靠着我。刚刚看你跑完脸都白了，我差点冲进跑道去拉你。" }
     ]
   },
-  { 
-    id: "p15", name: "体育馆", x: 30, y: 60, clickCount: 0, isBigEvent: true, unlockCondition: 5,
+  { id: "p15", name: "体育馆", x: 30, y: 60, clickCount: 0, isBigEvent: true, unlockCondition: 5,
     events: [
       { text: "服装设计大赛，你和成淏搭档走秀。", choices: ["夸他西装好看", "害羞低头"], reply: "【朴成淏】很好看吧？刚刚在台上，我只盯着你一个人看。" }
     ]
@@ -107,25 +98,30 @@ var CHATS = {
       { type: "time", text: "9月2日 迎新日" },
       { from: "them", text: "你好，请问是来参加迎新的新生吗？" },
       { from: "me", text: "是的！但是我地图定位好像不太准。" },
-      { from: "them", text: "你往左手边那条路走，看到学生会馆就到了。" }
+      { from: "them", text: "你往左手边那条路走，看到学生会馆就到了。" },
+      { type: "time", text: "今天 下午 16:00" },
+      { from: "them", text: "宰铉在群里说周五聚餐，你看到了吗？" }
     ],
     story: [
+      { me: "看到啦，我一定会去的！", them: "嗯，去吧，大家都很想见你。" },
+      { me: "学长会去吗？", them: "当然。我不去的话，谁替你挡酒？" },
+      { me: "嘿嘿，那太好了", them: "对了，周五那天穿得好看点。" },
+      { me: "诶？为什么？", them: "因为我想和你多拍几张照片。" },
       { me: "学长，最近期中考试你能教教我吗？", them: "当然。那这周末去咖啡店吧，我帮你辅导。" },
-      { me: "太好了！那我们周六见！", them: "嗯。对了，就我们两个人，别叫别人了。" },
       { me: "学长，考完了要不要去寺庙拜拜求个心安？", them: "可以啊。不过就我们俩去吗？" },
       { me: "要不叫上大家一起去吧？人多热闹。", them: "行，你去群里问问他们。" }
     ]
   },
   riwoo: { 
     name: "李常赫", avatarClass: "avatar-rw", color: "#30d158", time: "昨天", preview: "舞蹈社的日常。",
-    history: [ { type: "time", text: "9月10日" }, { from: "them", text: "我是李常赫。" } ],
+    history: [ { type: "time", text: "9月10日" }, { from: "them", text: "我是李常赫。如果觉得经营学无聊，可以来舞蹈社看看。" } ],
     story: [
       { me: "常赫学长，群里说要去智多寺，你去吗？", them: "去。不过刚刚群消息太多没看到。成淏去吗？他去我就去。" }
     ]
   },
   jaehyun: { 
     name: "明宰铉", avatarClass: "avatar-jh", color: "#ff375f", time: "昨天", preview: "聚餐定啦！",
-    history: [ { type: "time", text: "9月12日" }, { from: "them", text: "学妹好呀！我是明宰铉！" } ],
+    history: [ { type: "time", text: "9月12日" }, { from: "them", text: "学妹好呀！我是传媒系的明宰铉！" } ],
     story: []
   },
   taesan: { 
@@ -145,8 +141,15 @@ var CHATS = {
   },
   group: {
     name: "6+1小分队", avatarClass: "avatar-group", color: "#8e8e93", time: "下午 14:30", preview: "群聊消息",
-    history: [ { type: "time", text: "今天 14:30" }, { from: "them", sender: "明宰铉", text: "各位！周五聚餐！" } ],
+    history: [ 
+      { type: "time", text: "今天 14:30" },
+      { from: "them", sender: "明宰铉", text: "各位！周五晚上聚餐，老地方！" },
+      { from: "them", sender: "金云鹤", text: "好耶！有新开的店！" },
+      { from: "them", sender: "李常赫", text: "你上周不是才去过吗？" },
+      { from: "them", sender: "朴成淏", text: "我带学妹来。" }
+    ],
     story: [
+      { me: "收到！我会准时到的！", them: "欢迎欢迎！", sender: "明宰铉" },
       { me: "学长们，这周六我和成淏打算去智多寺拜佛，大家要不要一起去？", them: "好啊！我参加！", sender: "明宰铉" },
       { me: "还有谁去呀？", them: "我也去！", sender: "金云鹤" },
       { me: "泰山学长和桐儇学长呢？", them: "他们好像没看到消息。你私聊问问他们吧！", sender: "明宰铉" },
