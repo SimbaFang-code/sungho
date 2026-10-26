@@ -19,16 +19,24 @@
     </div>
   </div>
 
+  <!-- 锁屏（完全重写，直接使用原生按钮点击） -->
   <div id="lock-screen" class="active">
-    <div class="lock-time" id="lock-clock">00:00</div>
-    <div class="lock-date" id="lock-date">10月26日 周一</div>
-    <div class="lock-bottom"><div id="lock-prompt">点击解锁</div></div>
+    <div class="lock-time" id="lock-clock">09:41</div>
+    <div class="lock-date">10月26日 周一</div>
+    
+    <!-- 一个占满全屏的透明按钮，点哪儿都能解锁 -->
+    <button onclick="unlockPhone()" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; z-index: 9999; cursor: pointer;">点击解锁</button>
+    
+    <div class="lock-bottom">
+      <div id="lock-prompt">点击屏幕解锁</div>
+    </div>
   </div>
 
+  <!-- 主界面 -->
   <div id="main-ui" class="hidden">
     <div id="statusbar">
       <span id="clock">9:41</span>
-      <div id="island"></div>
+      <div class="island"></div>
       <div class="status-right">
         <div class="signal-icon"><span></span><span></span><span></span><span></span></div>
         <div class="battery-icon"><div class="battery-level"></div></div>
@@ -52,7 +60,7 @@
 
       <div id="app-view" class="page">
         <div class="app-topbar">
-          <button id="back-btn">‹ 返回</button>
+          <button id="back-btn" onclick="goBack()">‹ 返回</button>
           <span id="app-title"></span>
           <span style="width:40px"></span>
         </div>

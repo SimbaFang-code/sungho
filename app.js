@@ -3,14 +3,18 @@ let currentMemo = null;
 let gameState = { dateCount: 0, likedSunghoPost: false, memoUnlocked: false };
 let activePinId = null;
 
-// 最顶级的解锁函数，HTML 直接调用，无视任何浏览器拦截
+// 最简单粗暴的解锁逻辑，直接操作 DOM
 window.unlockPhone = function() {
   const lockScreen = document.getElementById("lock-screen");
   const mainUI = document.getElementById("main-ui");
   if (lockScreen && mainUI) {
-    lockScreen.classList.add("hidden");
-    mainUI.classList.remove("hidden");
-    setTimeout(() => showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho"), 1000);
+    lockScreen.style.display = "none"; // 直接移除锁屏
+    mainUI.classList.remove("hidden"); // 显示主界面
+    setTimeout(() => {
+      if (typeof showNotification === 'function') {
+        showNotification("KakaoTalk", "朴成淏：宰铉在群里说周五聚餐，你看到了吗？", "kakao", "sungho");
+      }
+    }, 1000);
   }
 }
 
