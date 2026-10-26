@@ -10,9 +10,7 @@
 </head>
 <body>
 <div id="phone">
-  <!-- 主界面 -->
   <div id="main-ui">
-    <!-- 状态栏 -->
     <div id="statusbar">
       <span id="clock">9:41</span>
       <div class="island"></div>
@@ -23,22 +21,12 @@
     </div>
 
     <div id="screen">
-      <!-- 桌面 -->
       <div id="home" class="page active">
-        <div class="widget-row">
-          <div class="widget widget-weather">
-            <div class="city">西凛大学 📍</div>
-            <div class="temp">18°</div>
-            <div class="desc">☀️ 多云转晴</div>
-          </div>
-          <div class="widget widget-photo"><div class="date">10月26日</div></div>
-        </div>
         <div class="app-grid" id="app-grid"></div>
         <div class="search-bar">🔍 搜索</div>
         <div class="dock" id="dock"></div>
       </div>
 
-      <!-- App 容器 -->
       <div id="app-view" class="page">
         <div class="app-topbar">
           <button id="back-btn" onclick="goBack()">‹ 返回</button>
@@ -49,8 +37,6 @@
       </div>
     </div>
   </div>
-  
-  <!-- 底部横条点击回桌面 -->
   <div id="home-indicator" onclick="goHome()"></div>
 </div>
 <script src="app.js"></script>
