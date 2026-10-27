@@ -19,71 +19,65 @@ var MEMOS = [
 var gameState = { activeEvent: 0, memoUnlocked: false, likedSunghoPost: false };
 
 var MAP_PLACES = [
-  { id: "s1", name: "老地方烤肉店", x: 50, y: 45, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s1", name: "老地方烤肉店", x: 50, y: 45, clickCount: 0, isBigEvent: false, unlockCondition: 0, chatId: "sungho",
     events: [
-      { text: "六人聚餐，大家刚坐下。", choices: ["坐在成淏旁边", "坐在云鹤旁边"], reply: "【朴成淏】刚刚聚餐，云鹤一直给你夹肉，你是没长手吗？下次只能吃我夹的，不然我全吃光。" },
-      { text: "聚餐进行到一半，大家在玩游戏。", choices: ["帮成淏挡酒", "自己喝掉"], reply: "【朴成淏】你替我挡什么酒？就你那点酒量，刚喝一口脸就红得跟猴屁股一样，等会儿还得我背你回去。" }
+      { text: "六人聚餐，大家刚坐下。", choices: ["坐在成淏旁边", "坐在云鹤旁边"], reply: "刚刚聚餐，云鹤一直给你夹肉，你是没长手吗？下次只能吃我夹的。" },
+      { text: "聚餐进行到一半，大家在玩游戏。", choices: ["帮成淏挡酒", "自己喝掉"], reply: "你替我挡什么酒？就你那点酒量，等会儿还得我背你回去。" }
     ]
   },
-  { id: "s2", name: "中央图书馆", x: 25, y: 30, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s2", name: "中央图书馆", x: 25, y: 30, clickCount: 0, isBigEvent: false, unlockCondition: 0, chatId: "sungho",
     events: [
-      { text: "你在书架旁遇到成淏，他正踮脚找高处的书。", choices: ["帮他拿下来", "假装没看见"], reply: "【朴成淏】刚刚看到你踮脚的样子，像只小兔子。书拿到了，不过下次这种事，我帮你做就好。" },
-      { text: "成淏趴在桌上睡着了，口水流了一桌子。", choices: ["偷拍他", "给他擦桌子"], reply: "【朴成淏】你是不是偷拍我了？我警告你，把照片删了！不然我就把你上次上课睡着打呼噜的照片发群里。" }
+      { text: "成淏趴在桌上睡着了。", choices: ["偷拍他", "给他擦桌子"], reply: "你是不是偷拍我了？我警告你，把照片删了！" }
     ]
   },
-  { id: "s3", name: "篮球场", x: 75, y: 20, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s3", name: "篮球场", x: 75, y: 20, clickCount: 0, isBigEvent: false, unlockCondition: 0, chatId: "woonhak",
     events: [
-      { text: "成淏刚打完比赛，满头大汗。", choices: ["跑过去给他送水", "站在远处看"], reply: "【朴成淏】刚刚的水，谢谢。我投进三分球的时候，余光看到你在欢呼，就那一瞬间，我特别想跑过去抱你。" },
-      { text: "篮球滚到了你脚边，成淏跑过来捡。", choices: ["把球扔回给他", "抱在怀里逗他"], reply: "【朴成淏】干嘛抱着我的球不撒手？你想学打球直说，不用在这用美色吸引我注意力。" }
+      { text: "云鹤在打篮球，非要拉你当观众。", choices: ["给他加油", "偷看成淏"], reply: "学妹！你刚刚是不是偷看成淏哥了？我都看到了！" }
     ]
   },
-  { id: "s4", name: "音乐楼", x: 80, y: 65, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s4", name: "音乐楼", x: 80, y: 65, clickCount: 0, isBigEvent: false, unlockCondition: 0, chatId: "taesan",
     events: [
-      { text: "经过琴房，听到成淏在弹吉他。", choices: ["推门进去听", "在门外安静听完"], reply: "【朴成淏】刚刚门外是你吧？这首曲子刚写好，想第一个弹给你听。想不想坐近一点？" },
-      { text: "成淏在弹吉他，结果弦断了。", choices: ["嘲笑他", "问有没有备用弦"], reply: "【朴成淏】别笑了！赶紧帮我找找有没有备用弦，不然等会儿社团演出，我就得上去给大家表演清唱了。" }
+      { text: "泰山在做音乐，让你听听旋律。", choices: ["认真听", "走神看手机"], reply: "这段其实是我写给你和成淏的。别告诉他。" }
     ]
   },
-  { id: "s5", name: "食堂", x: 40, y: 80, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s5", name: "食堂", x: 40, y: 80, clickCount: 0, isBigEvent: false, unlockCondition: 0, chatId: "riwoo",
     events: [
-      { text: "食堂人很多，只有他旁边有空位。", choices: ["坐过去", "去外面吃"], reply: "【朴成淏】怎么去外面了？下次直接坐我旁边，我帮你占座。" },
-      { text: "你端着汤不小心洒在了他衣服上。", choices: ["赶紧道歉", "假装不是我"], reply: "【朴成淏】别装了，我都看到了。行吧，这件外套算你欠我的，下次请我喝一杯热奶茶，要加双倍珍珠的那种。" }
+      { text: "常赫端着盘子，看起来很累。", choices: ["帮他拿一下", "打招呼"], reply: "谢谢。舞蹈社刚排练完，有点累。你吃了吗？" }
     ]
   },
-  { id: "s6", name: "操场看台", x: 15, y: 25, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s6", name: "操场看台", x: 15, y: 25, clickCount: 0, isBigEvent: false, unlockCondition: 0, chatId: "sungho",
     events: [
-      { text: "晚上操场很安静，你来看星星。", choices: ["给成淏发消息", "一个人坐着"], reply: "【朴成淏】看到消息我就跑下来了。你一个人坐在这，也不怕冷。披上我的外套。" },
-      { text: "操场上有人在唱歌，巨难听。", choices: ["捂着耳朵", "跟着吐槽"], reply: "【朴成淏】虽然我也觉得难听，但你吐槽得也太大声了吧？人家都往这边看了，赶紧溜，别被逮到。" }
+      { text: "晚上操场很安静。", choices: ["给成淏发消息", "一个人坐着"], reply: "看到消息我就跑下来了。你一个人坐在这，也不怕冷。" }
     ]
   },
-  { id: "s7", name: "校门口夜市", x: 85, y: 40, clickCount: 0, isBigEvent: false, unlockCondition: 0,
+  { id: "s7", name: "校门口夜市", x: 85, y: 40, clickCount: 0, isBigEvent: false, unlockCondition: 0, chatId: "jaehyun",
     events: [
-      { text: "夜市上人很多，你差点被挤散。", choices: ["抓住他的衣角", "自己走开"], reply: "【朴成淏】刚刚你抓着我衣角，我真的好想直接牵你的手。" },
-      { text: "你买了一份臭豆腐，非要喂给他吃。", choices: ["强行喂他", "自己吃掉"], reply: "【朴成淏】拿走拿走！我愿称之为生化武器。你要是再逼我吃，我明天就去食堂点一份他不喜欢的东西恶心他。" }
+      { text: "你在夜市遇到了宰铉。", choices: ["过去打招呼", "假装没看到"], reply: "学妹！你们俩约会呢？算我一个！开玩笑的，我先溜了！" }
     ]
   },
-  { id: "p11", name: "校园咖啡店", x: 15, y: 35, clickCount: 0, isBigEvent: true, unlockCondition: 1,
+  { id: "p11", name: "校园咖啡店", x: 15, y: 35, clickCount: 0, isBigEvent: true, unlockCondition: 1, chatId: "sungho",
     events: [
-      { text: "你带着课本约成淏在咖啡店请教问题。他讲得很认真。", choices: ["夸他讲得好", "假装在听"], reply: "【朴成淏】刚刚看你盯着我看，书都拿倒了。其实你一直看我的话，我完全讲不下去的。" }
+      { text: "你约成淏在咖啡店请教问题。", choices: ["夸他讲得好", "假装在听"], reply: "刚刚看你盯着我看，书都拿倒了。其实你一直看我的话，我完全讲不下去的。" }
     ]
   },
-  { id: "p12", name: "校外智多寺", x: 10, y: 15, clickCount: 0, isBigEvent: true, unlockCondition: 2,
+  { id: "p12", name: "校外智多寺", x: 10, y: 15, clickCount: 0, isBigEvent: true, unlockCondition: 2, chatId: "sungho",
     events: [
-      { text: "你们七个人一起去爬山烧香。你爬不动了。", choices: ["让成淏拉你一把", "自己慢慢爬"], reply: "【朴成淏】手给我。刚刚你抓着我手的时候，突然觉得这山也不算陡了。" }
+      { text: "你们七个人一起去爬山。你爬不动了。", choices: ["让成淏拉你", "自己爬"], reply: "手给我。刚刚你抓着我手的时候，突然觉得这山也不算陡了。" }
     ]
   },
-  { id: "p13", name: "教学楼", x: 65, y: 30, clickCount: 0, isBigEvent: true, unlockCondition: 3,
+  { id: "p13", name: "教学楼", x: 65, y: 30, clickCount: 0, isBigEvent: true, unlockCondition: 3, chatId: "sungho",
     events: [
-      { text: "大降温，你穿着单衣在教室冻得发抖。成淏脱下大衣给你。", choices: ["乖乖让他披上", "拒绝"], reply: "【朴成淏】不许拒绝。大衣很暖和，还带着我的体温。你要是感冒了，我会心疼的。" }
+      { text: "大降温，成淏脱下大衣给你。", choices: ["乖乖披上", "拒绝"], reply: "不许拒绝。大衣很暖和，还带着我的体温。你要是感冒了，我会心疼的。" }
     ]
   },
-  { id: "p14", name: "操场跑道", x: 45, y: 25, clickCount: 0, isBigEvent: true, unlockCondition: 4,
+  { id: "p14", name: "操场跑道", x: 45, y: 25, clickCount: 0, isBigEvent: true, unlockCondition: 4, chatId: "sungho",
     events: [
-      { text: "体测800米，你跑完虚脱了。成淏冲过来一把扶住你。", choices: ["靠在他怀里", "推开他"], reply: "【朴成淏】别动，靠着我。刚刚看你跑完脸都白了，我差点冲进跑道去拉你。" }
+      { text: "体测800米，你跑完虚脱了。", choices: ["靠他怀里", "推开他"], reply: "别动，靠着我。刚刚看你跑完脸都白了，我差点冲进跑道去拉你。" }
     ]
   },
-  { id: "p15", name: "体育馆", x: 30, y: 60, clickCount: 0, isBigEvent: true, unlockCondition: 5,
+  { id: "p15", name: "体育馆", x: 30, y: 60, clickCount: 0, isBigEvent: true, unlockCondition: 5, chatId: "sungho",
     events: [
-      { text: "服装设计大赛，你和成淏搭档走秀。", choices: ["夸他西装好看", "害羞低头"], reply: "【朴成淏】很好看吧？刚刚在台上，我只盯着你一个人看。" }
+      { text: "服装设计大赛，你和成淏走秀。", choices: ["夸他好看", "害羞"], reply: "很好看吧？刚刚在台上，我只盯着你一个人看。" }
     ]
   }
 ];
@@ -91,69 +85,98 @@ var MAP_PLACES = [
 var CHATS = {
   sungho: { 
     name: "朴成淏", avatarClass: "avatar-sh", color: "#ff9f0a", time: "刚刚", preview: "好的。",
-    history: [
-      { type: "time", text: "9月2日 迎新日" }, { from: "them", text: "你好，请问是来参加迎新的新生吗？" },
-      { from: "me", text: "是的！但是我地图定位好像不太准。" }, { from: "them", text: "你往左手边那条路走，看到学生会馆就到了。" },
-      { type: "time", text: "今天 下午 16:00" }, { from: "them", text: "宰铉在群里说周五聚餐，你看到了吗？" }
-    ],
+    history: [ { type: "time", text: "9月2日 迎新日" }, { from: "them", text: "你好，请问是来参加迎新的新生吗？" } ],
     story: [
-      { me: "看到啦，我一定会去的！", them: "嗯，去吧，大家都很想见你。" },
-      { me: "学长会去吗？", them: "当然。我不去的话，谁替你挡酒？" },
-      { me: "嘿嘿，那太好了", them: "对了，周五那天穿得好看点。" },
-      { me: "诶？为什么？", them: "因为我想和你多拍几张照片。" },
+      // 烤肉店后续
+      { me: "哈哈，我错了嘛，下次只吃你夹的。", them: "这还差不多。那你现在吃饱了吗？" },
+      { me: "吃饱啦！云鹤真能吃啊。", them: "别管他。你现在在哪？我送你回宿舍。" },
+      { me: "在店门口等你。", them: "马上出来。今晚风大，把外套拉链拉好。" },
+      { me: "好，学长你也是。", them: "我看着你进去再走。对了，明天没课吧？" },
+      { me: "没课呀，怎么了？", them: "那明天带你去个好地方。现在不告诉你。" },
+      { me: "学长还搞神秘！", them: "提前说了就没惊喜了。快进去吧，晚安。" },
+      { me: "晚安学长！", them: "嗯，梦里见。" },
+      // 咖啡店后续
       { me: "学长，最近期中考试你能教教我吗？", them: "当然。那这周末去咖啡店吧，我帮你辅导。" },
-      { me: "学长，考完了要不要去寺庙拜拜求个心安？", them: "可以啊。不过就我们俩去吗？" },
-      { me: "要不叫上大家一起去吧？人多热闹。", them: "行，你去群里问问他们。" }
+      { me: "太好了！那我们周六见！", them: "嗯。对了，就我们两个人，别叫别人了。" },
+      // 智多寺后续
+      { me: "学长，考完了要不要去寺庙拜拜？", them: "可以啊。不过就我们俩去吗？" },
+      { me: "要不叫上大家一起去吧？", them: "行，你去群里问问他们。" },
+      { me: "大家都去啦！", them: "那周六早上八点，校门口集合，别迟到。" },
+      { me: "知道啦！", them: "还有，山路不好走，穿双舒服的鞋。" }
     ]
   },
   riwoo: { 
     name: "李常赫", avatarClass: "avatar-rw", color: "#30d158", time: "昨天", preview: "舞蹈社的日常。",
     history: [ { type: "time", text: "9月10日" }, { from: "them", text: "我是李常赫。如果觉得经营学无聊，可以来舞蹈社看看。" } ],
     story: [
-      { me: "常赫学长，明天舞蹈社有活动吗？", them: "有。不过成淏也会来，他最近练得很勤。" },
-      { me: "诶？他练什么？", them: "不知道。不过他老是偷看你，我都看到了。" },
-      { me: "常赫学长，群里说要去智多寺，你去吗？", them: "去。不过刚刚群消息太多没看到。成淏去吗？他去我就去。" },
-      { me: "学长你最近是不是瘦了？", them: "为了校庆的表演在减脂。别告诉成淏，他最近老盯着我，怕我带你练太累。" }
+      // 食堂碰见后续
+      { me: "常赫学长，你吃的是什么呀？", them: "随便点的一点。成淏今天没陪你？" },
+      { me: "他今天满课。", them: "难怪。他不在，那刚好，陪我去舞蹈室吧？" },
+      { me: "诶？去舞蹈室干嘛？", them: "教你几个基础动作，顺便让你看看我新编的舞。" },
+      { me: "好呀！", them: "那你快点吃，吃完我们在楼下集合。" },
+      { me: "学长你跳舞好帅啊！", them: "成淏不在的时候夸我，小心他吃醋。" },
+      { me: "他哪有那么小气！", them: "你太小看他了。上次你夸我新衣服好看，他三天没理我。" },
+      { me: "哈哈哈哈真的假的？", them: "骗你干嘛。走吧，练完请你喝奶茶。" },
+      { me: "谢谢学长！", them: "不客气。别告诉成淏是我买的就行。" }
     ]
   },
   jaehyun: { 
     name: "明宰铉", avatarClass: "avatar-jh", color: "#ff375f", time: "昨天", preview: "聚餐定啦！",
     history: [ { type: "time", text: "9月12日" }, { from: "them", text: "学妹好呀！我是明宰铉！" } ],
     story: [
-      { me: "宰铉学长，聚餐会有什么活动吗？", them: "有啊！玩游戏！到时候我要抽签分组，你猜你会和谁一组？" },
-      { me: "不知道诶。", them: "我赌一百块，绝对是成淏。他刚才还在问我怎么作弊呢哈哈哈。" },
-      { me: "宰铉学长，你认识服装设计系的人吗？", them: "认识啊。怎么，想和成淏去当模特？我这就去帮你报名！" },
-      { me: "学长别闹！", them: "放心，包在我身上。不过到时候走秀，我可得坐在第一排看。" }
+      // 夜市后续
+      { me: "宰铉学长，你真不一起逛啊？", them: "不当电灯泡啦！不过我刚看到成淏在买糖葫芦。" },
+      { me: "他买糖葫芦了？", them: "对啊，还特意让老板挑了最红最大的。肯定给你的。" },
+      { me: "我也去偷偷买一份！", them: "完了，你俩太甜了。我要去群里曝光你们！" },
+      { me: "别别别！", them: "开玩笑的哈哈。不过说真的，你们俩什么时候官宣啊？" },
+      { me: "什么官宣……我们就是普通朋友。", them: "信你个鬼。他看你的眼神都快拉丝了。" },
+      { me: "学长你别瞎说！", them: "行行行我不说。我赌一百块，不出一个月，他肯定表白。" },
+      { me: "……", them: "被我猜中了吧！我得去准备准备红包了。" },
+      { me: "学长！", them: "哈哈哈不逗你了，慢慢逛，我先撤了！" }
     ]
   },
   taesan: { 
     name: "韩泰山", avatarClass: "avatar-ts", color: "#5e5ce6", time: "昨天", preview: "新歌demo。",
     history: [ { type: "time", text: "9月20日" }, { from: "them", text: "我是韩泰山。" } ],
     story: [
-      { me: "泰山学长，新歌很好听！", them: "谢谢。其实副歌那段旋律，是看着你和成淏打闹的时候写的。" },
-      { me: "啊？我们的打闹？", them: "嗯，很有生命力。别告诉成淏，他会脸红的。" },
-      { me: "泰山学长，校庆表演你会上台吗？", them: "会。我会唱那首新歌。你记得来，最好坐到第一排，我想在台上看到你。" },
-      { me: "好，我一定去！", them: "嗯。成淏那天也会去。你们俩在一起的时候，我总觉得这画面很适合拍MV。" }
+      // 音乐楼后续
+      { me: "泰山学长，这段旋律真的很好听。", them: "谢谢。其实写的时候，一直在想你们俩的故事。" },
+      { me: "我们的故事？", them: "嗯。成淏每次提起你，眼睛都在发光。" },
+      { me: "真的吗……", them: "你看，你现在的反应，也很适合写进歌里。" },
+      { me: "学长你别调侃我了！", them: "没调侃，是认真的。下个月校庆演出，我会唱这首歌。" },
+      { me: "真的吗！我一定去！", them: "嗯。我会在台上告诉你，这首歌叫什么名字。" },
+      { me: "现在不能说吗？", them: "不能。台上揭晓，才足够浪漫。" },
+      { me: "好吧，那我期待着了。", them: "记得坐在第一排。我想在灯光亮起时，第一眼看到你。" },
+      { me: "第一排留给我！", them: "好。当成我们的约定。" }
     ]
   },
   leehan: { 
     name: "金桐儇", avatarClass: "avatar-lh", color: "#64d2ff", time: "昨天", preview: "图书馆见。",
     history: [ { type: "time", text: "10月1日" }, { from: "them", text: "我是金桐儇。" } ],
     story: [
-      { me: "桐儇学长，你在图书馆吗？", them: "在。成淏也在，他占了个双人座，说在等人。" },
-      { me: "等人？等谁？", them: "你觉得呢？他已经在往门口看了十分钟了。" },
-      { me: "学长，最近降温了，你注意保暖。", them: "谢谢。我刚才看到成淏在查天气预报，估计是在为你准备冬衣的事情发愁。" },
-      { me: "他怎么连这个也发愁。", them: "因为他很在意你。这种细节，只有旁观者看得最清楚。" }
+      { me: "桐儇学长，你平时都看什么书呀？", them: "植物图鉴，还有一些散文。你呢？" },
+      { me: "我喜欢看小说。", them: "难怪成淏总盯着你看。你看书的时候很专注。" },
+      { me: "他盯着我看？", them: "他以为我没看到，但其实他经常抬头看你。" },
+      { me: "那学长你为什么不告诉我？", them: "我以为你知道。不过，这种事，还是让他自己说吧。" },
+      { me: "好吧……", them: "别急。有些人就是这样，越喜欢越笨拙。" },
+      { me: "学长懂得真多。", them: "旁观者清。等你们在一起了，记得请我喝咖啡。" },
+      { me: "请你喝两杯！", them: "那倒不用。第一杯，让他请。" },
+      { me: "哈哈哈好！", them: "嗯。快去复习吧，别让他等太久。" }
     ]
   },
   woonhak: { 
     name: "金云鹤", avatarClass: "avatar-wh", color: "#bf5af2", time: "昨天", preview: "学妹好！",
     history: [ { type: "time", text: "9月5日" }, { from: "them", text: "我是云鹤！" } ],
     story: [
-      { me: "云鹤学长，最近有什么好玩的事吗？", them: "有！我听说成淏哥手机壁纸换成你的照片了！他没告诉你吗？" },
-      { me: "真的假的？", them: "真的！那天他手机亮了，我刚好看到了。不过你别告诉他是我说的！" },
-      { me: "云鹤学长，你体测跑得快吗？", them: "那必须的！不过成淏哥肯定跑得比我快，他一直守着跑道边等女生组呢。" },
-      { me: "啊？他等谁？", them: "还装！当然是在等你跑800米啊！他连水都提前买好了。" }
+      // 篮球场后续
+      { me: "云鹤学长，你怎么一直看着成淏学长笑呀？", them: "因为他打球的时候，眼睛一直往你那边看。" },
+      { me: "有吗？", them: "有！我在他旁边，他看都不看我！" },
+      { me: "那可能是他专心比赛吧。", them: "信我，绝对是看你。你等下送水的时候，他肯定忍不住笑。" },
+      { me: "真的吗？", them: "等会儿你去了就知道了。" },
+      { me: "他刚才好像真的笑了！", them: "我说什么来着！你们俩好甜啊！" },
+      { me: "小声点，别让他听到。", them: "好！不过，要是你们在一起了，我要当伴郎！" },
+      { me: "现在说这个太早了吧！", them: "不早不早，我随时准备着！" },
+      { me: "哈哈好，到时候一定叫你。", them: "一言为定！我这就去攒份子钱！" }
     ]
   },
   group: {
@@ -168,7 +191,11 @@ var CHATS = {
       { me: "学长们，这周六我和成淏打算去智多寺拜佛，大家要不要一起去？", them: "好啊！我参加！", sender: "明宰铉" },
       { me: "还有谁去呀？", them: "我也去！", sender: "金云鹤" },
       { me: "泰山学长和桐儇学长呢？", them: "他们好像没看到消息。你私聊问问他们吧！", sender: "明宰铉" },
-      { me: "常赫学长呢？", them: "他也没说话，你问问他。", sender: "明宰铉" }
+      { me: "常赫学长呢？", them: "他也没说话，你问问他。", sender: "明宰铉" },
+      { me: "都问过啦，大家都去！", them: "那太好了！这周六就当咱们六人团建了！", sender: "金云鹤" },
+      { me: "周六早上八点校门口集合！", them: "收到！我会提前到的。", sender: "李常赫" },
+      { me: "成淏学长呢？", them: "我也提前去，在门口等你。", sender: "朴成淏" },
+      { me: "好！", them: "大家早点睡，别迟到！", sender: "明宰铉" }
     ]
   }
 };
@@ -371,30 +398,53 @@ function renderMap(c) {
   c.innerHTML = '<div class="map-container" id="map-container"><div id="map-pins"></div><div id="map-choice-modal" class="map-choice-modal"><div class="map-choice-box"><div class="map-choice-title" id="map-event-text">事件描述</div><div id="map-choice-options"></div></div></div></div>';
   var pinsCont = document.getElementById("map-pins"); var choiceModal = document.getElementById("map-choice-modal");
   var eventText = document.getElementById("map-event-text"); var choiceOptions = document.getElementById("map-choice-options");
+  
   MAP_PLACES.forEach(function(p) {
     var pin = document.createElement("div"); pin.className = "map-pin"; pin.style.left = p.x + "%"; pin.style.top = p.y + "%";
     var isLocked = false;
     if (p.isBigEvent && gameState.activeEvent < p.unlockCondition - 1) isLocked = true;
     pin.style.filter = isLocked ? "grayscale(100%) opacity(50%)" : "none";
     pin.innerHTML = '<div class="pin-icon"></div><div class="pin-label">' + p.name + '</div>';
+    
     pin.onclick = function(e) {
-      e.stopPropagation(); if (isLocked) { alert("这里暂时没有剧情。先去 KakaoTalk 推进前置聊天吧！"); return; }
+      e.stopPropagation(); 
+      if (isLocked) { alert("这里暂时没有剧情。先去 KakaoTalk 推进前置聊天吧！"); return; }
+      
       var currentEvent = p.events[p.clickCount % p.events.length];
       eventText.innerText = currentEvent.text; choiceOptions.innerHTML = "";
+      
       currentEvent.choices.forEach(function(choice, index) {
         var btn = document.createElement("div"); btn.className = "map-choice-btn"; btn.innerText = choice;
+        
         btn.onclick = function() {
           choiceModal.classList.remove("show");
-          if (index === 1) { p.clickCount++; return; }
+          
+          if (index === 1) { 
+             p.clickCount++; 
+             return; 
+          }
+          
           if (currentEvent.reply) {
-             var speaker = "朴成淏"; var chatId = "sungho"; var replyText = currentEvent.reply;
-             if (replyText.indexOf("】") > -1) {
-                 speaker = replyText.substring(1, replyText.indexOf("】")); replyText = replyText.substring(replyText.indexOf("】") + 1);
-             }
-             CHATS[chatId].history.push({ type: "time", text: "刚刚" }); CHATS[chatId].history.push({ from: "them", text: replyText }); CHATS[chatId].preview = replyText;
+             var targetChatId = p.chatId || "sungho"; 
+             var speaker = CHATS[targetChatId].name;
+             var replyText = currentEvent.reply;
+             
+             // 存入对应人的聊天记录
+             CHATS[targetChatId].history.push({ type: "time", text: "刚刚" }); 
+             CHATS[targetChatId].history.push({ from: "them", text: replyText }); 
+             CHATS[targetChatId].preview = replyText;
+             
              if (p.isBigEvent) gameState.activeEvent++;
              saveGame();
-             showNotification(replyText, chatId, speaker);
+             
+             // 🌟 强行跳转到这个人的聊天框
+             currentChat = targetChatId;
+             openApp("kakao", "KakaoTalk");
+             
+             // 弹出顶部通知
+             setTimeout(function() {
+                 showNotification(replyText, targetChatId, speaker);
+             }, 500);
           }
           p.clickCount++;
         };
