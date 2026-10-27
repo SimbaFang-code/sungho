@@ -96,146 +96,162 @@ var CHATS = {
       { type: "time", text: "今天 下午 16:00" }, 
       { from: "them", text: "宰铉在群里说周五聚餐，你看到了吗？" }
     ],
+    // 默认的主线剧情（如果没触发地图）
     story: [
-      // --- 烤肉店后续 ---
-      { me: "哈哈，我错了嘛，下次只吃你夹的。", them: "这还差不多。那你现在吃饱了吗？" },
-      { me: "吃饱啦！云鹤真能吃啊。", them: "别管他。你现在在哪？我送你回宿舍。" },
-      { me: "在店门口等你。", them: "马上出来。今晚风大，把外套拉链拉好。" },
-      { me: "好，学长你也是。", them: "我看着你进去再走。对了，明天没课吧？" },
-      { me: "没课呀，怎么了？", them: "那明天带你去个好地方。现在不告诉你。" },
-      { me: "学长还搞神秘！", them: "提前说了就没惊喜了。快进去吧，晚安。" },
-      { me: "晚安学长！", them: "嗯，梦里见。" },
-      // --- 图书馆/操场等后续 ---
-      { me: "学长，最近期中考试你能教教我吗？", them: "当然。那这周末去咖啡店吧，我帮你辅导。" },
-      { me: "太好了！那我们周六见！", them: "嗯。对了，就我们两个人，别叫别人了。" },
-      { me: "学长，考完了要不要去寺庙拜拜求个心安？", them: "可以啊。不过就我们俩去吗？" },
-      { me: "要不叫上大家一起去吧？人多热闹。", them: "行，你去群里问问他们。" },
-      { me: "大家都去啦！", them: "那周六早上八点，校门口集合，别迟到。" },
-      { me: "知道啦！", them: "还有，山路不好走，穿双舒服的鞋。" }
-    ]
+      { me: "看到啦，我一定会去的！", them: "嗯，去吧，大家都很想见你。" },
+      { me: "学长会去吗？", them: "当然。我不去的话，谁替你挡酒？" },
+      { me: "嘿嘿，那太好了", them: "对了，周五那天穿得好看点。" },
+      { me: "诶？为什么？", them: "因为我想和你多拍几张照片。" }
+    ],
+    // 🌟 专属的事件分支回复！
+    branches: {
+      "烤肉店": [
+        { me: "哈哈，我错了嘛，下次只吃你夹的。", them: "这还差不多。那你现在吃饱了吗？" },
+        { me: "吃饱啦！云鹤真能吃啊。", them: "别管他。你现在在哪？我送你回宿舍。" },
+        { me: "在店门口等你。", them: "马上出来。今晚风大，把外套拉链拉好。" },
+        { me: "好，学长你也是。", them: "我看着你进去再走。对了，明天没课吧？" },
+        { me: "没课呀，怎么了？", them: "那明天带你去个好地方。现在不告诉你。" },
+        { me: "学长还搞神秘！", them: "提前说了就没惊喜了。快进去吧，晚安。" },
+        { me: "晚安学长！", them: "嗯，梦里见。" }
+      ],
+      "图书馆": [
+        { me: "学长你没事吧？刚刚看你睡着了。", them: "没事，就是昨天熬夜看资料了。谢谢你没叫醒我。" },
+        { me: "那学长你继续睡吧。", them: "不睡了。正好你在这，陪我复习一会儿。" },
+        { me: "好啊，什么科目？", them: "随便。只要你在旁边，看什么都行。" },
+        { me: "学长你太会说话了。", them: "只对你这样。对了，晚上想吃什么？" },
+        { me: "不知道诶。", them: "那我带你去个好吃的店，你肯定喜欢。" },
+        { me: "好呀！", them: "那五点半在楼下等我。别迟到。" },
+        { me: "收到！", them: "乖。" }
+      ]
+    }
   },
   riwoo: { 
     name: "李常赫", avatarClass: "avatar-rw", color: "#30d158", time: "昨天", preview: "舞蹈社的日常。",
     history: [ 
       { type: "time", text: "9月10日" }, 
-      { from: "them", text: "我是李常赫。如果觉得经营学无聊，可以来舞蹈社看看。" },
-      { from: "me", text: "常赫学长好！听说学长跳舞特别厉害。" },
-      { from: "them", text: "还行。过来看练习的话，我可以教你几个基础动作。" }
+      { from: "them", text: "我是李常赫。如果觉得经营学无聊，可以来舞蹈社看看。" }
     ],
     story: [
-      // --- 食堂后续 ---
-      { me: "常赫学长，你吃的是什么呀？", them: "随便点的一点。成淏今天没陪你？" },
-      { me: "他今天满课。", them: "难怪。他不在，那刚好，陪我去舞蹈室吧？" },
-      { me: "诶？去舞蹈室干嘛？", them: "教你几个基础动作，顺便让你看看我新编的舞。" },
-      { me: "好呀！", them: "那你快点吃，吃完我们在楼下集合。" },
-      { me: "学长你跳舞好帅啊！", them: "成淏不在的时候夸我，小心他吃醋。" },
-      { me: "他哪有那么小气！", them: "你太小看他了。上次你夸我新衣服好看，他三天没理我。" },
-      { me: "哈哈哈哈真的假的？", them: "骗你干嘛。走吧，练完请你喝奶茶。" },
-      { me: "谢谢学长！", them: "不客气。别告诉成淏是我买的就行。" }
-    ]
+      { me: "常赫学长，明天舞蹈社有活动吗？", them: "有。不过成淏也会来，他最近练得很勤。" },
+      { me: "诶？他练什么？", them: "不知道。不过他老是偷看你，我都看到了。" },
+      { me: "常赫学长，群里说要去智多寺，你去吗？", them: "去。不过刚刚群消息太多没看到。成淏去吗？他去我就去。" }
+    ],
+    branches: {
+      "食堂": [
+        { me: "常赫学长，你吃的是什么呀？", them: "随便点的一点。成淏今天没陪你？" },
+        { me: "他今天满课。", them: "难怪。他不在，那刚好，陪我去舞蹈室吧？" },
+        { me: "诶？去舞蹈室干嘛？", them: "教你几个基础动作，顺便让你看看我新编的舞。" },
+        { me: "好呀！", them: "那你快点吃，吃完我们在楼下集合。" },
+        { me: "学长你跳舞好帅啊！", them: "成淏不在的时候夸我，小心他吃醋。" },
+        { me: "他哪有那么小气！", them: "你太小看他了。上次你夸我新衣服好看，他三天没理我。" },
+        { me: "哈哈哈哈真的假的？", them: "骗你干嘛。走吧，练完请你喝奶茶。" }
+      ]
+    }
   },
   jaehyun: { 
     name: "明宰铉", avatarClass: "avatar-jh", color: "#ff375f", time: "昨天", preview: "聚餐定啦！",
     history: [ 
       { type: "time", text: "9月12日" }, 
-      { from: "them", text: "学妹好呀！我是传媒系的明宰铉！" },
-      { from: "me", text: "宰铉学长好！迎新那天多亏了成淏学长。" },
-      { from: "them", text: "那家伙居然会带学妹，稀奇。以后有事也可以找我，传媒系认识的人多。" }
+      { from: "them", text: "学妹好呀！我是明宰铉！" }
     ],
     story: [
-      // --- 夜市后续 ---
-      { me: "宰铉学长，你真不一起逛啊？", them: "不当电灯泡啦！不过我刚看到成淏在买糖葫芦。" },
-      { me: "他买糖葫芦了？", them: "对啊，还特意让老板挑了最红最大的。肯定给你的。" },
-      { me: "我也去偷偷买一份！", them: "完了，你俩太甜了。我要去群里曝光你们！" },
-      { me: "别别别！", them: "开玩笑的哈哈。不过说真的，你们俩什么时候官宣啊？" },
-      { me: "什么官宣……我们就是普通朋友。", them: "信你个鬼。他看你的眼神都快拉丝了。" },
-      { me: "学长你别瞎说！", them: "行行行我不说。我赌一百块，不出一个月，他肯定表白。" },
-      { me: "……", them: "被我猜中了吧！我得去准备准备红包了。" },
-      { me: "学长！", them: "哈哈哈不逗你了，慢慢逛，我先撤了！" }
-    ]
+      { me: "宰铉学长，聚餐会有什么活动吗？", them: "有啊！玩游戏！到时候我要抽签分组，你猜你会和谁一组？" },
+      { me: "不知道诶。", them: "我赌一百块，绝对是成淏。他刚才还在问我怎么作弊呢哈哈哈。" },
+      { me: "宰铉学长，你认识服装设计系的人吗？", them: "认识啊。怎么，想和成淏去当模特？我这就去帮你报名！" }
+    ],
+    branches: {
+      "夜市": [
+        { me: "宰铉学长，你真不一起逛啊？", them: "不当电灯泡啦！不过我刚看到成淏在买糖葫芦。" },
+        { me: "他买糖葫芦了？", them: "对啊，还特意让老板挑了最红最大的。肯定给你的。" },
+        { me: "我也去偷偷买一份！", them: "完了，你俩太甜了。我要去群里曝光你们！" },
+        { me: "别别别！", them: "开玩笑的哈哈。不过说真的，你们俩什么时候官宣啊？" },
+        { me: "什么官宣……我们就是普通朋友。", them: "信你个鬼。他看你的眼神都快拉丝了。" },
+        { me: "学长你别瞎说！", them: "行行行我不说。我赌一百块，不出一个月，他肯定表白。" },
+        { me: "……", them: "被我猜中了吧！我得去准备准备红包了。" }
+      ]
+    }
   },
   taesan: { 
     name: "韩泰山", avatarClass: "avatar-ts", color: "#5e5ce6", time: "昨天", preview: "新歌demo。",
     history: [ 
       { type: "time", text: "9月20日" }, 
-      { from: "them", text: "我是韩泰山。刚写好一首新歌。" },
-      { from: "me", text: "哇，我可以听吗？" },
-      { from: "them", text: "在整理demo，弄好发你。" }
+      { from: "them", text: "我是韩泰山。刚写好一首新歌。" }
     ],
     story: [
-      // --- 音乐楼后续 ---
-      { me: "泰山学长，这段旋律真的很好听。", them: "谢谢。其实写的时候，一直在想你们俩的故事。" },
-      { me: "我们的故事？", them: "嗯。成淏每次提起你，眼睛都在发光。" },
-      { me: "真的吗……", them: "你看，你现在的反应，也很适合写进歌里。" },
-      { me: "学长你别调侃我了！", them: "没调侃，是认真的。下个月校庆演出，我会唱这首歌。" },
-      { me: "真的吗！我一定去！", them: "嗯。我会在台上告诉你，这首歌叫什么名字。" },
-      { me: "现在不能说吗？", them: "不能。台上揭晓，才足够浪漫。" },
-      { me: "好吧，那我期待着了。", them: "记得坐在第一排。我想在灯光亮起时，第一眼看到你。" },
-      { me: "第一排留给我！", them: "好。当成我们的约定。" }
-    ]
+      { me: "泰山学长，新歌很好听！", them: "谢谢。其实副歌那段旋律，是看着你和成淏打闹的时候写的。" },
+      { me: "啊？我们的打闹？", them: "嗯，很有生命力。别告诉成淏，他会脸红的。" },
+      { me: "泰山学长，校庆表演你会上台吗？", them: "会。我会唱那首新歌。你记得来，最好坐到第一排，我想在台上看到你。" }
+    ],
+    branches: {
+      "音乐楼": [
+        { me: "泰山学长，这段旋律真的很好听。", them: "谢谢。其实写的时候，一直在想你们俩的故事。" },
+        { me: "我们的故事？", them: "嗯。成淏每次提起你，眼睛都在发光。" },
+        { me: "真的吗……", them: "你看，你现在的反应，也很适合写进歌里。" },
+        { me: "学长你别调侃我了！", them: "没调侃，是认真的。下个月校庆演出，我会唱这首歌。" },
+        { me: "真的吗！我一定去！", them: "嗯。我会在台上告诉你，这首歌叫什么名字。" },
+        { me: "现在不能说吗？", them: "不能。台上揭晓，才足够浪漫。" },
+        { me: "好吧，那我期待着了。", them: "记得坐在第一排。我想在灯光亮起时，第一眼看到你。" }
+      ]
+    }
   },
   leehan: { 
     name: "金桐儇", avatarClass: "avatar-lh", color: "#64d2ff", time: "昨天", preview: "图书馆见。",
     history: [ 
       { type: "time", text: "10月1日" }, 
-      { from: "them", text: "你好，我是金桐儇。" },
-      { from: "me", text: "桐儇学长好！" },
-      { from: "them", text: "三楼靠窗的位置很好，安静，光线也够。推荐给你。" }
+      { from: "them", text: "你好，我是金桐儇。三楼靠窗位置很好。" }
     ],
     story: [
-      // --- 图书馆三楼后续 ---
-      { me: "桐儇学长，你平时都看什么书呀？", them: "植物图鉴，还有一些散文。你呢？" },
-      { me: "我喜欢看小说。", them: "难怪成淏总盯着你看。你看书的时候很专注。" },
-      { me: "他盯着我看？", them: "他以为我没看到，但其实他经常抬头看你。" },
-      { me: "那学长你为什么不告诉我？", them: "我以为你知道。不过，这种事，还是让他自己说吧。" },
-      { me: "好吧……", them: "别急。有些人就是这样，越喜欢越笨拙。" },
-      { me: "学长懂得真多。", them: "旁观者清。等你们在一起了，记得请我喝咖啡。" },
-      { me: "请你喝两杯！", them: "那倒不用。第一杯，让他请。" },
-      { me: "哈哈哈好！", them: "嗯。快去复习吧，别让他等太久。" }
-    ]
+      { me: "桐儇学长，你在图书馆吗？", them: "在。成淏也在，他占了个双人座，说在等人。" },
+      { me: "等人？等谁？", them: "你觉得呢？他已经在往门口看了十分钟了。" },
+      { me: "学长，最近降温了，你注意保暖。", them: "谢谢。我刚才看到成淏在查天气预报，估计是在为你准备冬衣的事情发愁。" }
+    ],
+    branches: {
+      "图书馆": [
+        { me: "桐儇学长，你平时都看什么书呀？", them: "植物图鉴，还有一些散文。你呢？" },
+        { me: "我喜欢看小说。", them: "难怪成淏总盯着你看。你看书的时候很专注。" },
+        { me: "他盯着我看？", them: "他以为我没看到，但其实他经常抬头看你。" },
+        { me: "那学长你为什么不告诉我？", them: "我以为你知道。不过，这种事，还是让他自己说吧。" },
+        { me: "好吧……", them: "别急。有些人就是这样，越喜欢越笨拙。" },
+        { me: "学长懂得真多。", them: "旁观者清。等你们在一起了，记得请我喝咖啡。" },
+        { me: "请你喝两杯！", them: "那倒不用。第一杯，让他请。" }
+      ]
+    }
   },
   woonhak: { 
     name: "金云鹤", avatarClass: "avatar-wh", color: "#bf5af2", time: "昨天", preview: "学妹好！",
     history: [ 
       { type: "time", text: "9月5日" }, 
-      { from: "them", text: "学妹好！我是云鹤！" },
-      { from: "me", text: "云鹤学长好！" },
-      { from: "them", text: "以后有活动我都拉上你！成淏哥太闷了，得靠我们活跃气氛！" }
+      { from: "them", text: "学妹好！我是云鹤！" }
     ],
     story: [
-      // --- 篮球场后续 ---
-      { me: "云鹤学长，你怎么一直看着成淏学长笑呀？", them: "因为他打球的时候，眼睛一直往你那边看。" },
-      { me: "有吗？", them: "有！我在他旁边，他看都不看我！" },
-      { me: "那可能是他专心比赛吧。", them: "信我，绝对是看你。你等下送水的时候，他肯定忍不住笑。" },
-      { me: "真的吗？", them: "等会儿你去了就知道了。" },
-      { me: "他刚才好像真的笑了！", them: "我说什么来着！你们俩好甜啊！" },
-      { me: "小声点，别让他听到。", them: "好！不过，要是你们在一起了，我要当伴郎！" },
-      { me: "现在说这个太早了吧！", them: "不早不早，我随时准备着！" },
-      { me: "哈哈好，到时候一定叫你。", them: "一言为定！我这就去攒份子钱！" }
-    ]
+      { me: "云鹤学长，最近有什么好玩的事吗？", them: "有！我听说成淏哥手机壁纸换成你的照片了！他没告诉你吗？" },
+      { me: "真的假的？", them: "真的！那天他手机亮了，我刚好看到了。不过你别告诉他是我说的！" },
+      { me: "云鹤学长，你体测跑得快吗？", them: "那必须的！不过成淏哥肯定跑得比我快，他一直守着跑道边等女生组呢。" }
+    ],
+    branches: {
+      "篮球场": [
+        { me: "云鹤学长，你怎么一直看着成淏学长笑呀？", them: "因为他打球的时候，眼睛一直往你那边看。" },
+        { me: "有吗？", them: "有！我在他旁边，他看都不看我！" },
+        { me: "那可能是他专心比赛吧。", them: "信我，绝对是看你。你等下送水的时候，他肯定忍不住笑。" },
+        { me: "真的吗？", them: "等会儿你去了就知道了。" },
+        { me: "他刚才好像真的笑了！", them: "我说什么来着！你们俩好甜啊！" },
+        { me: "小声点，别让他听到。", them: "好！不过，要是你们在一起了，我要当伴郎！" },
+        { me: "现在说这个太早了吧！", them: "不早不早，我随时准备着！" }
+      ]
+    }
   },
   group: {
     name: "6+1小分队", avatarClass: "avatar-group", color: "#8e8e93", time: "下午 14:30", preview: "群聊消息",
     history: [ 
       { type: "time", text: "今天 14:30" }, 
       { from: "them", sender: "明宰铉", text: "各位！周五晚上聚餐，老地方！" },
-      { from: "them", sender: "金云鹤", text: "好耶！有新开的店！" }, 
-      { from: "them", sender: "李常赫", text: "你上周不是才去过吗？" },
-      { from: "them", sender: "金云鹤", text: "那不一样！" },
-      { from: "them", sender: "朴成淏", text: "我带学妹来。" },
-      { from: "them", sender: "明宰铉", text: "？！成淏你居然会主动带人！" },
-      { from: "them", sender: "韩泰山", text: "他哪天不主动？" }
+      { from: "them", sender: "朴成淏", text: "我带学妹来。" }
     ],
     story: [
       { me: "收到！我会准时到的！", them: "欢迎欢迎！", sender: "明宰铉" },
       { me: "学长们，这周六我和成淏打算去智多寺拜佛，大家要不要一起去？", them: "好啊！我参加！", sender: "明宰铉" },
       { me: "还有谁去呀？", them: "我也去！", sender: "金云鹤" },
-      { me: "泰山学长和桐儇学长呢？", them: "他们好像没看到消息。你私聊问问他们吧！", sender: "明宰铉" },
-      { me: "常赫学长呢？", them: "他也没说话，你问问他。", sender: "明宰铉" },
-      { me: "都问过啦，大家都去！", them: "那太好了！这周六就当咱们六人团建了！", sender: "金云鹤" },
-      { me: "周六早上八点校门口集合！", them: "收到！我会提前到的。", sender: "李常赫" },
-      { me: "成淏学长呢？", them: "我也提前去，在门口等你。", sender: "朴成淏" },
-      { me: "好！", them: "大家早点睡，别迟到！", sender: "明宰铉" }
+      { me: "泰山学长和桐儇学长呢？", them: "他们好像没看到消息。你私聊问问他们吧！", sender: "明宰铉" }
     ]
   }
 };
@@ -386,27 +402,77 @@ function renderKakao(c) {
     var inputEl = document.getElementById("kkt-input");
     var sendBtn = document.getElementById("kkt-send");
     var isTyping = false; 
-    inputEl.onclick = function(e) {
-      e.preventDefault(); if (isTyping) return; 
-      if (chat.story && chat.story.length > 0) {
-        inputEl.blur(); var choice = prompt(chat.story[0].me + "\n\n(点击确定自动填入)");
-        if (choice !== null) inputEl.value = chat.story[0].me;
-      } else inputEl.focus(); 
+inputEl.onclick = function(e) {
+      e.preventDefault(); 
+      if (isTyping) return; 
+      
+      // 判断当前对面最后一条消息属于哪个分支
+      var lastMsg = chat.history[chat.history.length - 1].text;
+      var currentPool = chat.story; // 默认池
+      
+      if (chat.branches) {
+          if (lastMsg.indexOf("云鹤一直给你夹肉") > -1 || lastMsg.indexOf("背你回去") > -1) currentPool = chat.branches["烤肉店"];
+          else if (lastMsg.indexOf("书都拿倒了") > -1 || lastMsg.indexOf("睡着") > -1) currentPool = chat.branches["图书馆"];
+          else if (lastMsg.indexOf("吃的是什么") > -1) currentPool = chat.branches["食堂"];
+          else if (lastMsg.indexOf("糖葫芦") > -1) currentPool = chat.branches["夜市"];
+          else if (lastMsg.indexOf("写的时候") > -1) currentPool = chat.branches["音乐楼"];
+          else if (lastMsg.indexOf("看什么书") > -1) currentPool = chat.branches["图书馆"];
+          else if (lastMsg.indexOf("一直看着成淏") > -1) currentPool = chat.branches["篮球场"];
+      }
+
+      // 如果当前分支有剧情，就弹提示
+      if (currentPool && currentPool.length > 0) {
+        inputEl.blur(); 
+        var choice = prompt(currentPool[0].me + "\n\n(点击确定自动填入)");
+        if (choice !== null) {
+          inputEl.value = currentPool[0].me;
+        }
+      } else {
+        // 没有剧情了，自由输入
+        inputEl.focus(); 
+      }
     };
-    sendBtn.onclick = function() {
-      if (isTyping) return; var text = inputEl.value.trim(); if (!text) return;
-      chat.history.push({ from: "me", text: text }); chat.preview = text; inputEl.value = "";
+sendBtn.onclick = function() {
+      if (isTyping) return; 
+      var text = inputEl.value.trim(); 
+      if (!text) return;
+      
+      chat.history.push({ from: "me", text: text }); 
+      chat.preview = text; 
+      inputEl.value = "";
       saveGame();
-      var row = document.createElement("div"); row.className = "msg-row me";
+      
+      var row = document.createElement("div"); 
+      row.className = "msg-row me";
       row.innerHTML = '<div class="msg-content"><div class="bubble">' + text + '</div></div>';
-      room.appendChild(row); room.scrollTop = room.scrollHeight;
-      if (chat.story && chat.story.length > 0 && chat.story[0].me === text) {
-        var currentStory = chat.story.shift(); isTyping = true; inputEl.placeholder = "对方正在输入...";
+      room.appendChild(row); 
+      room.scrollTop = room.scrollHeight;
+
+      // 再次判断当前用的是哪个池子
+      var lastMsgBeforeMe = chat.history[chat.history.length - 2].text; 
+      var currentPool = chat.story;
+      if (chat.branches) {
+          if (lastMsgBeforeMe.indexOf("云鹤一直给你夹肉") > -1 || lastMsgBeforeMe.indexOf("背你回去") > -1) currentPool = chat.branches["烤肉店"];
+          else if (lastMsgBeforeMe.indexOf("书都拿倒了") > -1 || lastMsgBeforeMe.indexOf("睡着") > -1) currentPool = chat.branches["图书馆"];
+          else if (lastMsgBeforeMe.indexOf("吃的是什么") > -1) currentPool = chat.branches["食堂"];
+          else if (lastMsgBeforeMe.indexOf("糖葫芦") > -1) currentPool = chat.branches["夜市"];
+          else if (lastMsgBeforeMe.indexOf("写的时候") > -1) currentPool = chat.branches["音乐楼"];
+          else if (lastMsgBeforeMe.indexOf("看什么书") > -1) currentPool = chat.branches["图书馆"];
+          else if (lastMsgBeforeMe.indexOf("一直看着成淏") > -1) currentPool = chat.branches["篮球场"];
+      }
+
+      if (currentPool && currentPool.length > 0 && currentPool[0].me === text) {
+        var currentStory = currentPool.shift();
+        isTyping = true; 
+        inputEl.placeholder = "对方正在输入...";
+        
         setTimeout(function() {
           chat.history.push({ from: "them", text: currentStory.them, sender: currentStory.sender });
           chat.preview = currentStory.them;
           saveGame();
-          var replyRow = document.createElement("div"); replyRow.className = "msg-row them";
+          
+          var replyRow = document.createElement("div"); 
+          replyRow.className = "msg-row them";
           var rAvClass = chat.avatarClass; var rAvColor = chat.color;
           if (currentStory.sender) {
               if (currentStory.sender === "明宰铉") { rAvClass = "avatar-jh"; rAvColor = "#ff375f"; }
@@ -415,8 +481,11 @@ function renderKakao(c) {
           }
           var senderNameHTML = currentStory.sender ? '<div class="msg-sender">' + currentStory.sender + '</div>' : '';
           replyRow.innerHTML = '<div class="msg-avatar ' + rAvClass + '" style="background-color:' + rAvColor + '"></div><div class="msg-content">' + senderNameHTML + '<div class="bubble">' + currentStory.them + '</div></div>';
-          room.appendChild(replyRow); room.scrollTop = room.scrollHeight;
-          isTyping = false; inputEl.placeholder = "发送消息...";
+          room.appendChild(replyRow); 
+          room.scrollTop = room.scrollHeight;
+          
+          isTyping = false; 
+          inputEl.placeholder = "发送消息...";
         }, 1200);
       }
     };
